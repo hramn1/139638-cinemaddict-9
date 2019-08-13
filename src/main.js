@@ -1,4 +1,4 @@
-import {asdShowMore} from './components/button.js';
+import {addShowMore} from './components/button.js';
 import {addfilmCard} from './components/film-card.js';
 import {addMenu} from './components/menu.js';
 import {addMostComment} from './components/most-comment.js';
@@ -17,7 +17,17 @@ render (headerContainer, addSearch());
 render (headerContainer, addTitleUser());
 render (mainContainer, addMenu());
 render (mainContainer, addFilmContainer());
-const filmcontainer = document.querySelector(`.films`);
-for (let i = 0; i < 2; i++){
-  render (filmcontainer, addTopRated());
+const filmContainer = document.querySelector(`.films`);
+const filmList = filmContainer.querySelector(`.films-list`);
+const filmCardContainer = filmList.querySelector(`.films-list__container`)
+render (filmList, addShowMore());
+for (let i = 0; i < 5; i++){
+  render(filmCardContainer,addfilmCard());
+}
+for (let j = 0; j < 2; j++){
+  render (filmContainer, addTopRated());
+}
+const filmExtraContainer = document.querySelectorAll(`.films-list--extra .films-list__container`);
+for (let k = 0; k < 2; k++){
+  render(filmExtraContainer[k],addfilmCard());
 }
