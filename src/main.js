@@ -1,7 +1,7 @@
 import {addShowMore} from './components/button.js';
 import {addfilmCard} from './components/film-card.js';
 import {addMenu} from './components/menu.js';
-import {addPopup} from './components/popup.js';
+// import {addPopup} from './components/popup.js';
 import {addTitleUser} from './components/title-user.js';
 import {addTopRated} from './components/top-rated.js';
 import {addSearch} from './components/search.js';
