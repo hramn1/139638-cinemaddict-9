@@ -6,6 +6,7 @@ import {addPopup} from './components/popup.js';
 import {addTitleUser} from './components/title-user.js';
 import {addTopRated} from './components/top-rated.js';
 import {addSearch} from './components/search.js';
+import {addFilmContainer} from './components/film-container.js';
 
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
@@ -15,4 +16,8 @@ function render(container, layout) {
 render (headerContainer, addSearch());
 render (headerContainer, addTitleUser());
 render (mainContainer, addMenu());
-
+render (mainContainer, addFilmContainer());
+const filmcontainer = document.querySelector(`.films`);
+for (let i = 0; i < 2; i++){
+  render (filmcontainer, addTopRated());
+}
