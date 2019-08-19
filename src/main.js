@@ -6,6 +6,7 @@ import {addTitleUser} from './components/title-user.js';
 import {addTopRated} from './components/top-rated.js';
 import {addSearch} from './components/search.js';
 import {addFilmContainer} from './components/film-container.js';
+import {generateFilmData as filmData} from './data.js';
 
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
@@ -21,7 +22,7 @@ const filmList = filmContainer.querySelector(`.films-list`);
 const filmCardContainer = filmList.querySelector(`.films-list__container`);
 render(filmList, addShowMore());
 for (let i = 0; i < 5; i++) {
-  render(filmCardContainer, addfilmCard());
+  render(filmCardContainer, addfilmCard(filmData));
 }
 for (let j = 0; j < 2; j++) {
   render(filmContainer, addTopRated());
@@ -37,6 +38,6 @@ filmExtraTitle.forEach(function (item, i) {
 const filmExtraContainer = document.querySelectorAll(`.films-list--extra .films-list__container`);
 filmExtraContainer.forEach(function () {
   for (let k = 0; k < 2; k++) {
-    render(filmExtraContainer[k], addfilmCard());
+    render(filmExtraContainer[k], addfilmCard(filmData));
   }
 });
