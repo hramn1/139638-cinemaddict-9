@@ -12,11 +12,17 @@ const filmData = {
   ratings: generatorRandom.generateRandomNumber(1, 9),
   genre: [`Horor`, `Comedy`, `Action`, `Fantasy`, `Adventure`],
   desciption: generatorRandom.splitStr(deskStr),
+  year: [1929, 2019],
 };
 export const generateFilmData = {
   filmTitle: filmData.filmTitle[generatorRandom.generateRandomCount(filmData.filmTitle.length)],
   ratings: parseFloat(filmData.ratings),
   genre: filmData.genre[generatorRandom.generateRandomCount(filmData.genre.length)],
   posters: filmData.posters[generatorRandom.generateRandomCount(filmData.posters.length)],
+  year: Math.floor(generatorRandom.generateRandomNumber(filmData.year[0], filmData.year[1])),
+  desciption: () => {
+    filmData.desciption.length = Math.round(generatorRandom.generateRandomNumber(1, 3));
+    return filmData.desciption.join();
+  },
 };
-
+export const generateFilmList = () => generateFilmData.filmTitle.length;
