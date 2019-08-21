@@ -25,4 +25,5 @@ export const generateFilmData = {
     return filmData.desciption.join();
   },
 };
-export const generateFilmList = () => generateFilmData.filmTitle.length;
+const generateFilmList = () => Math.round(generatorRandom.generateRandomNumber(5, 25));
+export const totalfilm = generateFilmList();

@@ -1,13 +1,14 @@
 import {addShowMore} from './components/button.js';
 import {addfilmCard} from './components/film-card.js';
 import {addMenu} from './components/menu.js';
-//import {addPopup} from './components/popup.js';
+// import {addPopup} from './components/popup.js';
 import {addTitleUser} from './components/title-user.js';
 import {addTopRated} from './components/top-rated.js';
 import {addSearch} from './components/search.js';
 import {addFilmContainer} from './components/film-container.js';
 import {addSort} from './components/sort.js';
 import {generateFilmData as filmData} from './data.js';
+import {totalfilm} from './data.js';
 
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
@@ -46,13 +47,13 @@ filmExtraContainer.forEach(function () {
 const btnShowFilm = document.querySelector(`.films-list__show-more`);
 let countFilm = 5;
 btnShowFilm.addEventListener(`click`, function () {
-  for (let i = 0; i < 5; i++) {
-    countFilm++
-    render(filmCardContainer, addfilmCard(filmData));
-  }
-  console.log(countFilm)
-  console.log(filmData.filmTitle.length)
-  if (countFilm >= filmData.filmTitle.length) {
+  if (countFilm >= totalfilm) {
+    countFilm++;
     btnShowFilm.style.display = `none`;
   }
+  for (let i = 0; i < 5; i++) {
+    countFilm++;
+    render(filmCardContainer, addfilmCard(filmData));
+  }
+
 });
