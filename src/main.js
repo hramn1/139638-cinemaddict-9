@@ -24,9 +24,31 @@ const filmContainer = document.querySelector(`.films`);
 const filmList = filmContainer.querySelector(`.films-list`);
 const filmCardContainer = filmList.querySelector(`.films-list__container`);
 render(filmList, addShowMore());
-for (let i = 0; i < 5; i++) {
-  render(filmCardContainer, addfilmCard(filmData));
+const arrFilm = [];
+let countFilm = 5;
+let countFilmstart = 0;
+
+for (let i = 0; i < totalfilm; i++) {
+  arrFilm.push(filmData);
 }
+function renderCard() {
+  const arrFilmSlice =  arrFilm.slice(countFilmstart, countFilm);
+  arrFilmSlice.forEach((item) => filmCardContainer.insertAdjacentHTML(`beforeend`, addfilmCard(item)));
+}
+renderCard();
+const btnShowFilm = document.querySelector(`.films-list__show-more`);
+btnShowFilm.addEventListener(`click`, function () {
+  countFilm = countFilm + 5;
+  countFilmstart = countFilmstart + 5;
+  if (countFilm >= totalfilm) {
+    btnShowFilm.style.display = `none`;
+    countFilm = totalfilm;
+    renderCard();
+  } else {
+    renderCard();
+  }
+
+});
 for (let j = 0; j < 2; j++) {
   render(filmContainer, addTopRated());
 }
@@ -44,16 +66,6 @@ filmExtraContainer.forEach(function () {
     render(filmExtraContainer[k], addfilmCard(filmData));
   }
 });
-const btnShowFilm = document.querySelector(`.films-list__show-more`);
-let countFilm = 5;
-btnShowFilm.addEventListener(`click`, function () {
-  if (countFilm >= totalfilm) {
-    countFilm++;
-    btnShowFilm.style.display = `none`;
-  }
-  for (let i = 0; i < 5; i++) {
-    countFilm++;
-    render(filmCardContainer, addfilmCard(filmData));
-  }
 
-});
+const footerStatistics = document.querySelector(`.footer__statistics`);
+footerStatistics.textContent = `${totalfilm} movies inside`;
