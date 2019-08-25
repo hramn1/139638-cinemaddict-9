@@ -8,16 +8,21 @@ import {addSearch} from './components/search.js';
 import {addFilmContainer} from './components/film-container.js';
 import {addSort} from './components/sort.js';
 import {generateFilmData as filmData} from './data.js';
+import {historyCount} from './data.js';
+import {watchlistCount} from './data.js';
+import {favorites} from './data.js';
 import {totalfilm} from './data.js';
+import {generateRank} from './data.js';
 
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 function render(container, layout) {
   container.insertAdjacentHTML(`beforeend`, layout);
 }
+console.log(filmData());
 render(headerContainer, addSearch());
-render(headerContainer, addTitleUser());
-render(mainContainer, addMenu());
+render(headerContainer, addTitleUser(generateRank()));
+render(mainContainer, addMenu(historyCount, watchlistCount, favorites));
 render(mainContainer, addSort());
 render(mainContainer, addFilmContainer());
 const filmContainer = document.querySelector(`.films`);
@@ -26,20 +31,19 @@ const filmCardContainer = filmList.querySelector(`.films-list__container`);
 render(filmList, addShowMore());
 const arrFilm = [];
 let countFilm = 5;
-let countFilmstart = 0;
-
+let countFilmStart = 0;
 for (let i = 0; i < totalfilm; i++) {
-  arrFilm.push(filmData);
+  arrFilm.push(filmData());
 }
 function renderCard() {
-  const arrFilmSlice =  arrFilm.slice(countFilmstart, countFilm);
+  const arrFilmSlice = arrFilm.slice(countFilmStart, countFilm);
   arrFilmSlice.forEach((item) => filmCardContainer.insertAdjacentHTML(`beforeend`, addfilmCard(item)));
 }
 renderCard();
 const btnShowFilm = document.querySelector(`.films-list__show-more`);
 btnShowFilm.addEventListener(`click`, function () {
   countFilm = countFilm + 5;
-  countFilmstart = countFilmstart + 5;
+  countFilmStart = countFilmStart + 5;
   if (countFilm >= totalfilm) {
     btnShowFilm.style.display = `none`;
     countFilm = totalfilm;
@@ -63,7 +67,7 @@ filmExtraTitle.forEach(function (item, i) {
 const filmExtraContainer = document.querySelectorAll(`.films-list--extra .films-list__container`);
 filmExtraContainer.forEach(function () {
   for (let k = 0; k < 2; k++) {
-    render(filmExtraContainer[k], addfilmCard(filmData));
+    render(filmExtraContainer[k], addfilmCard(filmData()));
   }
 });
 
