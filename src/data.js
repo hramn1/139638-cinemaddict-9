@@ -54,8 +54,9 @@ export const generateFilmData = () => {
     posters: filmData.posters[generatorRandom.generateRandomCount(filmData.posters.length)],
     year: Math.floor(generatorRandom.generateRandomNumber(filmData.year[0], filmData.year[1])),
     desciption: () => {
-      filmData.desciption.length = Math.round(generatorRandom.generateRandomNumber(1, 3));
-      return generatorRandom.splitStr(filmData.desciption).join();
+      const deskStr = generatorRandom.splitStr(filmData.desciption);
+      deskStr.length = Math.round(generatorRandom.generateRandomNumber(1, 3));
+      return deskStr.join();
     },
     id: Math.round(generatorRandom.generateRandomNumber(1, 1000)),
     director: filmData.director[generatorRandom.generateRandomCount(filmData.director.length)],

@@ -19,7 +19,6 @@ const mainContainer = document.querySelector(`.main`);
 function render(container, layout) {
   container.insertAdjacentHTML(`beforeend`, layout);
 }
-console.log(filmData());
 render(headerContainer, addSearch());
 render(headerContainer, addTitleUser(generateRank()));
 render(mainContainer, addMenu(historyCount, watchlistCount, favorites));
