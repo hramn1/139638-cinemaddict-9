@@ -1,4 +1,4 @@
-import {addShowMore} from './components/button.js';
+import {Button as addShowMore} from './components/button.js';
 import {addfilmCard} from './components/film-card.js';
 import {addMenu} from './components/menu.js';
 // import {addPopup} from './components/popup.js';
@@ -14,6 +14,8 @@ import {favorites} from './data.js';
 import {totalfilm} from './data.js';
 import {generateRank} from './data.js';
 
+const buttonShowMore = new addShowMore();
+
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 function render(container, layout) {
@@ -27,7 +29,7 @@ render(mainContainer, addFilmContainer());
 const filmContainer = document.querySelector(`.films`);
 const filmList = filmContainer.querySelector(`.films-list`);
 const filmCardContainer = filmList.querySelector(`.films-list__container`);
-render(filmList, addShowMore());
+render(filmList, addShowMore);
 const arrFilm = [];
 let countFilm = 5;
 let countFilmStart = 0;
