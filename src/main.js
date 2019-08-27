@@ -13,14 +13,14 @@ import {watchlistCount} from './data.js';
 import {favorites} from './data.js';
 import {totalfilm} from './data.js';
 import {generateRank} from './data.js';
-
-const buttonShowMore = new addShowMore();
-
+import {render, unrender} from './utils.js';
+const btn = new addShowMore();
+btn.getTemplate();
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
-function render(container, layout) {
-  container.insertAdjacentHTML(`beforeend`, layout);
-}
+// function render(container, layout) {
+//   container.insertAdjacentHTML(`beforeend`, layout);
+// }
 render(headerContainer, addSearch());
 render(headerContainer, addTitleUser(generateRank()));
 render(mainContainer, addMenu(historyCount, watchlistCount, favorites));
