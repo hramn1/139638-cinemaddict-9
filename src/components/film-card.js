@@ -3,12 +3,12 @@ import {createElement} from "../utils.js";
 class FilmCard {
   constructor(card) {
     this._title = card.title;
-    this._rating = card.rating;
+    this._rating = card.ratings;
     this._year = card.year;
     this._runtime = card.runtime;
     this._genre = card.genre;
-    this._poster = card.poster;
-    this._shortDescription = card.shortDescription;
+    this._poster = card.posters;
+    this._shortDescription = card.desciption();
     this._countComments = card.countComments;
     this._isWatchlist = card.isWatchlist;
     this._isViewed = card.isViewed;

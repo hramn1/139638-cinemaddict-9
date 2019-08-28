@@ -13,64 +13,59 @@ import {watchlistCount} from './data.js';
 import {favorites} from './data.js';
 import {totalfilm} from './data.js';
 import {generateRank} from './data.js';
-import {render, unrender} from './utils.js';
-const btn = new Button();
-btn.getTemplate();
+import {render, unrender, Position} from './utils.js';
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
-// function render(container, layout) {
-//   container.insertAdjacentHTML(`beforeend`, layout);
-// }
-render(headerContainer, addSearch());
-render(headerContainer, addTitleUser(generateRank()));
-render(mainContainer, addMenu(historyCount, watchlistCount, favorites));
-render(mainContainer, addSort());
-render(mainContainer, addFilmContainer());
-const filmContainer = document.querySelector(`.films`);
-const filmList = filmContainer.querySelector(`.films-list`);
-const filmCardContainer = filmList.querySelector(`.films-list__container`);
-render(filmList, Button);
-const arrFilm = [];
-let countFilm = 5;
-let countFilmStart = 0;
+render(headerContainer, new Search().getElement(), Position.BEFOREEND);
+render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
+ render(mainContainer, new Menu(historyCount, watchlistCount, favorites).getElement(), Position.BEFOREEND);
+ render(mainContainer, new Sort().getElement(), Position.BEFOREEND);
+ render(mainContainer, new FilmContainer().getElement(), Position.BEFOREEND);
+ const filmContainer = document.querySelector(`.films`);
+ const filmList = filmContainer.querySelector(`.films-list`);
+ const filmCardContainer = filmList.querySelector(`.films-list__container`);
+ render(filmList,new Button().getElement(), Position.BEFOREEND);
+ const arrFilm = [];
+ let countFilm = 5;
+ let countFilmStart = 0;
 for (let i = 0; i < totalfilm; i++) {
   arrFilm.push(filmData());
 }
 function renderCard() {
   const arrFilmSlice = arrFilm.slice(countFilmStart, countFilm);
-  arrFilmSlice.forEach((item) => filmCardContainer.insertAdjacentHTML(`beforeend`, addfilmCard(item)));
+  arrFilmSlice.forEach((item) =>  render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
 }
 renderCard();
-const btnShowFilm = document.querySelector(`.films-list__show-more`);
-btnShowFilm.addEventListener(`click`, function () {
-  countFilm = countFilm + 5;
-  countFilmStart = countFilmStart + 5;
-  if (countFilm >= totalfilm) {
-    btnShowFilm.style.display = `none`;
-    countFilm = totalfilm;
-    renderCard();
-  } else {
-    renderCard();
-  }
-
-});
-for (let j = 0; j < 2; j++) {
-  render(filmContainer, addTopRated());
-}
-const filmExtraTitle = document.querySelectorAll(`.films-list--extra .films-list__title`);
-filmExtraTitle.forEach(function (item, i) {
-  if (i === 0) {
-    item.textContent = `Top rated`;
-  } else {
-    item.textContent = `Most comment`;
-  }
-});
-const filmExtraContainer = document.querySelectorAll(`.films-list--extra .films-list__container`);
-filmExtraContainer.forEach(function () {
-  for (let k = 0; k < 2; k++) {
-    render(filmExtraContainer[k], addfilmCard(filmData()));
-  }
-});
-
-const footerStatistics = document.querySelector(`.footer__statistics`);
-footerStatistics.textContent = `${totalfilm} movies inside`;
+// const btnShowFilm = document.querySelector(`.films-list__show-more`);
+// btnShowFilm.addEventListener(`click`, function () {
+//   countFilm = countFilm + 5;
+//   countFilmStart = countFilmStart + 5;
+//   if (countFilm >= totalfilm) {
+//     btnShowFilm.style.display = `none`;
+//     countFilm = totalfilm;
+//     renderCard();
+//   } else {
+//     renderCard();
+//   }
+//
+// });
+// for (let j = 0; j < 2; j++) {
+//   render(filmContainer, addTopRated());
+// }
+// const filmExtraTitle = document.querySelectorAll(`.films-list--extra .films-list__title`);
+// filmExtraTitle.forEach(function (item, i) {
+//   if (i === 0) {
+//     item.textContent = `Top rated`;
+//   } else {
+//     item.textContent = `Most comment`;
+//   }
+// });
+// const filmExtraContainer = document.querySelectorAll(`.films-list--extra .films-list__container`);
+// filmExtraContainer.forEach(function () {
+//   for (let k = 0; k < 2; k++) {
+//     render(filmExtraContainer[k], addfilmCard(filmData()));
+//   }
+// });
+//
+// const footerStatistics = document.querySelector(`.footer__statistics`);
+// footerStatistics.textContent = `${totalfilm} movies inside`;
