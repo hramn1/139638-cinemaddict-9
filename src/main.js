@@ -19,7 +19,7 @@ const mainContainer = document.querySelector(`.main`);
 const bodyContainer = document.querySelector(`body`);
 
 const openPopup = (popup) => {
-  render(bodyContainer,  popup.getElement(), Position.BEFOREEND);
+  render(bodyContainer, popup.getElement(), Position.BEFOREEND);
   bodyContainer.classList.add(`hide-overflow`);
 };
 
@@ -28,58 +28,53 @@ const closePopup = (popup) => {
   popup.removeElement();
   bodyContainer.classList.remove(`hide-overflow`);
 };
-function onCardTogglerClick (evt) {
+function onCardTogglerClick(evt) {
   evt.preventDefault();
-  console.log('true');
   const popup = new Popup(filmData());
   const togglers = [`film-card__poster`, `film-card__title`, `film-card__comments`];
 
   if (togglers.some((cls) => evt.target.classList.contains(cls))) {
     openPopup(popup);
     document.addEventListener(`keydown`, onEscKeydown);
-
-    // filmDetails
-    //   .getElement()
-    //   .addEventListener(`click`, onCloseBtnClick);
   }
-};
-//.
-
+}
 render(headerContainer, new Search().getElement(), Position.BEFOREEND);
 render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
- render(mainContainer, new Menu(historyCount, watchlistCount, favorites).getElement(), Position.BEFOREEND);
- render(mainContainer, new Sort().getElement(), Position.BEFOREEND);
- render(mainContainer, new FilmContainer().getElement(), Position.BEFOREEND);
- const filmContainer = document.querySelector(`.films`);
- const filmList = filmContainer.querySelector(`.films-list`);
- const filmCardContainer = filmList.querySelector(`.films-list__container`);
- render(filmList,new Button().getElement(), Position.BEFOREEND);
- const arrFilm = [];
- let countFilm = 5;
- let countFilmStart = 0;
+render(mainContainer, new Menu(historyCount, watchlistCount, favorites).getElement(), Position.BEFOREEND);
+render(mainContainer, new Sort().getElement(), Position.BEFOREEND);
+render(mainContainer, new FilmContainer().getElement(), Position.BEFOREEND);
+const filmContainer = document.querySelector(`.films`);
+const filmList = filmContainer.querySelector(`.films-list`);
+const filmCardContainer = filmList.querySelector(`.films-list__container`);
+render(filmList, new Button().getElement(), Position.BEFOREEND);
+const arrFilm = [];
+let countFilm = 5;
+let countFilmStart = 0;
 for (let i = 0; i < totalfilm; i++) {
   arrFilm.push(filmData());
 }
 function renderCard() {
   const arrFilmSlice = arrFilm.slice(countFilmStart, countFilm);
   arrFilmSlice.forEach((item) =>  render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
+  const btnShowFilm = document.querySelector(`.films-list__show-more`);
+  const blockFilmCard = document.querySelectorAll(`.film-card`);
+  for (let item of blockFilmCard){
+    item.addEventListener(`click`, onCardTogglerClick);
+  }
+  btnShowFilm.addEventListener(`click`, function () {
+    countFilm = countFilm + 5;
+    countFilmStart = countFilmStart + 5;
+    if (countFilm >= totalfilm) {
+      btnShowFilm.style.display = `none`;
+      countFilm = totalfilm;
+      renderCard();
+    } else {
+      renderCard();
+    }
+  });
 }
 renderCard();
-const btnShowFilm = document.querySelector(`.films-list__show-more`);
-const blockFilmCard = document.querySelector('.film-card')
-blockFilmCard.addEventListener(`click`, onCardTogglerClick);
-btnShowFilm.addEventListener(`click`, function () {
-  countFilm = countFilm + 5;
-  countFilmStart = countFilmStart + 5;
-  if (countFilm >= totalfilm) {
-    btnShowFilm.style.display = `none`;
-    countFilm = totalfilm;
-    renderCard();
-  } else {
-    renderCard();
-  }
 
-});
 for (let j = 0; j < 2; j++) {
   render(filmContainer,  new TopRated().getElement(), Position.BEFOREEND) ;
 }

@@ -45,6 +45,8 @@ Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis 
     `Russia`,
   ],
   comments: [0, 10],
+  hour: Math.round(generatorRandom.generateRandomNumber(0, 2)),
+  minutes: Math.round(generatorRandom.generateRandomNumber(0, 60)),
 };
 export const generateFilmData = () => {
   return {
@@ -67,6 +69,14 @@ export const generateFilmData = () => {
     isWatchlist: Boolean(Math.round(Math.random())),
     isHistory: Boolean(Math.round(Math.random())),
     isFavorites: Boolean(Math.round(Math.random())),
+    runtime: () => {
+      let hour = Math.round(generatorRandom.generateRandomNumber(0, 2)) + `h`;
+      let minutes = Math.round(generatorRandom.generateRandomNumber(0, 60));
+      if (hour === `0h`) {
+        hour = ``;
+      }
+      return `${hour} ${minutes}m`;
+    },
   };
 };
 const generateFilmList = () => Math.round(generatorRandom.generateRandomNumber(5, 25));
