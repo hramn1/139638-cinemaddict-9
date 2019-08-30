@@ -13,7 +13,6 @@ class Search {
   }
 
   removeElement() {
-    remove(this._element);
     this._element = null;
   }
 
