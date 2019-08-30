@@ -1,12 +1,13 @@
 import {createElement} from "../utils.js";
+import {generatorRandom} from '../utils.js';
 
 class Popup {
   constructor(card) {
-
+    console.log(card)
     this._title = card.filmTitle;
     this._rating = card.ratings;
     this._year = card.year;
-    this._runtime = card.runtime;
+    this._runtime = card.runtime();
     this._genre = card.genre;
     this._poster = card.posters;
     this._description = card.desciption();
@@ -14,6 +15,10 @@ class Popup {
     this._isWatchlist = card.isWatchlist;
     this._isViewed = card.isViewed;
     this._isFavorite = card.isFavorite;
+    this._director = card.director;
+    this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
+    this._actors = card.actors;
+    this._country = card.country;
     this._element = null;
   }
 
@@ -38,7 +43,7 @@ class Popup {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
+              <img class="film-details__poster-img" src="./images/posters/${this._poster}" alt="">
 
               <p class="film-details__age">18+</p>
             </div>
@@ -47,26 +52,26 @@ class Popup {
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${this._title}</h3>
-                  <p class="film-details__title-original">Original: The Great Flamarion</p>
+                  <p class="film-details__title-original">Original: ${this._title}</p>
                 </div>
 
                 <div class="film-details__rating">
-                  <p class="film-details__total-rating">8.9</p>
+                  <p class="film-details__total-rating">${this._rating}</p>
                 </div>
               </div>
 
               <table class="film-details__table">
                 <tbody><tr class="film-details__row">
                   <td class="film-details__term">Director</td>
-                  <td class="film-details__cell">Anthony Mann</td>
+                  <td class="film-details__cell">${this._director}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+                  <td class="film-details__cell">${this._writers}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+                  <td class="film-details__cell">${this._actors}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
@@ -74,18 +79,18 @@ class Popup {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">1h 18m</td>
+                  <td class="film-details__cell">${this._runtime}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
-                  <td class="film-details__cell">USA</td>
+                  <td class="film-details__cell">${this._country}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">Drama</span>
-                    <span class="film-details__genre">Film-Noir</span>
-                    <span class="film-details__genre">Mystery</span></td>
+                    <span class="film-details__genre">${this._genre}</span>
+                    <span class="film-details__genre">${this._genre}</span>
+                    <span class="film-details__genre">${this._genre}</span></td>
                 </tr>
               </tbody></table>
 

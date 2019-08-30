@@ -17,10 +17,10 @@ import {render, unrender, Position} from './utils.js';
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 const bodyContainer = document.querySelector(`body`);
-
 const openPopup = (popup) => {
   render(bodyContainer, popup.getElement(), Position.BEFOREEND);
   bodyContainer.classList.add(`hide-overflow`);
+
 };
 
 const closePopup = (popup) => {
@@ -28,16 +28,34 @@ const closePopup = (popup) => {
   popup.removeElement();
   bodyContainer.classList.remove(`hide-overflow`);
 };
+
 function onCardTogglerClick(evt) {
   evt.preventDefault();
   const popup = new Popup(filmData());
   const togglers = [`film-card__poster`, `film-card__title`, `film-card__comments`];
-
   if (togglers.some((cls) => evt.target.classList.contains(cls))) {
     openPopup(popup);
     document.addEventListener(`keydown`, onEscKeydown);
   }
+  const onCloseBtnClick = (evt) => {
+    evt.preventDefault();
+    if (evt.target.classList.contains(`film-details__close-btn`)) {
+      closePopup(popup);
+      document.removeEventListener(`keydown`, onEscKeydown);
+    }
+  };
+  popup.getElement().addEventListener(`click`, onCloseBtnClick);
+
 }
+const onEscKeydown = (evt) => {
+  if (isEscPressed(evt.key)) {
+    closePopup(popup);
+    document.removeEventListener(`keydown`, onEscKeydown);
+  }
+};
+
+
+
 render(headerContainer, new Search().getElement(), Position.BEFOREEND);
 render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
 render(mainContainer, new Menu(historyCount, watchlistCount, favorites).getElement(), Position.BEFOREEND);
@@ -92,6 +110,6 @@ filmExtraContainer.forEach(function () {
     render(filmExtraContainer[k], new FilmCard(filmData()).getElement(), Position.BEFOREEND);
   }
 });
-
+console.log(new FilmCard(filmData()))
 const footerStatistics = document.querySelector(`.footer__statistics`);
 footerStatistics.textContent = `${totalfilm} movies inside`;

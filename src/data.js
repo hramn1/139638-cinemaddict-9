@@ -5,10 +5,10 @@ const filmData = {
   posters: [`made-for-each-other.png`, `popeye-meets-sinbad.png`, `sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`],
   ratings: generatorRandom.generateRandomNumber(1, 9),
   genre: [`Horor`, `Comedy`, `Action`, `Fantasy`, `Adventure`],
-  desciption: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+  desciption: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra.
- Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. 
- Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. 
+ Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.
+ Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.
  Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`,
   year: [1929, 2019],
   id: [1, 1000],
@@ -62,7 +62,7 @@ export const generateFilmData = () => {
     },
     id: Math.round(generatorRandom.generateRandomNumber(1, 1000)),
     director: filmData.director[generatorRandom.generateRandomCount(filmData.director.length)],
-    writers: filmData.writers.splice(generatorRandom.generateRandomCount(7), generatorRandom.generateRandomNumber(4, 6)),
+    writers: filmData.writers,
     actors: filmData.actors.splice(generatorRandom.generateRandomCount(8), generatorRandom.generateRandomNumber(2, 7)),
     country: filmData.country[Math.round(generatorRandom.generateRandomCount(4))],
     comments: Math.round(generatorRandom.generateRandomNumber(0, 10)),
