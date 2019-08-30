@@ -3,7 +3,6 @@ import {generatorRandom} from '../utils.js';
 
 class Popup {
   constructor(card) {
-    console.log(card)
     this._title = card.filmTitle;
     this._rating = card.ratings;
     this._year = card.year;

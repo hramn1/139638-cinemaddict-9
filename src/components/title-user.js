@@ -15,7 +15,6 @@ class TitleUser {
   }
 
   removeElement() {
-    remove(this._element);
     this._element = null;
   }
 
@@ -27,4 +26,4 @@ class TitleUser {
       </section>`;
   }
 }
-export {TitleUser}
+export {TitleUser};
