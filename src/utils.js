@@ -1,11 +1,11 @@
 export const generatorRandom = {
-  generateRandomNumber: function (min, max) {
+  generateRandomNumber(min, max) {
     return (min + Math.random() * (max - min)).toFixed(1);
   },
-  splitStr: function (str) {
+  splitStr(str) {
     return str.split(`.`);
   },
-  generateRandomCount: function (count) {
+  generateRandomCount(count) {
     return Math.floor(Math.random() * count);
   },
 };
@@ -37,3 +37,7 @@ export const unrender = (element) => {
     element.remove();
   }
 };
+export const isEscPressed = (key) => {
+  return key === `Escape` || key === `Esc`;
+};
+

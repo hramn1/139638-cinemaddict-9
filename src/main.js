@@ -13,13 +13,14 @@ import {watchlistCount} from './data.js';
 import {favorites} from './data.js';
 import {totalfilm} from './data.js';
 import {generateRank} from './data.js';
-import {render, unrender, Position} from './utils.js';
+import {render, unrender, Position, isEscPressed} from './utils.js';
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 const bodyContainer = document.querySelector(`body`);
 const openPopup = (popup) => {
   render(bodyContainer, popup.getElement(), Position.BEFOREEND);
   bodyContainer.classList.add(`hide-overflow`);
+
 
 };
 
@@ -35,26 +36,31 @@ function onCardTogglerClick(evt) {
   const togglers = [`film-card__poster`, `film-card__title`, `film-card__comments`];
   if (togglers.some((cls) => evt.target.classList.contains(cls))) {
     openPopup(popup);
-    document.addEventListener(`keydown`, onEscKeydown);
   }
-  const onCloseBtnClick = (evt) => {
-    evt.preventDefault();
-    if (evt.target.classList.contains(`film-details__close-btn`)) {
+  const onCloseBtnClick = (evtClose) => {
+    evtClose.preventDefault();
+    if (evtClose.target.classList.contains(`film-details__close-btn`)) {
       closePopup(popup);
       document.removeEventListener(`keydown`, onEscKeydown);
     }
   };
   popup.getElement().addEventListener(`click`, onCloseBtnClick);
+  const commentAdd = popup.getElement().querySelector(`.film-details__comment-input`);
+  commentAdd.addEventListener(`focus`, function () {
+    document.removeEventListener(`keydown`, onEscKeydown);
+  });
+  commentAdd.addEventListener(`blur`, function () {
+    document.addEventListener(`keydown`, onEscKeydown);
+  });
+  const onEscKeydown = (evtEsc) => {
+    if (isEscPressed(evtEsc.key)) {
+      closePopup(popup);
+      document.removeEventListener(`keydown`, onEscKeydown);
+    }
+  };
+  document.addEventListener(`keydown`, onEscKeydown);
 
 }
-const onEscKeydown = (evt) => {
-  if (isEscPressed(evt.key)) {
-    closePopup(popup);
-    document.removeEventListener(`keydown`, onEscKeydown);
-  }
-};
-
-
 
 render(headerContainer, new Search().getElement(), Position.BEFOREEND);
 render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
@@ -73,10 +79,10 @@ for (let i = 0; i < totalfilm; i++) {
 }
 function renderCard() {
   const arrFilmSlice = arrFilm.slice(countFilmStart, countFilm);
-  arrFilmSlice.forEach((item) =>  render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
+  arrFilmSlice.forEach((item) => render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
   const btnShowFilm = document.querySelector(`.films-list__show-more`);
   const blockFilmCard = document.querySelectorAll(`.film-card`);
-  for (let item of blockFilmCard){
+  for (let item of blockFilmCard) {
     item.addEventListener(`click`, onCardTogglerClick);
   }
   btnShowFilm.addEventListener(`click`, function () {
@@ -94,7 +100,7 @@ function renderCard() {
 renderCard();
 
 for (let j = 0; j < 2; j++) {
-  render(filmContainer,  new TopRated().getElement(), Position.BEFOREEND) ;
+  render(filmContainer, new TopRated().getElement(), Position.BEFOREEND);
 }
 const filmExtraTitle = document.querySelectorAll(`.films-list--extra .films-list__title`);
 filmExtraTitle.forEach(function (item, i) {
@@ -110,6 +116,5 @@ filmExtraContainer.forEach(function () {
     render(filmExtraContainer[k], new FilmCard(filmData()).getElement(), Position.BEFOREEND);
   }
 });
-console.log(new FilmCard(filmData()))
 const footerStatistics = document.querySelector(`.footer__statistics`);
 footerStatistics.textContent = `${totalfilm} movies inside`;
