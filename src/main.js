@@ -21,6 +21,7 @@ const openPopup = (popup) => {
   render(bodyContainer, popup.getElement(), Position.BEFOREEND);
   bodyContainer.classList.add(`hide-overflow`);
 
+
 };
 
 const closePopup = (popup) => {
@@ -44,6 +45,13 @@ function onCardTogglerClick(evt) {
     }
   };
   popup.getElement().addEventListener(`click`, onCloseBtnClick);
+  const commentAdd = popup.getElement().querySelector(`.film-details__comment-input`);
+  commentAdd.addEventListener(`focus`, function () {
+    document.removeEventListener(`keydown`, onEscKeydown);
+  });
+  commentAdd.addEventListener(`blur`, function () {
+    document.addEventListener(`keydown`, onEscKeydown);
+  });
   const onEscKeydown = (evtEsc) => {
     if (isEscPressed(evtEsc.key)) {
       closePopup(popup);
@@ -51,6 +59,7 @@ function onCardTogglerClick(evt) {
     }
   };
   document.addEventListener(`keydown`, onEscKeydown);
+
 }
 
 render(headerContainer, new Search().getElement(), Position.BEFOREEND);
