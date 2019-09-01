@@ -7,6 +7,7 @@ import {TopRated} from './components/top-rated.js';
 import {Search} from './components/search.js';
 import {FilmContainer} from './components/film-container.js';
 import {Sort} from './components/sort.js';
+import {NoSearch} from './components/no-search-result.js';
 import {generateFilmData as filmData} from './data.js';
 import {historyCount} from './data.js';
 import {watchlistCount} from './data.js';
@@ -20,9 +21,8 @@ const bodyContainer = document.querySelector(`body`);
 const openPopup = (popup) => {
   render(bodyContainer, popup.getElement(), Position.BEFOREEND);
   bodyContainer.classList.add(`hide-overflow`);
-
-
 };
+
 
 const closePopup = (popup) => {
   unrender(popup.getElement());
@@ -61,7 +61,6 @@ function onCardTogglerClick(evt) {
   document.addEventListener(`keydown`, onEscKeydown);
 
 }
-
 render(headerContainer, new Search().getElement(), Position.BEFOREEND);
 render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
 render(mainContainer, new Menu(historyCount, watchlistCount, favorites).getElement(), Position.BEFOREEND);
@@ -118,3 +117,7 @@ filmExtraContainer.forEach(function () {
 });
 const footerStatistics = document.querySelector(`.footer__statistics`);
 footerStatistics.textContent = `${totalfilm} movies inside`;
+if (Object.keys(filmData()).length !== 0) {
+  unrender(mainContainer);
+  render(headerContainer, new NoSearch().getElement(), Position.AFTER);
+}

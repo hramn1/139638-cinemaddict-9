@@ -11,7 +11,8 @@ export const generatorRandom = {
 };
 export const Position = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
+  AFTER: `after`
 };
 
 export const createElement = (template) => {
@@ -28,6 +29,9 @@ export const render = (container, element, place) => {
       break;
     case Position.BEFOREEND:
       container.append(element);
+      break;
+    case Position.AFTER:
+      container.after(element);
       break;
   }
 };
