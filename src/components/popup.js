@@ -1,8 +1,9 @@
-import {createElement} from "../utils.js";
+import {AbstractComponent} from './abstract.js';
 import {generatorRandom} from '../utils.js';
 
-class Popup {
+class Popup extends AbstractComponent {
   constructor(card) {
+    super();
     this._title = card.filmTitle;
     this._rating = card.ratings;
     this._year = card.year;
@@ -18,21 +19,7 @@ class Popup {
     this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
     this._actors = card.actors;
     this._country = card.country;
-    this._element = null;
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
   getTemplate() {
     return `<section class="film-details">
        <form class="film-details__inner" action="" method="get">

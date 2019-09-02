@@ -1,22 +1,9 @@
-import {createElement} from "../utils.js";
+import {AbstractComponent} from './abstract.js';
 
-class NoSearch {
+class NoSearch extends AbstractComponent {
   constructor() {
-    this._element = null;
+    super();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
   getTemplate() {
     return `<main class="main">
   <div class="result">

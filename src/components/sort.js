@@ -1,22 +1,8 @@
-import {createElement} from "../utils.js";
-class Sort {
+import {AbstractComponent} from './abstract.js';
+class Sort extends AbstractComponent {
   constructor() {
-    this._element = null;
+    super();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
-
   getTemplate() {
     return `<ul class="sort">
         <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>

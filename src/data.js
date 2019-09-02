@@ -3,7 +3,7 @@ const filmData = {
   filmTitle: [`Die hard`, `The Godfather`, `Pulp Fiction`, `Star Wars`, `Schindler's List`, `Fight Club`, `Saving Private Ryan`, `Back to the Future`,
     `The Lord of the Rings - The Return of the King`, `Titanic`, `Terminator 2`, `The Departed`, `Avatar`, `Home Alone`, `The Fifth Element`],
   posters: [`made-for-each-other.png`, `popeye-meets-sinbad.png`, `sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`],
-  ratings: generatorRandom.generateRandomNumber(1, 9),
+  ratings: [1, 9],
   genre: [`Horor`, `Comedy`, `Action`, `Fantasy`, `Adventure`],
   desciption: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra.
@@ -51,7 +51,7 @@ Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis 
 export const generateFilmData = () => {
   return {
     filmTitle: filmData.filmTitle[generatorRandom.generateRandomCount(filmData.filmTitle.length)],
-    ratings: parseFloat(filmData.ratings),
+    ratings: parseFloat(generatorRandom.generateRandomNumber(1, 9)),
     genre: filmData.genre[generatorRandom.generateRandomCount(filmData.genre.length)],
     posters: filmData.posters[generatorRandom.generateRandomCount(filmData.posters.length)],
     year: Math.floor(generatorRandom.generateRandomNumber(filmData.year[0], filmData.year[1])),

@@ -1,24 +1,12 @@
-import {createElement} from "../utils.js";
+import {AbstractComponent} from './abstract.js';
 
-class Menu {
+class Menu extends AbstractComponent {
   constructor(historyCount, watchlistCount, favorites) {
+    super();
     this._historyCount = historyCount;
     this.watchlistCount = watchlistCount;
     this.favorites = favorites;
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
   getTemplate() {
     return `<nav class="main-navigation">
         <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
