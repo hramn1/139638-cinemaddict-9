@@ -1,4 +1,3 @@
-
 import {Menu} from './components/menu.js';
 import {TitleUser} from './components/title-user.js';
 import {Search} from './components/search.js';
@@ -13,6 +12,7 @@ import {PageController} from './controller.js';
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 const page = new PageController(mainContainer, filmData);
+
 render(headerContainer, new Search().getElement(), Position.BEFOREEND);
 render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
 render(mainContainer, new Menu(historyCount, watchlistCount, favorites).getElement(), Position.BEFOREEND);
