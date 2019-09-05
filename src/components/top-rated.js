@@ -1,4 +1,4 @@
-import {AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract.js';
 class TopRated extends AbstractComponent {
   constructor() {
     super();
@@ -11,4 +11,4 @@ class TopRated extends AbstractComponent {
         </section>`;
   }
 }
-export {TopRated};
+export default TopRated;

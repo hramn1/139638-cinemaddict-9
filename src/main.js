@@ -1,13 +1,13 @@
-import {Menu} from './components/menu.js';
-import {TitleUser} from './components/title-user.js';
-import {Search} from './components/search.js';
+import {default as Menu} from './components/menu.js';
+import {default as TitleUser} from './components/title-user.js';
+import {default as Search} from './components/search.js';
 import {historyCount} from './data.js';
 import {watchlistCount} from './data.js';
 import {favorites} from './data.js';
 import {generateRank} from './data.js';
 import {generateFilmData as filmData} from './data.js';
 import {render, Position} from './utils.js';
-import {PageController} from './controller.js';
+import {default as PageController} from './controller.js';
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 const page = new PageController(mainContainer, filmData);

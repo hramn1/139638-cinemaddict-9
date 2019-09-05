@@ -1,4 +1,4 @@
-import {AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract.js';
 
 class FilmCard extends AbstractComponent {
   constructor(card) {
@@ -36,4 +36,4 @@ class FilmCard extends AbstractComponent {
   }
 }
 
-export {FilmCard};
+export default FilmCard;

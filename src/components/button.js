@@ -1,4 +1,4 @@
-import {AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract.js';
 class Button extends AbstractComponent {
   constructor() {
     super();
@@ -7,4 +7,4 @@ class Button extends AbstractComponent {
     return `<button class="films-list__show-more">Show more</button>`;
   }
 }
-export {Button};
+export default Button;

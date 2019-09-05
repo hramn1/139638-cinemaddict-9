@@ -1,12 +1,12 @@
-import {Button} from './components/button.js';
-import {FilmCard} from './components/film-card.js';
-import {Popup} from './components/popup.js';
-import {TopRated} from './components/top-rated.js';
-import {FilmContainer} from './components/film-container.js';
-import {NoSearch} from './components/no-search-result.js';
+import {default as Button} from './components/button.js';
+import {default as FilmCard} from './components/film-card.js';
+import {default as Popup} from './components/popup.js';
+import {default as TopRated} from './components/top-rated.js';
+import {default as FilmContainer} from './components/film-container.js';
+import {default as NoSearch} from './components/no-search-result.js';
 import {render, unrender, Position, isEscPressed} from './utils.js';
 import {generateFilmData as filmData, totalfilm} from "./data.js";
-import {Sort} from "./components/sort";
+import {default as Sort} from "./components/sort";
 const mainContainer = document.querySelector(`.main`);
 const bodyContainer = document.querySelector(`body`);
 const headerContainer = document.querySelector(`.header`);
@@ -16,46 +16,6 @@ class PageController {
     this._container = container;
     this._films = films;
   }
-  onCardTogglerClick(evt) {
-    evt.preventDefault();
-    const openPopup = (popup) => {
-      render(bodyContainer, popup.getElement(), Position.BEFOREEND);
-      bodyContainer.classList.add(`hide-overflow`);
-    };
-    const closePopup = (popup) => {
-      unrender(popup.getElement());
-      popup.removeElement();
-      bodyContainer.classList.remove(`hide-overflow`);
-    };
-    const popup = new Popup(filmData());
-    const togglers = [`film-card__poster`, `film-card__title`, `film-card__comments`];
-    if (togglers.some((cls) => evt.target.classList.contains(cls))) {
-      openPopup(popup);
-    }
-    const onCloseBtnClick = (evtClose) => {
-      evtClose.preventDefault();
-      if (evtClose.target.classList.contains(`film-details__close-btn`)) {
-        closePopup(popup);
-        document.removeEventListener(`keydown`, onEscKeydown);
-      }
-    };
-    popup.getElement().addEventListener(`click`, onCloseBtnClick);
-    const commentAdd = popup.getElement().querySelector(`.film-details__comment-input`);
-    commentAdd.addEventListener(`focus`, function () {
-      document.removeEventListener(`keydown`, onEscKeydown);
-    });
-    commentAdd.addEventListener(`blur`, function () {
-      document.addEventListener(`keydown`, onEscKeydown);
-    });
-    const onEscKeydown = (evtEsc) => {
-      if (isEscPressed(evtEsc.key)) {
-        closePopup(popup);
-        document.removeEventListener(`keydown`, onEscKeydown);
-      }
-    };
-    document.addEventListener(`keydown`, onEscKeydown);
-  }
-
   static renderCard(countFilm, countFilmStart, filmCardContainer, arrFilm) {
     const arrFilmSlice = arrFilm.slice(countFilmStart, countFilm);
     arrFilmSlice.forEach((item) => render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
@@ -63,7 +23,6 @@ class PageController {
     for (let item of blockFilmCard) {
       item.addEventListener(`click`, this.prototype.onCardTogglerClick);
     }
-
   }
   static showMoreFilm(countFilm, countFilmStart, filmCardContainer, arrFilm) {
     PageController.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilm);
@@ -80,6 +39,47 @@ class PageController {
       }
     });
   }
+  static openPopup(popup) {
+    render(bodyContainer, popup.getElement(), Position.BEFOREEND);
+    bodyContainer.classList.add(`hide-overflow`);
+    const onCloseBtnClick = (evtClose) => {
+      evtClose.preventDefault();
+      if (evtClose.target.classList.contains(`film-details__close-btn`)) {
+        PageController.closePopup(popup);
+        document.removeEventListener(`keydown`, onEscKeydown);
+      }
+    };
+    popup.getElement().addEventListener(`click`, onCloseBtnClick);
+    const onEscKeydown = (evtEsc) => {
+      if (isEscPressed(evtEsc.key)) {
+        PageController.closePopup(popup);
+        document.removeEventListener(`keydown`, onEscKeydown);
+      }
+    };
+    document.addEventListener(`keydown`, onEscKeydown);
+    const commentAdd = popup.getElement().querySelector(`.film-details__comment-input`);
+    commentAdd.addEventListener(`focus`, function () {
+      document.removeEventListener(`keydown`, onEscKeydown);
+    });
+    commentAdd.addEventListener(`blur`, function () {
+      document.addEventListener(`keydown`, onEscKeydown);
+    });
+  }
+  static closePopup(popup) {
+    unrender(popup.getElement());
+    popup.removeElement();
+    bodyContainer.classList.remove(`hide-overflow`);
+  }
+  // Нажатие на карточку
+  onCardTogglerClick(evt) {
+    evt.preventDefault();
+    const popup = new Popup(filmData());
+    const togglers = [`film-card__poster`, `film-card__title`, `film-card__comments`];
+    if (togglers.some((cls) => evt.target.classList.contains(cls))) {
+      PageController.openPopup(popup);
+    }
+  }
+  // СОРТИРОВКА
   sortFilm(countFilm, countFilmStart, filmCardContainer, arrFilm) {
     const btnSort = document.querySelectorAll(`.sort__button`);
     for (let item of btnSort) {
@@ -121,7 +121,6 @@ class PageController {
     const filmContainer = document.querySelector(`.films`);
     const filmList = filmContainer.querySelector(`.films-list`);
     const filmCardContainer = filmList.querySelector(`.films-list__container`);
-
     render(filmList, new Button().getElement(), Position.BEFOREEND);
     const arrFilm = [];
     let countFilm = 5;
@@ -157,4 +156,4 @@ class PageController {
   }
 }
 
-export {PageController};
+export default PageController;

@@ -1,4 +1,4 @@
-import {AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract.js';
 
 class NoSearch extends AbstractComponent {
   constructor() {
@@ -22,4 +22,4 @@ class NoSearch extends AbstractComponent {
 </main>`;
   }
 }
-export {NoSearch};
+export default NoSearch;

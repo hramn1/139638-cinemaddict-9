@@ -1,4 +1,4 @@
-import {AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract.js';
 class Search extends AbstractComponent {
   constructor() {
     super();
@@ -14,4 +14,4 @@ class Search extends AbstractComponent {
         </form>`;
   }
 }
-export {Search};
+export default Search;

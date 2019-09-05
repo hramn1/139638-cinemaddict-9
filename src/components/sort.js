@@ -1,4 +1,4 @@
-import {AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract.js';
 class Sort extends AbstractComponent {
   constructor() {
     super();
@@ -11,4 +11,4 @@ class Sort extends AbstractComponent {
       </ul>`;
   }
 }
-export {Sort};
+export default Sort;

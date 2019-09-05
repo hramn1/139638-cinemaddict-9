@@ -1,4 +1,4 @@
-import {AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract.js';
 
 class Menu extends AbstractComponent {
   constructor(historyCount, watchlistCount, favorites) {
@@ -20,4 +20,4 @@ class Menu extends AbstractComponent {
       </nav>`;
   }
 }
-export {Menu};
+export default Menu;

@@ -1,4 +1,4 @@
-import {AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract.js';
 class TitleUser extends AbstractComponent {
   constructor(Title) {
     super();
@@ -11,4 +11,4 @@ class TitleUser extends AbstractComponent {
       </section>`;
   }
 }
-export {TitleUser};
+export default TitleUser;

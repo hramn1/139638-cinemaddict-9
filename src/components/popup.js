@@ -1,4 +1,4 @@
-import {AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract.js';
 import {generatorRandom} from '../utils.js';
 
 class Popup extends AbstractComponent {
@@ -193,4 +193,4 @@ class Popup extends AbstractComponent {
   }
 }
 
-export {Popup};
+export default Popup;
