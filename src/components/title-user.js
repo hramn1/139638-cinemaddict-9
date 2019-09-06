@@ -1,24 +1,9 @@
-import {createElement} from "../utils.js";
-class TitleUser {
+import {default as AbstractComponent} from './abstract.js';
+class TitleUser extends AbstractComponent {
   constructor(Title) {
-    this._element = null;
+    super();
     this._titleUser = Title;
-
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
-
   getTemplate() {
     return `<section class="header__profile profile">
         <p class="profile__rating">${this._titleUser}</p>
@@ -26,4 +11,4 @@ class TitleUser {
       </section>`;
   }
 }
-export {TitleUser};
+export default TitleUser;

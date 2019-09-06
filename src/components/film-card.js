@@ -1,7 +1,8 @@
-import {createElement} from "../utils.js";
+import {default as AbstractComponent} from './abstract.js';
 
-class FilmCard {
+class FilmCard extends AbstractComponent {
   constructor(card) {
+    super();
     this._title = card.filmTitle;
     this._rating = card.ratings;
     this._year = card.year;
@@ -13,21 +14,7 @@ class FilmCard {
     this._isWatchlist = card.isWatchlist;
     this._isViewed = card.isViewed;
     this._isFavorite = card.isFavorite;
-    this._element = null;
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
   getTemplate() {
     return `<article class="film-card">
     <h3 class="film-card__title">${this._title}</h3>
@@ -49,4 +36,4 @@ class FilmCard {
   }
 }
 
-export {FilmCard};
+export default FilmCard;

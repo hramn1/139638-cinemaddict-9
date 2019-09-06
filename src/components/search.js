@@ -1,22 +1,8 @@
-import {createElement} from "../utils.js";
-class Search {
+import {default as AbstractComponent} from './abstract.js';
+class Search extends AbstractComponent {
   constructor() {
-    this._element = null;
+    super();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
-
   getTemplate() {
     return `<form class="header__search search">
           <input type="text" name="search" class="search__field" placeholder="Search movies">
@@ -28,4 +14,4 @@ class Search {
         </form>`;
   }
 }
-export {Search};
+export default Search;
