@@ -80,11 +80,22 @@ class PageController {
     }
   }
   // СОРТИРОВКА
-  sortFilm(countFilm, countFilmStart, filmCardContainer, arrFilm) {
+  sortFilm(filmCardContainer, arrFilm) {
     const btnSort = document.querySelectorAll(`.sort__button`);
+    const countFilm = 5;
+    const countFilmStart = 0;
+    const linkAddActive = () => {
+      for (let link of btnSort) {
+        if (link.classList.contains(`sort__button--active`)) {
+          link.classList.remove(`sort__button--active`);
+        }
+      }
+    };
     for (let item of btnSort) {
       item.addEventListener(`click`, function (evt) {
         evt.preventDefault();
+        linkAddActive();
+        item.classList.add(`sort__button--active`);
         const blockFilmCard = document.querySelectorAll(`.film-card`);
         for (let film of blockFilmCard) {
           unrender(film);
@@ -96,20 +107,10 @@ class PageController {
           }
           PageController.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilmDefault);
         } else if (evt.target.dataset.sort === `rating`) {
-          const arrFilmRating = arrFilm.sort(function (filmFirst, filmSecond) {
-            if (parseFloat(filmFirst.ratings) > parseFloat(filmSecond.ratings)) {
-              return 1;
-            }
-            return 0;
-          });
+          const arrFilmRating = [...arrFilm].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
           PageController.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilmRating);
         } else if (evt.target.dataset.sort === `date`) {
-          const arrFilmRDate = arrFilm.sort(function (filmFirst, filmSecond) {
-            if (parseFloat(filmFirst.year) > parseFloat(filmSecond.year)) {
-              return 1;
-            }
-            return 0;
-          });
+          const arrFilmRDate = [...arrFilm].sort((filmFirst, filmSecond) => (parseInt(filmFirst.year, 10) - parseInt(filmSecond.year, 10)));
           PageController.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilmRDate);
         }
       });
@@ -139,7 +140,7 @@ class PageController {
         item.textContent = `Most comment`;
       }
     });
-    this.sortFilm(countFilm, countFilmStart, filmCardContainer, arrFilm);
+    this.sortFilm(filmCardContainer, arrFilm);
     PageController.showMoreFilm(countFilm, countFilmStart, filmCardContainer, arrFilm);
     const filmExtraContainer = document.querySelectorAll(`.films-list--extra .films-list__container`);
     filmExtraContainer.forEach(function () {
