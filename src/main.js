@@ -7,7 +7,7 @@ import {favorites} from './data.js';
 import {generateRank} from './data.js';
 import {generateFilmData as filmData} from './data.js';
 import {render, Position} from './utils.js';
-import {default as PageController} from './controller.js';
+import {default as PageController} from './page-controller.js';
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 const page = new PageController(mainContainer, filmData);
