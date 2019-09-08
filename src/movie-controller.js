@@ -1,7 +1,6 @@
 import {default as Popup} from './components/popup.js';
 import {default as FilmCard} from './components/film-card.js';
 import {isEscPressed, Position, render, unrender} from "./utils";
-import {generateFilmData as filmData} from "./data";
 const bodyContainer = document.querySelector(`body`);
 
 
@@ -11,8 +10,8 @@ class MovieController {
     this._film = films;
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
-    //this._card = new Card(filmData);
-    //this._popup = new Popup();
+
+    this.onCardTogglerClick = this.onCardTogglerClick.bind(this);
     this.init();
   }
   static openPopup(popup) {
@@ -47,21 +46,28 @@ class MovieController {
     bodyContainer.classList.remove(`hide-overflow`);
   }
   onCardTogglerClick(evt) {
-    console.log(this._film)
     evt.preventDefault();
-    const popup = new Popup(this._film);
+    const popups = [];
+    let popup = {};
+    popups.push(...this._film);
+    for (let i = 0; i < popups.length; i++) {
+      if (evt.currentTarget.dataset.id === String(popups[i].id)) {
+        popup = new Popup(this._film[i]);
+      }
+    }
     const togglers = [`film-card__poster`, `film-card__title`, `film-card__comments`];
     if (togglers.some((cls) => evt.target.classList.contains(cls))) {
       MovieController.openPopup(popup);
     }
   }
-  setDefaultView() {
-    if (document.body.contains(this._moviePopup.getElement())) {
-      unrender(this._moviePopup.getElement());
-      this._moviePopup.removeElement();
-    }
-  }
+  // setDefaultView() {
+  //   if (document.body.contains(popup.getElement())) {
+  //     unrender(this._moviePopup.getElement());
+  //     this._moviePopup.removeElement();
+  //   }
+  // }
   init() {
+
 
   }
 }

@@ -6,17 +6,18 @@ class Popup extends AbstractComponent {
     super();
     this._title = card.filmTitle;
     this._rating = card.ratings;
+    this._id = card.id;
     this._year = card.year;
-    this._runtime = card.runtime();
+    this._runtime = card.runtime;
     this._genre = card.genre;
     this._poster = card.posters;
-    this._description = card.desciption();
+    this._description = card.desciption;
     this._countComments = card.countComments;
     this._isWatchlist = card.isWatchlist;
     this._isViewed = card.isViewed;
     this._isFavorite = card.isFavorite;
     this._director = card.director;
-    this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
+    //this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
     this._actors = card.actors;
     this._country = card.country;
   }

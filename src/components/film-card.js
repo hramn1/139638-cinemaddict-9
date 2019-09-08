@@ -4,19 +4,20 @@ class FilmCard extends AbstractComponent {
   constructor(card) {
     super();
     this._title = card.filmTitle;
+    this._id = card.id;
     this._rating = card.ratings;
     this._year = card.year;
-    this._runtime = card.runtime();
+    this._runtime = card.runtime;
     this._genre = card.genre;
     this._poster = card.posters;
-    this._shortDescription = card.desciption();
+    this._shortDescription = card.desciption;
     this._countComments = card.comments;
     this._isWatchlist = card.isWatchlist;
     this._isViewed = card.isViewed;
     this._isFavorite = card.isFavorite;
   }
   getTemplate() {
-    return `<article class="film-card">
+    return `<article class="film-card" data-id="${this._id}">
     <h3 class="film-card__title">${this._title}</h3>
     <p class="film-card__rating">${this._rating}</p>
     <p class="film-card__info">
