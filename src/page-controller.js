@@ -7,7 +7,6 @@ import {render, unrender, Position} from './utils.js';
 import {totalfilm} from "./data.js";
 import {default as Sort} from "./components/sort";
 import {default as MovieController} from "./movie-controller.js";
-import {arrFilm} from "./data";
 const headerContainer = document.querySelector(`.header`);
 
 class PageController {
@@ -117,7 +116,7 @@ class PageController {
       } else {
         item.textContent = `Most comment`;
       }
-    })
+    });
     this.sortFilm(filmCardContainer, this._film, movieController);
     PageController.showMoreFilm(countFilm, countFilmStart, filmCardContainer, this._film, movieController);
     const filmExtraContainer = document.querySelectorAll(`.films-list--extra .films-list__container`);
