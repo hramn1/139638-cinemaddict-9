@@ -48,18 +48,27 @@ Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis 
   hour: Math.round(generatorRandom.generateRandomNumber(0, 2)),
   minutes: Math.round(generatorRandom.generateRandomNumber(0, 60)),
 };
-export const generateFilmData = () => {
+const generateDesk = () => {
+  const deskStr = generatorRandom.splitStr(filmData.desciption);
+  deskStr.length = Math.round(generatorRandom.generateRandomNumber(1, 3));
+  return deskStr.join();
+};
+const generateTime = () => {
+  let hour = Math.round(generatorRandom.generateRandomNumber(0, 2)) + `h`;
+  let minutes = Math.round(generatorRandom.generateRandomNumber(0, 60));
+  if (hour === `0h`) {
+    hour = ``;
+  }
+  return `${hour} ${minutes}m`;
+};
+const generateFilmData = () => {
   return {
     filmTitle: filmData.filmTitle[generatorRandom.generateRandomCount(filmData.filmTitle.length)],
     ratings: parseFloat(generatorRandom.generateRandomNumber(1, 9)),
     genre: filmData.genre[generatorRandom.generateRandomCount(filmData.genre.length)],
     posters: filmData.posters[generatorRandom.generateRandomCount(filmData.posters.length)],
     year: Math.floor(generatorRandom.generateRandomNumber(filmData.year[0], filmData.year[1])),
-    desciption: () => {
-      const deskStr = generatorRandom.splitStr(filmData.desciption);
-      deskStr.length = Math.round(generatorRandom.generateRandomNumber(1, 3));
-      return deskStr.join();
-    },
+    desciption: generateDesk(),
     id: Math.round(generatorRandom.generateRandomNumber(1, 1000)),
     director: filmData.director[generatorRandom.generateRandomCount(filmData.director.length)],
     writers: filmData.writers,
@@ -69,14 +78,7 @@ export const generateFilmData = () => {
     isWatchlist: Boolean(Math.round(Math.random())),
     isHistory: Boolean(Math.round(Math.random())),
     isFavorites: Boolean(Math.round(Math.random())),
-    runtime: () => {
-      let hour = Math.round(generatorRandom.generateRandomNumber(0, 2)) + `h`;
-      let minutes = Math.round(generatorRandom.generateRandomNumber(0, 60));
-      if (hour === `0h`) {
-        hour = ``;
-      }
-      return `${hour} ${minutes}m`;
-    },
+    runtime: generateTime(),
   };
 };
 const generateFilmList = () => Math.round(generatorRandom.generateRandomNumber(5, 25));
@@ -96,3 +98,7 @@ export const historyCount = generateMenuCount();
 export const watchlistCount = generateMenuCount();
 export const favorites = generateMenuCount();
 export const totalfilm = generateFilmList();
+export const arrFilm = [];
+for (let i = 0; i < totalfilm; i++) {
+  arrFilm.push(generateFilmData());
+}
