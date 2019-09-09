@@ -1,5 +1,5 @@
 import {default as AbstractComponent} from './abstract.js';
-import {generatorRandom} from '../utils.js';
+// import {generatorRandom} from '../utils.js';
 
 class Popup extends AbstractComponent {
   constructor(card) {
@@ -17,7 +17,7 @@ class Popup extends AbstractComponent {
     this._isViewed = card.isViewed;
     this._isFavorite = card.isFavorite;
     this._director = card.director;
-    //this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
+    // this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
     this._actors = card.actors;
     this._country = card.country;
   }
