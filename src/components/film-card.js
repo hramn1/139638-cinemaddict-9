@@ -14,7 +14,7 @@ class FilmCard extends AbstractComponent {
     this._countComments = card.comments;
     this._isWatchlist = card.isWatchlist;
     this._isViewed = card.isViewed;
-    this._isFavorite = card.isFavorite;
+    this._isFavorite = card.isFavorites;
   }
   getTemplate() {
     return `<article class="film-card" data-id="${this._id}">

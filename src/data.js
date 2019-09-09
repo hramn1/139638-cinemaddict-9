@@ -76,7 +76,7 @@ const generateFilmData = () => {
     country: filmData.country[Math.round(generatorRandom.generateRandomCount(4))],
     comments: Math.round(generatorRandom.generateRandomNumber(0, 10)),
     isWatchlist: Boolean(Math.round(Math.random())),
-    isHistory: Boolean(Math.round(Math.random())),
+    isViewed: Boolean(Math.round(Math.random())),
     isFavorites: Boolean(Math.round(Math.random())),
     runtime: generateTime(),
   };
