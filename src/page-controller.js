@@ -13,6 +13,8 @@ class PageController {
   constructor(container, film) {
     this._container = container;
     this._film = film;
+    this._onChangeView = this._onChangeView.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
   }
   static renderCard(countFilm, countFilmStart, filmCardContainer, arrFilm, movieController) {
     const arrFilmSlice = arrFilm.slice(countFilmStart, countFilm);
@@ -37,26 +39,14 @@ class PageController {
       }
     });
   }
-  // _onDataChange(newData, oldData, isCardChanges = true) {
-  //   if (isCardChanges) {
-  //     this._cardsData[this._cardsData.findIndex((card) => card === oldData)] = newData;
-  //   } else {
-  //     this._commentsData.comments[this._commentsData.comments.findIndex((comment) => comment === oldData)] = newData;
-  //   }
-  //
-  //   this._mainCardsContainer.clear();
-  //   this._cardsData
-  //     .slice(0, this._filmList.getCardsCount())
-  //     .forEach((data) => this._renderCard(this._container, data));
-  //   this._raitingCardsContainer.clear();
-  //   this._renderTopRatingCards();
-  //   this._commentsCardsContainer.clear();
-  //   this._renderMostCommentCards();
-  // }
-  //
-  // _onChangeView() {
-  //   this._subscriptions.forEach((subscription) => subscription());
-  // }
+  _onChangeView() {
+    this._subscriptions.forEach((subscription) => subscription());
+  }
+
+  _onDataChange(newData, oldData) {
+    this._cards[this._cards.findIndex((card) => card === oldData)] = newData;
+    this._renderFilmLists(this._cards, this._generalFilmsList.getElement().querySelector(`.films-list__container`).childElementCount);
+  }
   // Нажатие на карточку
   // СОРТИРОВКА
   sortFilm(filmCardContainer, arrFilm, movieController) {
