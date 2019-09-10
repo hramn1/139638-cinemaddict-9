@@ -1,18 +1,80 @@
 import {default as Popup} from './components/popup.js';
 import {isEscPressed, Position, render, unrender} from "./utils";
+import {default as FilmCard} from './components/film-card.js';
 const bodyContainer = document.querySelector(`body`);
 
 
 class MovieController {
-  constructor(container, films, onDataChange, onChangeView) {
+  constructor(container, films,  totalfilm) {
     this._container = container;
     this._film = films;
-    this._onDataChange = onDataChange;
-    this._onChangeView = onChangeView;
-
+    this._totalfilm = totalfilm
+    // this._onDataChange = onDataChange;
+    // this._onChangeView = onChangeView;
     this.onCardTogglerClick = this.onCardTogglerClick.bind(this);
-    this.init();
+    this.create();
   }
+  renderCard(countFilm, countFilmStart, container, arrFilm, totalfilm ) {
+    console.log(countFilm)
+    console.log(countFilmStart)
+    const arrFilmSlice = arrFilm.slice(countFilmStart, countFilm);
+    arrFilmSlice.forEach((item) => render(container, new FilmCard(item).getElement(), Position.BEFOREEND));
+    const blockFilmCard = document.querySelectorAll(`.film-card`);
+    for (let item of blockFilmCard) {
+      item.addEventListener(`click`, this.onCardTogglerClick);
+    }
+    const btnShowFilm = document.querySelector(`.films-list__show-more`);
+      btnShowFilm.addEventListener(`click`,  () => {
+        for (let film of blockFilmCard) {
+          unrender(film);
+        }
+        countFilm = countFilm + 5;
+        countFilmStart = countFilmStart;
+        if (countFilm >= totalfilm) {
+          btnShowFilm.style.display = `none`;
+          countFilm = totalfilm;
+        }
+        this.renderCard(countFilm, countFilmStart, container, arrFilm, totalfilm);
+      });
+    this.sortFilm(this._container, this._film, this._totalfilm);
+  }
+    sortFilm(filmCardContainer, arrFilm, totalfilm) {
+      console.log(totalfilm)
+      const btnSort = document.querySelectorAll(`.sort__button`);
+      const countFilm = 5;
+      const countFilmStart = 0;
+      const linkAddActive = () => {
+        for (let link of btnSort) {
+          if (link.classList.contains(`sort__button--active`)) {
+            link.classList.remove(`sort__button--active`);
+          }
+        }
+      };
+      for (let item of btnSort) {
+        item.addEventListener(`click`,  (evt) => {
+          evt.preventDefault();
+          linkAddActive();
+          item.classList.add(`sort__button--active`);
+          const blockFilmCard = document.querySelectorAll(`.film-card`);
+          for (let film of blockFilmCard) {
+            unrender(film);
+          }
+          if (evt.target.dataset.sort === `default`) {
+            const arrFilmDefault = [];
+            for (let i = 0; i < totalfilm; i++) {
+              arrFilmDefault.push(...arrFilm);
+            }
+            this.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilmDefault);
+          } else if (evt.target.dataset.sort === `rating`) {
+            const arrFilmRating = [...arrFilm].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
+            this.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilmRating);
+          } else if (evt.target.dataset.sort === `date`) {
+            const arrFilmRDate = [...arrFilm].sort((filmFirst, filmSecond) => (parseInt(filmFirst.year, 10) - parseInt(filmSecond.year, 10)));
+            this.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilmRDate,);
+          }
+        });
+      }
+    }
   static openPopup(popup) {
     render(bodyContainer, popup.getElement(), Position.BEFOREEND);
     bodyContainer.classList.add(`hide-overflow`);
@@ -59,15 +121,16 @@ class MovieController {
       MovieController.openPopup(popup);
     }
   }
-  // setDefaultView() {
-  //   if (document.body.contains(popup.getElement())) {
-  //     unrender(this._moviePopup.getElement());
-  //     this._moviePopup.removeElement();
-  //   }
-  // }
-  init() {
-
-
+  setDefaultView() {
+    if (document.body.contains(popup.getElement())) {
+      unrender(this._moviePopup.getElement());
+      this._moviePopup.removeElement();
+    }
+  }
+  create() {
+    let countFilm = 5;
+    let countFilmStart = 0;
+    this.renderCard(countFilm, countFilmStart, this._container, this._film, this._totalfilm)
   }
 }
 export default MovieController;
