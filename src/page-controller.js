@@ -18,7 +18,6 @@ class PageController {
   _onChangeView() {
     this._subscriptions.forEach((subscription) => subscription());
   }
-
   _onDataChange(newData, oldData) {
     this._cards[this._cards.findIndex((card) => card === oldData)] = newData;
     this._renderFilmLists(this._cards, this._generalFilmsList.getElement().querySelector(`.films-list__container`).childElementCount);
@@ -32,6 +31,8 @@ class PageController {
     const filmCardContainer = filmList.querySelector(`.films-list__container`);
     render(filmList, new Button().getElement(), Position.BEFOREEND);
     const movieController = new MovieController(filmCardContainer, this._film, totalfilm);
+    movieController.create();
+
     for (let j = 0; j < 2; j++) {
       render(filmContainer, new TopRated().getElement(), Position.BEFOREEND);
     }
@@ -48,6 +49,10 @@ class PageController {
     filmExtraContainer.forEach(function () {
       for (let k = 0; k < 2; k++) {
         render(filmExtraContainer[k], new FilmCard(...filmExtra).getElement(), Position.BEFOREEND);
+        const blockFilmCard = document.querySelectorAll(`.film-card`);
+        for (let item of blockFilmCard) {
+          item.addEventListener(`click`, movieController.onCardTogglerClick);
+        }
       }
     });
     const footerStatistics = document.querySelector(`.footer__statistics`);
