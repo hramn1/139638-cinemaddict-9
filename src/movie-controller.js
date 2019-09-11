@@ -34,44 +34,8 @@ class MovieController {
       }
       this.renderCard(countFilm, countFilmStart, container, arrFilm, totalFilm);
     });
-    this.sortFilm(this._container, this._film, this._totalfilm);
   }
-  sortFilm(filmCardContainer, arrFilm, totalFilm) {
-    const btnSort = document.querySelectorAll(`.sort__button`);
-    const countFilm = 5;
-    const countFilmStart = 0;
-    const linkAddActive = () => {
-      for (let link of btnSort) {
-        if (link.classList.contains(`sort__button--active`)) {
-          link.classList.remove(`sort__button--active`);
-        }
-      }
-    };
-    for (let item of btnSort) {
-      item.addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-        linkAddActive();
-        item.classList.add(`sort__button--active`);
-        const blockFilmCard = document.querySelectorAll(`.film-card`);
-        for (let film of blockFilmCard) {
-          unrender(film);
-        }
-        if (evt.target.dataset.sort === `default`) {
-          const arrFilmDefault = [];
-          for (let i = 0; i < totalFilm; i++) {
-            arrFilmDefault.push(...arrFilm);
-          }
-          this.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilmDefault);
-        } else if (evt.target.dataset.sort === `rating`) {
-          const arrFilmRating = [...arrFilm].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
-          this.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilmRating);
-        } else if (evt.target.dataset.sort === `date`) {
-          const arrFilmRDate = [...arrFilm].sort((filmFirst, filmSecond) => (parseInt(filmFirst.year, 10) - parseInt(filmSecond.year, 10)));
-          this.renderCard(countFilm, countFilmStart, filmCardContainer, arrFilmRDate);
-        }
-      });
-    }
-  }
+
   static openPopup(popup) {
     render(bodyContainer, popup.getElement(), Position.BEFOREEND);
     bodyContainer.classList.add(`hide-overflow`);
