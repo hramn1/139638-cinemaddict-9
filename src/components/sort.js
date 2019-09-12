@@ -11,8 +11,7 @@ class Sort extends AbstractComponent {
       </ul>`;
   }
   onSortDefault() {}
-  onSortdate() {
-  }
+  onSortdate() {}
   onSortRating() {}
   bind() {
       const element = this._element;

@@ -13,28 +13,7 @@ class MovieController {
     // this._onChangeView = onChangeView;
     this.onCardTogglerClick = this.onCardTogglerClick.bind(this);
   }
-  renderCard(countFilm, countFilmStart, container, arrFilm, totalFilm) {
-    const arrFilmSlice = arrFilm.slice(countFilmStart, countFilm);
-    arrFilmSlice.forEach((item) => render(container, new FilmCard(item).getElement(), Position.BEFOREEND));
-    const blockFilmCard = document.querySelectorAll(`.film-card`);
-    for (let item of blockFilmCard) {
-      item.addEventListener(`click`, this.onCardTogglerClick);
-    }
-    // Вот кнопка показать ещё фильмы работает как то не так и фильтры ломает то есть фильтры работают только на первые 5 фильмов нажимаю кнопку и показывает первый раз ещё 5 фильмов при этом фильтры сбиваются
-    // Если нажать ещё раз то вообще может хоть 20 показать в общем куда её тока не засовывал должным образом она у меня не работает. С остальным вроде понятно только со связывнием данных ещё толком не разбирался.
-    const btnShowFilm = document.querySelector(`.films-list__show-more`);
-    btnShowFilm.addEventListener(`click`, () => {
-      for (let film of blockFilmCard) {
-        unrender(film);
-      }
-      countFilm = countFilm + 5;
-      if (countFilm >= totalFilm) {
-        btnShowFilm.style.display = `none`;
-        countFilm = totalFilm;
-      }
-      this.renderCard(countFilm, countFilmStart, container, arrFilm, totalFilm);
-    });
-  }
+
 
   static openPopup(popup) {
     render(bodyContainer, popup.getElement(), Position.BEFOREEND);
@@ -89,9 +68,6 @@ class MovieController {
   //   }
   // }
   create() {
-    let countFilm = 5;
-    let countFilmStart = 0;
-    this.renderCard(countFilm, countFilmStart, this._container, this._film, this._totalfilm);
   }
 }
 export default MovieController;

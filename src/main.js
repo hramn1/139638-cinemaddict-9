@@ -10,7 +10,8 @@ import {render, Position} from './utils.js';
 import {default as PageController} from './page-controller.js';
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
-const page = new PageController(mainContainer, filmData);
+let count = 5;
+const page = new PageController(mainContainer, filmData, count);
 
 render(headerContainer, new Search().getElement(), Position.BEFOREEND);
 render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
