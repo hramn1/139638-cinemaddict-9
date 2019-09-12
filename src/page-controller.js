@@ -72,6 +72,7 @@ class PageController {
   //   }
   // }
   addCountFilmFooter(){
+    const headerContainer = document.querySelector(`.header`);
     const footerStatistics = document.querySelector(`.footer__statistics`);
     footerStatistics.textContent = `${totalfilm} movies inside`;
     if (Object.keys(this._film).length === 0) {
@@ -80,9 +81,7 @@ class PageController {
     }
   }
   init() {
-    const filmContainer = new FilmContainer()
-    const headerContainer = document.querySelector(`.header`);
-    render(this._container, new Sort().getElement(), Position.BEFOREEND);
+    const filmContainer = new FilmContainer();
     render(this._container, filmContainer.getElement(), Position.BEFOREEND);
     const filmList = filmContainer.getChildren()[0];
     const filmCardContainer = filmList.querySelector(`.films-list__container`);
@@ -91,6 +90,14 @@ class PageController {
     movieController.create();
     this.addExtraFilm(filmContainer);
     this.addCountFilmFooter();
+    const sortFilm = new Sort();
+    sortFilm.onSortRating = () => {
+      console.log('fdf')
+      const arrFilmRating = [...this._film].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
+      unrender(this._film);
+              render(this._container, new FilmCard(arrFilmRating), Position.BEFOREEND);
+    }
+    render(this._container, sortFilm.getElement(), Position.BEFOREEND);
   }
 }
 
