@@ -4,7 +4,7 @@ import {default as FilmContainer} from './components/film-container.js';
 import {default as NoSearch} from './components/no-search-result.js';
 import {default as FilmCard} from './components/film-card.js';
 import {render, unrender, Position} from './utils.js';
-import {totalfilm} from "./data.js";
+import {totalfilm, arrFilm} from "./data.js";
 import {default as Sort} from "./components/sort";
 import {default as MovieController} from "./movie-controller.js";
 
@@ -36,7 +36,6 @@ class PageController {
       }
     });
     const containerExtaFilm = document.querySelectorAll(`.films-list--extra .films-list__container`);
-    console.log(containerExtaFilm[0])
     const topRatingFilm=()=>{
       let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
       arrFilmRating = arrFilmRating.slice(0, 2);
@@ -61,7 +60,9 @@ class PageController {
     }
   }
   renderCard(container) {
+
     const arrFilmSlice = this._film.slice(0, this._count);
+
     arrFilmSlice.forEach((item) => render(container, new FilmCard(item).getElement(), Position.BEFOREEND));
     this.filmToggle();
   }
@@ -99,28 +100,31 @@ class PageController {
     sortFilm.onSortRating = () => {
     linkAddActive();
     document.querySelector(`.sort__button--rating`).classList.add(`sort__button--active`);
-    let arrFilmRating = [...this._film].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
-    arrFilmRating = arrFilmRating.slice(0, this._count);
+    this._film = [...this._film].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
+    //this._film = this._film.slice(0, this._count);
     this.unrenderCard();
-    arrFilmRating.forEach((item) => render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
-    const blockFilmCard = document.querySelectorAll(`.film-card`);
-    this.filmToggle();
+    this.renderCard(filmCardContainer)
+    //arrFilmRating.forEach((item) => render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
+    // const blockFilmCard = document.querySelectorAll(`.film-card`);
+    // this.filmToggle();
 
     }
     sortFilm.onSortDefault = () => {
       linkAddActive();
       document.querySelector(`.sort__button--default`).classList.add(`sort__button--active`);
       this.unrenderCard();
+      this._film = arrFilm;
       this.renderCard(filmCardContainer);
     }
     sortFilm.onSortdate = () => {
     linkAddActive();
     document.querySelector(`.sort__button--date`).classList.add(`sort__button--active`);
-    let arrFilmRDate = [...this._film].sort((filmFirst, filmSecond) => (parseInt(filmFirst.year, 10) - parseInt(filmSecond.year, 10)));
-    arrFilmRDate = arrFilmRDate.slice(0, this._count);
+    this._film = [...this._film].sort((filmFirst, filmSecond) => (parseInt(filmFirst.year, 10) - parseInt(filmSecond.year, 10)));
+    //arrFilmRDate = arrFilmRDate.slice(0, this._count);
     this.unrenderCard();
-    arrFilmRDate.forEach((item) => render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
-    this.filmToggle();
+    this.renderCard(filmCardContainer)
+    //arrFilmRDate.forEach((item) => render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
+    //this.filmToggle();
     }
     render(filmList, sortFilm.getElement(), Position.AFTERBEGIN);
     this.renderCard(filmCardContainer)
