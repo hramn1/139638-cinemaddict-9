@@ -24,22 +24,15 @@ class PageController {
   //   this._renderFilmLists(this._cards, this._generalFilmsList.getElement().querySelector(`.films-list__container`).childElementCount);
   // }
   addExtraFilm(container) {
+    const topRated = new TopRated();
     for (let j = 0; j < 2; j++) {
       render(container.getElement(), new TopRated().getElement(), Position.BEFOREEND);
     }
-    const filmExtraTitle = document.querySelectorAll(`.films-list--extra .films-list__title`);
-    filmExtraTitle.forEach(function (item, i) {
-      if (i === 0) {
-        item.textContent = `Top rated`;
-      } else {
-        item.textContent = `Most comment`;
-      }
-    });
-    const containerExtaFilm = document.querySelectorAll(`.films-list--extra .films-list__container`);
-    const topRatingFilm=()=>{
+    topRated.removetitle()
+    const topRatingFilm = () => {
       let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
       arrFilmRating = arrFilmRating.slice(0, 2);
-      arrFilmRating.forEach((item) => render(containerExtaFilm[0], new FilmCard(item).getElement(), Position.BEFOREEND));
+      arrFilmRating.forEach((item) => render(topRated.takeContainer()[0], new FilmCard(item).getElement(), Position.BEFOREEND));
     }
     topRatingFilm()
   }
@@ -60,9 +53,7 @@ class PageController {
     }
   }
   renderCard(container) {
-
     const arrFilmSlice = this._film.slice(0, this._count);
-
     arrFilmSlice.forEach((item) => render(container, new FilmCard(item).getElement(), Position.BEFOREEND));
     this.filmToggle();
   }
@@ -76,16 +67,17 @@ class PageController {
     const filmList = filmContainer.getChildren()[0];
     const filmCardContainer = filmList.querySelector(`.films-list__container`);
     const moreButton = new Button();
+
     moreButton.onButtonClick = () => {
-      const btnShowMore = document.querySelector(`.films-list__show-more`);
          this._count += 5;
          this.unrenderCard();
          this.renderCard(filmCardContainer);
          if(this._count >= totalfilm) {
-           unrender(btnShowMore);
+           unrender(moreButton.getElement());
          }
        }
     render(filmList, moreButton.getElement(), Position.BEFOREEND);
+
     this.addExtraFilm(filmContainer);
     this.addCountFilmFooter();
     const linkAddActive = () => {

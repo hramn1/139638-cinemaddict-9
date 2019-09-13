@@ -10,5 +10,18 @@ class TopRated extends AbstractComponent {
           </div>
         </section>`;
   }
+  removetitle() {
+    const filmExtraTitle = document.querySelectorAll(`.films-list--extra .films-list__title`);
+    filmExtraTitle.forEach(function (item, i) {
+      if (i === 0) {
+        item.textContent = `Top rated`;
+      } else {
+        item.textContent = `Most comment`;
+      }
+    });
+  }
+  takeContainer(){
+    return document.querySelectorAll(`.films-list--extra .films-list__container`);
+  }
 }
 export default TopRated;

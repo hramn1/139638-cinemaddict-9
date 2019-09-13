@@ -7,7 +7,7 @@ class Button extends AbstractComponent {
     return `<button class="films-list__show-more">Show more</button>`;
   }
   bind () {
-    this._element.addEventListener(`click`, this. onButtonClick)
+    this._element.addEventListener(`click`, this.onButtonClick)
   }
   onButtonClick() {
 
