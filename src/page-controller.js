@@ -13,16 +13,16 @@ class PageController {
     this._container = container;
     this._film = film;
     //this._onChangeView = this._onChangeView.bind(this);
-    //this._onDataChange = this._onDataChange.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
     this._count = count
   }
   // _onChangeView() {
   //   this._subscriptions.forEach((subscription) => subscription());
   // }
-  // _onDataChange(newData, oldData) {
-  //   this._cards[this._cards.findIndex((card) => card === oldData)] = newData;
-  //   this._renderFilmLists(this._cards, this._generalFilmsList.getElement().querySelector(`.films-list__container`).childElementCount);
-  // }
+  _onDataChange(newData, oldData) {
+    this._cards[this._cards.findIndex((card) => card === oldData)] = newData;
+    this._renderFilmLists(this._cards, this._generalFilmsList.getElement().querySelector(`.films-list__container`).childElementCount);
+  }
   addExtraFilm(container) {
     const topRated = new TopRated();
     for (let j = 0; j < 2; j++) {
@@ -37,7 +37,7 @@ class PageController {
     topRatingFilm()
   }
   filmToggle(){
-    const movieController = new MovieController(this._container, this._film, totalfilm);
+    const movieController = new MovieController(this._container, this._film, totalfilm, this._onDataChange);
     const blockFilmCard = document.querySelectorAll(`.film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс
     for (let item of blockFilmCard) {
       item.addEventListener(`click`, movieController.onCardTogglerClick);
@@ -52,7 +52,7 @@ class PageController {
       render(headerContainer, new NoSearch().getElement(), Position.AFTER);
     }
   }
-  renderCard(container) {
+  renderCard(container ) {
     const arrFilmSlice = this._film.slice(0, this._count);
     arrFilmSlice.forEach((item) => render(container, new FilmCard(item).getElement(), Position.BEFOREEND));
     this.filmToggle();
@@ -65,7 +65,7 @@ class PageController {
     const filmContainer = new FilmContainer();
     render(this._container, filmContainer.getElement(), Position.BEFOREEND);
     const filmList = filmContainer.getChildren()[0];
-    const filmCardContainer = filmList.querySelector(`.films-list__container`); // нет компонента 
+    const filmCardContainer = filmList.querySelector(`.films-list__container`); // нет компонента
     const moreButton = new Button();
 
     moreButton.onButtonClick = () => {

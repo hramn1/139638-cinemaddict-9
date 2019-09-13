@@ -5,14 +5,15 @@ const bodyContainer = document.querySelector(`body`);
 
 
 class MovieController {
-  constructor(container, films, totalFilm) {
+  constructor(container, films, totalFilm, onDataChange) {
     this._container = container;
     this._film = films;
     this._totalfilm = totalFilm;
-    // this._onDataChange = onDataChange;
+    this._onDataChange = onDataChange;
     // this._onChangeView = onChangeView;
     this.onCardTogglerClick = this.onCardTogglerClick.bind(this);
   }
+  
 
 
   static openPopup(popup) {
