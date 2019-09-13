@@ -38,14 +38,14 @@ class PageController {
   }
   filmToggle(){
     const movieController = new MovieController(this._container, this._film, totalfilm);
-    const blockFilmCard = document.querySelectorAll(`.film-card`);
+    const blockFilmCard = document.querySelectorAll(`.film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс
     for (let item of blockFilmCard) {
       item.addEventListener(`click`, movieController.onCardTogglerClick);
     }
   }
   addCountFilmFooter(){
-    const headerContainer = document.querySelector(`.header`);
-    const footerStatistics = document.querySelector(`.footer__statistics`);
+    const headerContainer = document.querySelector(`.header`); // нет компонента футера куда бы можно было запихнуть
+    const footerStatistics = document.querySelector(`.footer__statistics`); // нет компонента футера куда бы можно было запихнуть
     footerStatistics.textContent = `${totalfilm} movies inside`;
     if (Object.keys(this._film).length === 0) {
       unrender(this._container);
@@ -58,14 +58,14 @@ class PageController {
     this.filmToggle();
   }
   unrenderCard(){
-    const filmCard = document.querySelectorAll('.films-list__container .film-card');
+    const filmCard = document.querySelectorAll('.films-list__container .film-card'); // Попытался убрать но там такая логика получается что хуже сем сейчс
     filmCard.forEach((item) => unrender(item));
   }
   init() {
     const filmContainer = new FilmContainer();
     render(this._container, filmContainer.getElement(), Position.BEFOREEND);
     const filmList = filmContainer.getChildren()[0];
-    const filmCardContainer = filmList.querySelector(`.films-list__container`);
+    const filmCardContainer = filmList.querySelector(`.films-list__container`); // нет компонента 
     const moreButton = new Button();
 
     moreButton.onButtonClick = () => {
@@ -80,44 +80,30 @@ class PageController {
 
     this.addExtraFilm(filmContainer);
     this.addCountFilmFooter();
-    const linkAddActive = () => {
-      const btnSort = document.querySelectorAll(`.sort__button`);
-      for (let link of btnSort) {
-        if (link.classList.contains(`sort__button--active`)) {
-          link.classList.remove(`sort__button--active`);
-        }
-      }
-    };
+
     const sortFilm = new Sort();
+
     sortFilm.onSortRating = () => {
-    linkAddActive();
-    document.querySelector(`.sort__button--rating`).classList.add(`sort__button--active`);
+    sortFilm.addClassActiv();
     this._film = [...this._film].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
-    //this._film = this._film.slice(0, this._count);
     this.unrenderCard();
     this.renderCard(filmCardContainer)
-    //arrFilmRating.forEach((item) => render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
-    // const blockFilmCard = document.querySelectorAll(`.film-card`);
-    // this.filmToggle();
-
     }
+
     sortFilm.onSortDefault = () => {
-      linkAddActive();
-      document.querySelector(`.sort__button--default`).classList.add(`sort__button--active`);
+      sortFilm.addClassActiv();
       this.unrenderCard();
       this._film = arrFilm;
       this.renderCard(filmCardContainer);
     }
+
     sortFilm.onSortdate = () => {
-    linkAddActive();
-    document.querySelector(`.sort__button--date`).classList.add(`sort__button--active`);
+    sortFilm.addClassActiv();
     this._film = [...this._film].sort((filmFirst, filmSecond) => (parseInt(filmFirst.year, 10) - parseInt(filmSecond.year, 10)));
-    //arrFilmRDate = arrFilmRDate.slice(0, this._count);
     this.unrenderCard();
     this.renderCard(filmCardContainer)
-    //arrFilmRDate.forEach((item) => render(filmCardContainer, new FilmCard(item).getElement(), Position.BEFOREEND));
-    //this.filmToggle();
     }
+
     render(filmList, sortFilm.getElement(), Position.AFTERBEGIN);
     this.renderCard(filmCardContainer)
     }
