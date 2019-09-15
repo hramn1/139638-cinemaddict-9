@@ -20,7 +20,7 @@ class TopRated extends AbstractComponent {
       }
     });
   }
-  takeContainer(){
+  takeContainer() {
     return document.querySelectorAll(`.films-list--extra .films-list__container`);
   }
 }

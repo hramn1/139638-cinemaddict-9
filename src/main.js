@@ -15,5 +15,9 @@ const page = new PageController(mainContainer, filmData, count);
 
 render(headerContainer, new Search().getElement(), Position.BEFOREEND);
 render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
-render(mainContainer, new Menu(historyCount, watchlistCount, favorites).getElement(), Position.BEFOREEND);
+const menu = new Menu(historyCount, watchlistCount, favorites);
+menu.showStat=() => {
+  alert(`glf`)
+}
+render(mainContainer, menu.getElement(), Position.BEFOREEND);
 page.init();

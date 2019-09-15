@@ -7,43 +7,53 @@ import {render, unrender, Position} from './utils.js';
 import {totalfilm, arrFilm} from "./data.js";
 import {default as Sort} from "./components/sort";
 import {default as MovieController} from "./movie-controller.js";
-
 class PageController {
   constructor(container, film, count) {
     this._container = container;
     this._film = film;
     //this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
-    this._count = count
+    this._count = count;
+    this._subscriptions = [];
   }
   // _onChangeView() {
   //   this._subscriptions.forEach((subscription) => subscription());
   // }
   _onDataChange(newData, oldData) {
-    this._cards[this._cards.findIndex((card) => card === oldData)] = newData;
-    this._renderFilmLists(this._cards, this._generalFilmsList.getElement().querySelector(`.films-list__container`).childElementCount);
+    const currentIndexOfFilmCard = this._film.findIndex((it) => it === oldData);
+    const keysOfNewData = Object.keys(newData);
+
+    keysOfNewData.forEach((key) => { // Ищем нужные свойства объекта карточка филма и меняем их
+      this._film[currentIndexOfFilmCard][key] = newData[key];
+    });
+
+    this.renderCard(this._container);
   }
   addExtraFilm(container) {
+
     const topRated = new TopRated();
     for (let j = 0; j < 2; j++) {
       render(container.getElement(), new TopRated().getElement(), Position.BEFOREEND);
     }
-    topRated.removetitle()
+    topRated.removetitle();
     const topRatingFilm = () => {
       let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
       arrFilmRating = arrFilmRating.slice(0, 2);
-      arrFilmRating.forEach((item) => render(topRated.takeContainer()[0], new FilmCard(item).getElement(), Position.BEFOREEND));
-    }
-    topRatingFilm()
+      arrFilmRating.forEach(function(item) {
+        render(topRated.takeContainer()[0], new FilmCard(item).getElement(), Position.BEFOREEND)
+    });
+    };
+
+    topRatingFilm();
   }
-  filmToggle(){
+  filmToggle() {
     const movieController = new MovieController(this._container, this._film, totalfilm, this._onDataChange);
     const blockFilmCard = document.querySelectorAll(`.film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс
     for (let item of blockFilmCard) {
       item.addEventListener(`click`, movieController.onCardTogglerClick);
     }
   }
-  addCountFilmFooter(){
+  addCountFilmFooter() {
     const headerContainer = document.querySelector(`.header`); // нет компонента футера куда бы можно было запихнуть
     const footerStatistics = document.querySelector(`.footer__statistics`); // нет компонента футера куда бы можно было запихнуть
     footerStatistics.textContent = `${totalfilm} movies inside`;
@@ -52,13 +62,13 @@ class PageController {
       render(headerContainer, new NoSearch().getElement(), Position.AFTER);
     }
   }
-  renderCard(container ) {
+  renderCard(container) {
     const arrFilmSlice = this._film.slice(0, this._count);
-    arrFilmSlice.forEach((item) => render(container, new FilmCard(item).getElement(), Position.BEFOREEND));
+    arrFilmSlice.forEach((item) => render(container, new FilmCard(item).getElement(), Position.BEFOREEND))
     this.filmToggle();
   }
-  unrenderCard(){
-    const filmCard = document.querySelectorAll('.films-list__container .film-card'); // Попытался убрать но там такая логика получается что хуже сем сейчс
+  unrenderCard() {
+    const filmCard = document.querySelectorAll(`.films-list .films-list__container .film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс
     filmCard.forEach((item) => unrender(item));
   }
   init() {
@@ -69,13 +79,13 @@ class PageController {
     const moreButton = new Button();
 
     moreButton.onButtonClick = () => {
-         this._count += 5;
-         this.unrenderCard();
-         this.renderCard(filmCardContainer);
-         if(this._count >= totalfilm) {
-           unrender(moreButton.getElement());
-         }
-       }
+      this._count += 5;
+      this.unrenderCard();
+      this.renderCard(filmCardContainer);
+      if (this._count >= totalfilm) {
+        unrender(moreButton.getElement());
+      }
+    };
     render(filmList, moreButton.getElement(), Position.BEFOREEND);
 
     this.addExtraFilm(filmContainer);
@@ -84,29 +94,30 @@ class PageController {
     const sortFilm = new Sort();
 
     sortFilm.onSortRating = () => {
-    sortFilm.addClassActiv();
-    this._film = [...this._film].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
-    this.unrenderCard();
-    this.renderCard(filmCardContainer)
-    }
+      sortFilm.addClassActiv();
+      this._film = [...this._film].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
+      this.unrenderCard();
+      this.renderCard(filmCardContainer);
+    };
 
     sortFilm.onSortDefault = () => {
       sortFilm.addClassActiv();
       this.unrenderCard();
       this._film = arrFilm;
       this.renderCard(filmCardContainer);
-    }
+    };
 
     sortFilm.onSortdate = () => {
-    sortFilm.addClassActiv();
-    this._film = [...this._film].sort((filmFirst, filmSecond) => (parseInt(filmFirst.year, 10) - parseInt(filmSecond.year, 10)));
-    this.unrenderCard();
-    this.renderCard(filmCardContainer)
-    }
+      sortFilm.addClassActiv();
+      this._film = [...this._film].sort((filmFirst, filmSecond) => (parseInt(filmFirst.year, 10) - parseInt(filmSecond.year, 10)));
+      this.unrenderCard();
+      this.renderCard(filmCardContainer);
+    };
 
     render(filmList, sortFilm.getElement(), Position.AFTERBEGIN);
-    this.renderCard(filmCardContainer)
-    }
+    this.renderCard(filmCardContainer);
   }
+
+}
 
 export default PageController;

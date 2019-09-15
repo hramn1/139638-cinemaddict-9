@@ -35,6 +35,25 @@ class FilmCard extends AbstractComponent {
     </form>
   </article>`;
   }
+  onAddToWatchlistClick() {}
+
+  onMarkAsWatchedClick() {}
+
+  onFavoriteClick() {}
+
+  bind() {
+    this._element.querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, (evt) => {
+      this.onAddToWatchlistClick(evt);
+    });
+    this._element.querySelector(`.film-card__controls-item--mark-as-watched `).addEventListener(`click`, (evt) => {
+      this.onMarkAsWatchedClick(evt);
+    });
+    this._element.querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, (evt) => {
+      this.onFavoriteClick(evt);
+  });
+  }
+
+
 }
 
 export default FilmCard;

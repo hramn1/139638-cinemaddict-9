@@ -19,5 +19,10 @@ class Menu extends AbstractComponent {
         <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
       </nav>`;
   }
+  bind() {
+    const element = this._element;
+    element.querySelector(`.main-navigation__item--additional`).addEventListener(`click`, this.showStat);
+  }
+  showStat(){}
 }
 export default Menu;
