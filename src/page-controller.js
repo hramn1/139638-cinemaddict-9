@@ -11,26 +11,23 @@ class PageController {
   constructor(container, film, count) {
     this._container = container;
     this._film = film;
-    //this._onChangeView = this._onChangeView.bind(this);
+    this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
     this._count = count;
     this._subscriptions = [];
   }
-  // _onChangeView() {
-  //   this._subscriptions.forEach((subscription) => subscription());
-  // }
+  _onChangeView() {
+    this._subscriptions.forEach((subscription) => subscription());
+  }
   _onDataChange(newData, oldData) {
     const currentIndexOfFilmCard = this._film.findIndex((it) => it === oldData);
     const keysOfNewData = Object.keys(newData);
-
     keysOfNewData.forEach((key) => { // Ищем нужные свойства объекта карточка филма и меняем их
       this._film[currentIndexOfFilmCard][key] = newData[key];
-    });
 
-    this.renderCard(this._container);
+    });
   }
   addExtraFilm(container) {
-
     const topRated = new TopRated();
     for (let j = 0; j < 2; j++) {
       render(container.getElement(), new TopRated().getElement(), Position.BEFOREEND);
@@ -39,15 +36,21 @@ class PageController {
     const topRatingFilm = () => {
       let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
       arrFilmRating = arrFilmRating.slice(0, 2);
-      arrFilmRating.forEach(function(item) {
-        render(topRated.takeContainer()[0], new FilmCard(item).getElement(), Position.BEFOREEND)
-    });
+      arrFilmRating.forEach(function (item) {
+        render(topRated.takeContainer()[0], new FilmCard(item).getElement(), Position.BEFOREEND);
+      });
     };
-
+    const topCommentFilm = () => {
+      let arrFilmComment = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.comments) - parseFloat(filmSecond.comments)));
+      arrFilmComment = arrFilmComment.slice(0, 2);
+      arrFilmComment.forEach(function (item) {
+        render(topRated.takeContainer()[1], new FilmCard(item).getElement(), Position.BEFOREEND);
+      });
+    };
+    topCommentFilm();
     topRatingFilm();
   }
-  filmToggle() {
-    const movieController = new MovieController(this._container, this._film, totalfilm, this._onDataChange);
+  filmToggle(movieController) {
     const blockFilmCard = document.querySelectorAll(`.film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс
     for (let item of blockFilmCard) {
       item.addEventListener(`click`, movieController.onCardTogglerClick);
@@ -62,10 +65,9 @@ class PageController {
       render(headerContainer, new NoSearch().getElement(), Position.AFTER);
     }
   }
-  renderCard(container) {
-    const arrFilmSlice = this._film.slice(0, this._count);
-    arrFilmSlice.forEach((item) => render(container, new FilmCard(item).getElement(), Position.BEFOREEND))
-    this.filmToggle();
+  renderCard(containerCard) {
+    const movieController = new MovieController(this._container, this._film, totalfilm, containerCard, this._count, this._onDataChange);
+    this.filmToggle(movieController);
   }
   unrenderCard() {
     const filmCard = document.querySelectorAll(`.films-list .films-list__container .film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс

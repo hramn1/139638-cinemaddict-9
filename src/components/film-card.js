@@ -53,7 +53,6 @@ class FilmCard extends AbstractComponent {
   });
   }
 
-
 }
 
 export default FilmCard;

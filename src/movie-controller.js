@@ -5,15 +5,18 @@ const bodyContainer = document.querySelector(`body`);
 
 
 class MovieController {
-  constructor(container, films, totalFilm, onDataChange) {
+  constructor(container, films, totalFilm, containerCard, count, onDataChange) {
     this._container = container;
     this._film = films;
+    this._count = count;
     this._totalfilm = totalFilm;
+    this._containerCard = containerCard;
     this._filmCard = new FilmCard(this._film);
-    this._popup = new Popup(this._film );
+    this._popup = new Popup(this._film);
     this._onDataChange = onDataChange;
     // this._onChangeView = onChangeView;
     this.onCardTogglerClick = this.onCardTogglerClick.bind(this);
+    this.init();
   }
 
   static openPopup(popup) {
@@ -69,7 +72,8 @@ class MovieController {
       popup.removeElement();
     }
   }
-     getNewMokData  (nameOfList)  {
+  init() {
+    const getNewMokData = (nameOfList) => {
       const switchTrueFalse = (bool) => {
         return bool ? false : true;
       };
@@ -77,7 +81,7 @@ class MovieController {
       const userRatio = formData.getAll(`score`);
       const entry = {
         favorites: Boolean(formData.get(`favorite`)),
-        watchlist: Boolean(formData.get(`watchlist`)),
+        isWatchlist: Boolean(formData.get(`isWatchlist`)),
         watched: Boolean(formData.get(`watched`)),
         userRatio: `Your rate ${userRatio}`,
       };
@@ -89,24 +93,24 @@ class MovieController {
         case `watchlist`:
           entry.watchlist = switchTrueFalse(entry.watchlist);
           break;
-        case `watched`:
+        case `isWatchlist`:
           entry.watched = switchTrueFalse(entry.watched);
           break;
       }
-      this._onDataChange(entry, this._film);
-      this._filmCard.onAddToWatchlistClick = (evt) => {
-        evt.preventDefault();
-        console.log('gfg')
-        getNewMokData(`watchlist`);
-      };
-      this._filmCard.onMarkAsWatchedClick = (evt) => {
-        evt.preventDefault();
-        getNewMokData(`watched`);
-      };
-      this._filmCard.onFavoriteClick = (evt) => {
-        evt.preventDefault();
-        getNewMokData(`favorites`);
-      };
+      this._onDataChange(entry, ...this._film);
     };
+    getNewMokData(`isWatchlist`);
+
+    this._filmCard.onMarkAsWatchedClick = (evt) => {
+      evt.preventDefault();
+      getNewMokData(`watched`);
+    };
+    this._filmCard.onFavoriteClick = (evt) => {
+      evt.preventDefault();
+      getNewMokData(`favorites`);
+    };
+    const arrFilmSlice = this._film.slice(0, this._count);
+    arrFilmSlice.forEach((item) => render(this._containerCard, new FilmCard(item).getElement(), Position.BEFOREEND));
+  }
 }
 export default MovieController;
