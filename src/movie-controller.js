@@ -99,7 +99,7 @@ class MovieController {
       }
       this._onDataChange(entry, ...this._film);
     };
-    getNewMokData(`isWatchlist`);
+    //getNewMokData(`isWatchlist`);
 
     this._filmCard.onMarkAsWatchedClick = (evt) => {
       evt.preventDefault();

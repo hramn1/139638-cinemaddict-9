@@ -84,6 +84,8 @@ class PageController {
     menu.showStat = () => {
       menu.addClassActiv();
       filmContainer.getElement().classList.add(`visually-hidden`);
+      this._stat.getElement().classList.remove(`visually-hidden`);
+
     };
     menu.showAll = () => {
       menu.addClassActiv();
@@ -95,6 +97,17 @@ class PageController {
       this._film = arrFilm;
       this.renderCard(filmCardContainer);
     }
+    menu.showHistory = () => {
+      menu.addClassActiv();
+      if(filmContainer.getElement().classList.contains(`visually-hidden`)){
+        filmContainer.getElement().classList.remove(`visually-hidden`);
+      }
+      this._stat.getElement().classList.add(`visually-hidden`);
+      this.unrenderCard();
+      this._film = arrFilm.filter(function (it) {
+        return it.isViewed === true})
+      this.renderCard(filmCardContainer);
+    }
     menu.showWatchlist = () => {
       menu.addClassActiv();
       if(filmContainer.getElement().classList.contains(`visually-hidden`)){
@@ -102,19 +115,8 @@ class PageController {
     }
     this._stat.getElement().classList.add(`visually-hidden`);
     this.unrenderCard();
-    this._film = this._film.filter(function (it) {
+    this._film = arrFilm.filter(function (it) {
       return it.isWatchlist === true})
-      this.renderCard(filmCardContainer);
-    }
-    menu.showHistory = () => {
-      menu.addClassActiv();
-      if(filmContainer.getElement().classList.contains(`visually-hidden`)){
-      filmContainer.getElement().classList.remove(`visually-hidden`);
-    }
-    this._stat.getElement().classList.add(`visually-hidden`);
-    this.unrenderCard();
-    this._film = this._film.filter(function (it) {
-      return it.isViewed === true})
       this.renderCard(filmCardContainer);
     }
     menu.showFavorites = () => {
@@ -124,7 +126,7 @@ class PageController {
     }
     this._stat.getElement().classList.add(`visually-hidden`);
     this.unrenderCard();
-    this._film = this._film.filter(function (it) {
+    this._film = arrFilm.filter(function (it) {
       return it.isFavorites === true})
       this.renderCard(filmCardContainer);
     }
