@@ -3,14 +3,20 @@ import {default as TopRated} from './components/top-rated.js';
 import {default as FilmContainer} from './components/film-container.js';
 import {default as NoSearch} from './components/no-search-result.js';
 import {default as FilmCard} from './components/film-card.js';
+import {default as Menu} from './components/menu.js';
+import {historyCount} from './data.js';
+import {watchlistCount} from './data.js';
+import {favorites} from './data.js';
 import {render, unrender, Position} from './utils.js';
 import {totalfilm, arrFilm} from "./data.js";
 import {default as Sort} from "./components/sort";
 import {default as MovieController} from "./movie-controller.js";
+const mainContainer = document.querySelector(`.main`);
 class PageController {
-  constructor(container, film, count) {
+  constructor(container, film, count, stat) {
     this._container = container;
     this._film = film;
+    this._stat = stat
     this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
     this._count = count;
@@ -74,6 +80,55 @@ class PageController {
     filmCard.forEach((item) => unrender(item));
   }
   init() {
+    const menu = new Menu(historyCount, watchlistCount, favorites);
+    menu.showStat = () => {
+      menu.addClassActiv();
+      filmContainer.getElement().classList.add(`visually-hidden`);
+    };
+    menu.showAll = () => {
+      menu.addClassActiv();
+      if(filmContainer.getElement().classList.contains(`visually-hidden`)){
+      filmContainer.getElement().classList.remove(`visually-hidden`);
+    }
+      this._stat.getElement().classList.add(`visually-hidden`);
+      this.unrenderCard();
+      this._film = arrFilm;
+      this.renderCard(filmCardContainer);
+    }
+    menu.showWatchlist = () => {
+      menu.addClassActiv();
+      if(filmContainer.getElement().classList.contains(`visually-hidden`)){
+      filmContainer.getElement().classList.remove(`visually-hidden`);
+    }
+    this._stat.getElement().classList.add(`visually-hidden`);
+    this.unrenderCard();
+    this._film = this._film.filter(function (it) {
+      return it.isWatchlist === true})
+      this.renderCard(filmCardContainer);
+    }
+    menu.showHistory = () => {
+      menu.addClassActiv();
+      if(filmContainer.getElement().classList.contains(`visually-hidden`)){
+      filmContainer.getElement().classList.remove(`visually-hidden`);
+    }
+    this._stat.getElement().classList.add(`visually-hidden`);
+    this.unrenderCard();
+    this._film = this._film.filter(function (it) {
+      return it.isViewed === true})
+      this.renderCard(filmCardContainer);
+    }
+    menu.showFavorites = () => {
+      menu.addClassActiv();
+      if(filmContainer.getElement().classList.contains(`visually-hidden`)){
+      filmContainer.getElement().classList.remove(`visually-hidden`);
+    }
+    this._stat.getElement().classList.add(`visually-hidden`);
+    this.unrenderCard();
+    this._film = this._film.filter(function (it) {
+      return it.isFavorites === true})
+      this.renderCard(filmCardContainer);
+    }
+    render(mainContainer, menu.getElement(), Position.BEFOREEND);
     const filmContainer = new FilmContainer();
     render(this._container, filmContainer.getElement(), Position.BEFOREEND);
     const filmList = filmContainer.getChildren()[0];
