@@ -18,9 +18,9 @@ render(headerContainer, new Search().getElement(), Position.BEFOREEND);
 render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
 const menu = new Menu(historyCount, watchlistCount, favorites);
 menu.showStat = () => {
+  menu.addClassActiv();
 };
 render(mainContainer, menu.getElement(), Position.BEFOREEND);
 
 page.init();
 render(mainContainer, stat.getElement(), Position.BEFOREEND);
-
