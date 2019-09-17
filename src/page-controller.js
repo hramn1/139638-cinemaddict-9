@@ -42,25 +42,23 @@ class PageController {
     const topRatingFilm = () => {
       let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
       arrFilmRating = arrFilmRating.slice(0, 2);
-      arrFilmRating.forEach(function (item) {
-        render(topRated.takeContainer()[0], new FilmCard(item).getElement(), Position.BEFOREEND);
-      });
+      this.renderCard(topRated.takeContainer()[0], arrFilmRating);
+
+      // arrFilmRating.forEach(function (item) {
+      //   render(topRated.takeContainer()[0], new FilmCard(item).getElement(), Position.BEFOREEND);
+      // });
     };
     const topCommentFilm = () => {
       let arrFilmComment = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.comments) - parseFloat(filmSecond.comments)));
       arrFilmComment = arrFilmComment.slice(0, 2);
-      arrFilmComment.forEach(function (item) {
-        render(topRated.takeContainer()[1], new FilmCard(item).getElement(), Position.BEFOREEND);
-      });
+      this.renderCard(topRated.takeContainer()[1], arrFilmComment);
+
+      // arrFilmComment.forEach(function (item) {
+      //   render(topRated.takeContainer()[1], new FilmCard(item).getElement(), Position.BEFOREEND);
+      // });
     };
     topCommentFilm();
     topRatingFilm();
-  }
-  filmToggle(movieController) {
-    const blockFilmCard = document.querySelectorAll(`.film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс
-    for (let item of blockFilmCard) {
-      item.addEventListener(`click`, movieController.onCardTogglerClick);
-    }
   }
   addCountFilmFooter() {
     const headerContainer = document.querySelector(`.header`); // нет компонента футера куда бы можно было запихнуть
@@ -71,15 +69,16 @@ class PageController {
       render(headerContainer, new NoSearch().getElement(), Position.AFTER);
     }
   }
-  renderCard(containerCard) {
-    const movieController = new MovieController(this._container, this._film, totalfilm, containerCard, this._count, this._onDataChange);
-    this.filmToggle(movieController);
+  renderCard(containerCard, films) {
+    const movieController = new MovieController(this._container, films, totalfilm, containerCard, this._count, this._onDataChange);
+    movieController.filmToggle();
   }
   unrenderCard() {
     const filmCard = document.querySelectorAll(`.films-list .films-list__container .film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс
     filmCard.forEach((item) => unrender(item));
   }
   init() {
+    // меню
     const menu = new Menu(historyCount, watchlistCount, favorites);
     menu.showStat = () => {
       menu.addClassActiv();
@@ -130,11 +129,13 @@ class PageController {
       return it.isFavorites === true})
       this.renderCard(filmCardContainer);
     }
+
     render(mainContainer, menu.getElement(), Position.BEFOREEND);
     const filmContainer = new FilmContainer();
     render(this._container, filmContainer.getElement(), Position.BEFOREEND);
     const filmList = filmContainer.getChildren()[0];
     const filmCardContainer = filmList.querySelector(`.films-list__container`); // нет компонента
+    // кнопка шоу мор
     const moreButton = new Button();
 
     moreButton.onButtonClick = () => {
@@ -147,34 +148,32 @@ class PageController {
     };
     render(filmList, moreButton.getElement(), Position.BEFOREEND);
 
-    this.addExtraFilm(filmContainer);
     this.addCountFilmFooter();
 
+    // Сортировка
     const sortFilm = new Sort();
 
     sortFilm.onSortRating = () => {
-      sortFilm.addClassActiv();
       this._film = [...this._film].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
       this.unrenderCard();
       this.renderCard(filmCardContainer);
     };
 
     sortFilm.onSortDefault = () => {
-      sortFilm.addClassActiv();
       this.unrenderCard();
       this._film = arrFilm;
       this.renderCard(filmCardContainer);
     };
 
     sortFilm.onSortdate = () => {
-      sortFilm.addClassActiv();
       this._film = [...this._film].sort((filmFirst, filmSecond) => (parseInt(filmFirst.year, 10) - parseInt(filmSecond.year, 10)));
       this.unrenderCard();
       this.renderCard(filmCardContainer);
     };
 
     render(filmList, sortFilm.getElement(), Position.AFTERBEGIN);
-    this.renderCard(filmCardContainer);
+    this.renderCard(filmCardContainer, this._film);
+    this.addExtraFilm(filmContainer);
   }
 
 }

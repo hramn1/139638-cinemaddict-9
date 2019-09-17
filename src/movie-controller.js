@@ -50,6 +50,12 @@ class MovieController {
     popup.removeElement();
     bodyContainer.classList.remove(`hide-overflow`);
   }
+  filmToggle() {
+    const blockFilmCard = document.querySelectorAll(`.film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс
+    for (let item of blockFilmCard) {
+      item.addEventListener(`click`, this.onCardTogglerClick);
+    }
+  }
   onCardTogglerClick(evt) {
     evt.preventDefault();
     const popups = [];
