@@ -5,21 +5,21 @@ const bodyContainer = document.querySelector(`body`);
 
 
 class MovieController {
-  constructor(container, films, totalFilm, containerCard, count, onDataChange) {
+  constructor(container, films, totalFilm, containerCard, count, onDataChange, onChangeView) {
     this._container = container;
     this._film = films;
     this._count = count;
     this._totalfilm = totalFilm;
     this._containerCard = containerCard;
-    this._filmCard = new FilmCard(this._film);
-    this._popup = new Popup(this._film);
+    //this._filmCard = new FilmCard(this._film);
+    //this._popup = new Popup(this._film);
     this._onDataChange = onDataChange;
-    // this._onChangeView = onChangeView;
-    this.onCardTogglerClick = this.onCardTogglerClick.bind(this);
-    this.init();
+    this._onChangeView = onChangeView;
+    //this.onCardTogglerClick = this.onCardTogglerClick.bind(this);
   }
 
-  static openPopup(popup) {
+  openPopup(popup) {
+    this._onChangeView();
     render(bodyContainer, popup.getElement(), Position.BEFOREEND);
     bodyContainer.classList.add(`hide-overflow`);
     const onCloseBtnClick = (evtClose) => {
@@ -50,28 +50,7 @@ class MovieController {
     popup.removeElement();
     bodyContainer.classList.remove(`hide-overflow`);
   }
-  filmToggle() {
-    const blockFilmCard = document.querySelectorAll(`.film-card`); // Попытался убрать но там такая логика получается что хуже сем сейчс
-    for (let item of blockFilmCard) {
-      item.addEventListener(`click`, this.onCardTogglerClick);
-    }
-  }
-  onCardTogglerClick(evt) {
-    evt.preventDefault();
-    const popups = [];
-    let popup = {};
-    popups.push(...this._film);
-    for (let i = 0; i < popups.length; i++) {
-      if (evt.currentTarget.dataset.id === String(popups[i].id)) {
-        popup = new Popup(this._film[i]);
-      }
-    }
-    this.setDefaultView(popup);
-    const togglers = [`film-card__poster`, `film-card__title`, `film-card__comments`];
-    if (togglers.some((cls) => evt.target.classList.contains(cls))) {
-      MovieController.openPopup(popup);
-    }
-  }
+
   setDefaultView(popup) {
     if (document.body.contains(popup.getElement())) {
       unrender(popup.getElement());
@@ -79,19 +58,55 @@ class MovieController {
     }
   }
   init() {
-    const getNewMokData = (nameOfList) => {
+
+    const arrFilmSlice = this._film.slice(0, this._count);
+    let film = {};
+    let popup = {};
+    const filmToggle = (evt, popup) => {
+      this.setDefaultView(popup);
+      const togglers = [`film-card__poster`, `film-card__title`, `film-card__comments`];
+      if (togglers.some((cls) => evt.target.classList.contains(cls))) {
+        this.openPopup(popup);
+      }
+    }
+    for (let i = 0; i < arrFilmSlice.length; i++) {
+      film = new FilmCard(this._film[i]);
+      film.onMarkAsWatchedClick = (evt) => {
+        evt.preventDefault();
+        popup = new Popup(this._film[i]);
+        getNewMokData(`watched`, popup);
+      };
+      film.onFavoriteClick = (evt) => {
+        evt.preventDefault();
+        popup = new Popup(this._film[i]);
+        getNewMokData(`favorites`, popup);
+      };
+      film.onAddToWatchlistClick = (evt) => {
+        evt.preventDefault();
+        popup = new Popup(this._film[i]);
+        getNewMokData(`watchlist`, popup);
+      };
+      film.onToggleFilm = (evt) =>{
+          popup = new Popup(this._film[i]);
+          filmToggle(evt, popup)
+      }
+
+
+
+      render(this._containerCard, film.getElement(), Position.BEFOREEND);
+    }
+    const getNewMokData = (nameOfList, popup) => {
+      const formData = new FormData(popup.getElement().querySelector(`.film-details__inner`));
       const switchTrueFalse = (bool) => {
         return bool ? false : true;
       };
-      const formData = new FormData(this._popup.getElement().querySelector(`.film-details__inner`));
       const userRatio = formData.getAll(`score`);
       const entry = {
         favorites: Boolean(formData.get(`favorite`)),
-        isWatchlist: Boolean(formData.get(`isWatchlist`)),
+        watchlist: Boolean(formData.get(`watchlist`)),
         watched: Boolean(formData.get(`watched`)),
         userRatio: `Your rate ${userRatio}`,
       };
-
       switch (nameOfList) {
         case `favorites`:
           entry.favorites = switchTrueFalse(entry.favorites);
@@ -99,24 +114,15 @@ class MovieController {
         case `watchlist`:
           entry.watchlist = switchTrueFalse(entry.watchlist);
           break;
-        case `isWatchlist`:
+        case `watched`:
           entry.watched = switchTrueFalse(entry.watched);
           break;
       }
-      this._onDataChange(entry, ...this._film);
+      for (let i = 0; i < this._film.length; i++) {
+        let data =  this._film[i];
+        this._onDataChange(entry, this._containerCard, data);
+      }
     };
-    //getNewMokData(`isWatchlist`);
-
-    this._filmCard.onMarkAsWatchedClick = (evt) => {
-      evt.preventDefault();
-      getNewMokData(`watched`);
-    };
-    this._filmCard.onFavoriteClick = (evt) => {
-      evt.preventDefault();
-      getNewMokData(`favorites`);
-    };
-    const arrFilmSlice = this._film.slice(0, this._count);
-    arrFilmSlice.forEach((item) => render(this._containerCard, new FilmCard(item).getElement(), Position.BEFOREEND));
   }
 }
 export default MovieController;

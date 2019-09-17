@@ -12,9 +12,9 @@ class FilmCard extends AbstractComponent {
     this._poster = card.posters;
     this._shortDescription = card.desciption;
     this._countComments = card.comments;
-    this._isWatchlist = card.isWatchlist;
-    this._isViewed = card.isViewed;
-    this._isFavorite = card.isFavorites;
+    this._favorites = card.favorites;
+    this._watchlist = card.watchlist;
+    this._watched = card.watched;
   }
   getTemplate() {
     return `<article class="film-card" data-id="${this._id}">
@@ -29,9 +29,9 @@ class FilmCard extends AbstractComponent {
     <p class="film-card__description">${this._shortDescription}</p>
     <a class="film-card__comments">${this._countComments} comments</a>
     <form class="film-card__controls">
-      <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${this._isWatchlist && `film-card__controls-item--active`}">Add to watchlist</button>
-      <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${this._isViewed && `film-card__controls-item--active`}">Mark as watched</button>
-      <button class="film-card__controls-item button film-card__controls-item--favorite ${this._isFavorite && `film-card__controls-item--active`}">Mark as favorite</button>
+      <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${this._watchlist && `film-card__controls-item--active`}">Add to watchlist</button>
+      <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${this._watched && `film-card__controls-item--active`}">Mark as watched</button>
+      <button class="film-card__controls-item button film-card__controls-item--favorite ${this._favorites && `film-card__controls-item--active`}">Mark as favorite</button>
     </form>
   </article>`;
   }
@@ -41,7 +41,11 @@ class FilmCard extends AbstractComponent {
 
   onFavoriteClick() {}
 
+  onToggleFilm() {}
   bind() {
+    this._element.addEventListener(`click`, (evt) => {
+      this.onToggleFilm(evt);
+    });
     this._element.querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, (evt) => {
       this.onAddToWatchlistClick(evt);
     });

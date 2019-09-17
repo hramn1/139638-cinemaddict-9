@@ -13,9 +13,9 @@ class Popup extends AbstractComponent {
     this._poster = card.posters;
     this._description = card.desciption;
     this._countComments = card.countComments;
-    this._isWatchlist = card.isWatchlist;
-    this._isViewed = card.isViewed;
-    this._isFavorite = card.isFavorite;
+    this._favorites = card.favorites;
+    this._watchlist = card.watchlist;
+    this._watched = card.watched;
     this._director = card.director;
     // this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
     this._actors = card.actors;
@@ -88,14 +88,14 @@ class Popup extends AbstractComponent {
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden ${this._isWatchlist && `film-card__controls-item--active`}" id="watchlist" name="watchlist">
-            <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist ${this._isWatchlist && `film-card__controls-item--active`}">Add to watchlist</label>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${(this._watchlist) ? `checked` : ``}>
+            <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
             <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
-            <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
+            <label for="watched" class="film-details__control-label film-details__control-label--watched" ${(this._watched) ? `checked` : ``}>Already watched</label>
 
             <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
-            <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+            <label for="favorite" class="film-details__control-label film-details__control-label--favorite" ${(this._favorites) ? `checked` : ``}>Add to favorites</label>
           </section>
         </div>
 
