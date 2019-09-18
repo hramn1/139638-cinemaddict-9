@@ -11,11 +11,8 @@ class MovieController {
     this._count = count;
     this._totalfilm = totalFilm;
     this._containerCard = containerCard;
-    //this._filmCard = new FilmCard(this._film);
-    //this._popup = new Popup(this._film);
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
-    //this.onCardTogglerClick = this.onCardTogglerClick.bind(this);
   }
 
   openPopup(popup) {
@@ -74,35 +71,30 @@ class MovieController {
       film.onMarkAsWatchedClick = (evt) => {
         evt.preventDefault();
         popup = new Popup(this._film[i]);
-        getNewMokData(`watched`, popup);
+        getNewMokData(`watched`, popup, this._film[i]);
       };
       film.onFavoriteClick = (evt) => {
         evt.preventDefault();
         popup = new Popup(this._film[i]);
-        getNewMokData(`favorites`, popup);
+        getNewMokData(`favorites`, popup, this._film[i]);
       };
       film.onAddToWatchlistClick = (evt) => {
         evt.preventDefault();
         popup = new Popup(this._film[i]);
-        getNewMokData(`watchlist`, popup);
+        getNewMokData(`watchlist`, popup, this._film[i]);
       };
       film.onToggleFilm = (evt) =>{
           popup = new Popup(this._film[i]);
           filmToggle(evt, popup)
       }
-
-
-
       render(this._containerCard, film.getElement(), Position.BEFOREEND);
     }
-    const getNewMokData = (nameOfList, popup) => {
+    const getNewMokData = (nameOfList, popup, oldData) => {
       const formData = new FormData(popup.getElement().querySelector(`.film-details__inner`));
-      const switchTrueFalse = (bool) => {
-        return bool ? false : true;
-      };
+      const switchTrueFalse = (v) =>  !v;
       const userRatio = formData.getAll(`score`);
       const entry = {
-        favorites: Boolean(formData.get(`favorite`)),
+        favorites: Boolean(formData.get(`favorites`)),
         watchlist: Boolean(formData.get(`watchlist`)),
         watched: Boolean(formData.get(`watched`)),
         userRatio: `Your rate ${userRatio}`,
@@ -118,10 +110,9 @@ class MovieController {
           entry.watched = switchTrueFalse(entry.watched);
           break;
       }
-      for (let i = 0; i < this._film.length; i++) {
-        let data =  this._film[i];
-        this._onDataChange(entry, this._containerCard, data);
-      }
+
+        this._onDataChange(entry, this._containerCard, oldData);
+
     };
   }
 }
