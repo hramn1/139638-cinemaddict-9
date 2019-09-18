@@ -1,14 +1,14 @@
-import {default as Button} from './components/button.js';
-import {default as TopRated} from './components/top-rated.js';
-import {default as FilmContainer} from './components/film-container.js';
-import {default as NoSearch} from './components/no-search-result.js';
-import {default as Menu} from './components/menu.js';
-import {historyCount} from './data.js';
-import {watchlistCount} from './data.js';
-import {favorites} from './data.js';
-import {render, unrender, Position} from './utils.js';
-import {totalfilm, arrFilm} from "./data.js";
-import {default as Sort} from "./components/sort";
+import {default as Button} from '../components/button.js';
+import {default as TopRated} from '../components/top-rated.js';
+import {default as FilmContainer} from '../components/film-container.js';
+import {default as NoSearch} from '../components/no-search-result.js';
+import {default as Menu} from '../components/menu.js';
+import {historyCount} from '../data.js';
+import {watchlistCount} from '../data.js';
+import {favorites} from '../data.js';
+import {render, unrender, Position} from '../utils.js';
+import {totalfilm, arrFilm} from "../data.js";
+import {default as Sort} from "../components/sort";
 import {default as MovieController} from "./movie-controller.js";
 const mainContainer = document.querySelector(`.main`);
 class PageController {
@@ -25,11 +25,10 @@ class PageController {
     this._subscriptions.forEach((subscription) => subscription());
   }
   _onDataChange(newData, container, oldData) {
-    console.log(oldData)
-    console.log(this._film)
+
 
     const currentIndexOfFilmCard = this._film.findIndex((it) => {
-    return  it === oldData
+      return it === oldData;
     });
     const keysOfNewData = Object.keys(newData);
     keysOfNewData.forEach((key) => {
@@ -60,7 +59,7 @@ class PageController {
   }
   addCountFilmFooter() {
     const headerContainer = document.querySelector(`.header`);
-    const footerStatistics = document.querySelector(`.footer__statistics`); 
+    const footerStatistics = document.querySelector(`.footer__statistics`);
     footerStatistics.textContent = `${totalfilm} movies inside`;
     if (Object.keys(this._film).length === 0) {
       unrender(this._container);
@@ -68,7 +67,7 @@ class PageController {
     }
   }
   renderCard(containerCard, films) {
-    const movieController = new MovieController(this._container, films, totalfilm, containerCard, this._count, this._onDataChange, this._onChangeView);
+    const movieController = new MovieController(films, containerCard, this._count, this._onDataChange, this._onChangeView);
     movieController.init();
   }
   unrenderCard() {
@@ -102,7 +101,7 @@ class PageController {
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
       this._film = arrFilm.filter(function (it) {
-        return it.isViewed === true;
+        return it.watched === true;
       });
       this.renderCard(filmCardContainer, this._film);
     };
@@ -114,7 +113,7 @@ class PageController {
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
       this._film = arrFilm.filter(function (it) {
-        return it.isWatchlist === true;
+        return it.watchlist === true;
       });
       this.renderCard(filmCardContainer, this._film);
     };
@@ -126,7 +125,7 @@ class PageController {
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
       this._film = arrFilm.filter(function (it) {
-        return it.isFavorites === true;
+        return it.favorites === true;
       });
       this.renderCard(filmCardContainer, this._film);
     };

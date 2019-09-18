@@ -4,7 +4,7 @@ import {default as Statistic} from './components/statistic.js';
 import {generateRank} from './data.js';
 import {arrFilm as filmData} from './data.js';
 import {render, Position} from './utils.js';
-import {default as PageController} from './page-controller.js';
+import {default as PageController} from './controolers/page-controller.js';
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 let count = 5;

@@ -16,15 +16,15 @@ class Sort extends AbstractComponent {
   bind() {
     const element = this._element;
     const linkEl = element.querySelectorAll(`.sort__button`);
-    for (let item of linkEl){
-      item.addEventListener(`click`, function(evt){
+    for (let item of linkEl) {
+      item.addEventListener(`click`, function () {
         for (let el of linkEl) {
           if (el.classList.contains(`sort__button--active`)) {
             el.classList.remove(`sort__button--active`);
           }
         }
-        item.classList.add(`sort__button--active`)
-      })
+        item.classList.add(`sort__button--active`);
+      });
     }
     element.querySelector(`.sort__button--default`).addEventListener(`click`, this.onSortDefault);
     element.querySelector(`.sort__button--date`).addEventListener(`click`, this.onSortdate);

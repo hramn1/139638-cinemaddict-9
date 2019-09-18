@@ -54,9 +54,8 @@ class FilmCard extends AbstractComponent {
     });
     this._element.querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, (evt) => {
       this.onFavoriteClick(evt);
-  });
+    });
   }
-
 }
 
 export default FilmCard;

@@ -22,8 +22,8 @@ class Menu extends AbstractComponent {
   bind() {
     const element = this._element;
     const btnFilmShow = element.querySelectorAll(`.main-navigation__item`);
-    for(let item of btnFilmShow){
-      if(item.hash === `#all`){
+    for (let item of btnFilmShow) {
+      if (item.hash === `#all`) {
         item.addEventListener(`click`, this.showAll);
       } else if (item.hash === `#watchlist`) {
         item.addEventListener(`click`, this.showWatchlist);
@@ -47,10 +47,10 @@ class Menu extends AbstractComponent {
       evt.target.classList.add(`main-navigation__item--active`);
     });
   }
-  showAll(){}
-  showWatchlist(){}
-  showHistory(){}
-  showFavorites(){}
-  showStat(){}
+  showAll() {}
+  showWatchlist() {}
+  showHistory() {}
+  showFavorites() {}
+  showStat() {}
 }
 export default Menu;
