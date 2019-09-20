@@ -13,5 +13,18 @@ class Search extends AbstractComponent {
           <button class="search__reset" type="reset">Reset</button>
         </form>`;
   }
+  bind() {
+    const element = this._element;
+    element.querySelector(`.search__field`).addEventListener(`focus`, () => {
+      document.addEventListener(`keydown`, (evt) => {
+        if (isEscPressed(evt.key)) {
+          this.startSearch
+        }
+      })
+    })
+    element.querySelector(`.search__reset`).addEventListener(`click`, this.searchReset)
+  }
+  searchReset(){};
+  startSearch(){};
 }
 export default Search;

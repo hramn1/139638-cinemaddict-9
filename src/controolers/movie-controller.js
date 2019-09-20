@@ -1,6 +1,6 @@
 import {default as Popup} from '../components/popup.js';
 import {isEscPressed, Position, render, unrender} from "../utils";
-import FilmCard from "../components/film-card";
+import {default as FilmCard} from "../components/film-card";
 const bodyContainer = document.querySelector(`body`);
 
 

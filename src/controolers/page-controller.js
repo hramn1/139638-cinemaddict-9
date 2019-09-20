@@ -25,8 +25,6 @@ class PageController {
     this._subscriptions.forEach((subscription) => subscription());
   }
   _onDataChange(newData, container, oldData) {
-
-
     const currentIndexOfFilmCard = this._film.findIndex((it) => {
       return it === oldData;
     });
@@ -34,14 +32,15 @@ class PageController {
     keysOfNewData.forEach((key) => {
       this._film[currentIndexOfFilmCard][key] = newData[key];
     });
-    this.unrenderCard();
     this.renderCard(container, this._film);
+    this.unrenderCard();
+    this.addExtraFilm(container);
 
   }
   addExtraFilm(container) {
-    const topRated = new TopRated();
+   const topRated = new TopRated();
     for (let j = 0; j < 2; j++) {
-      render(container.getElement(), new TopRated().getElement(), Position.BEFOREEND);
+      render(container, new TopRated().getElement(), Position.BEFOREEND);
     }
     topRated.removetitle();
     const topRatingFilm = () => {
@@ -71,7 +70,7 @@ class PageController {
     movieController.init();
   }
   unrenderCard() {
-    const filmCard = document.querySelectorAll(`.films-list .films-list__container .film-card`);
+    const filmCard = document.querySelectorAll(`.films-list__container .film-card`);
     filmCard.forEach((item) => unrender(item));
   }
   init() {
@@ -134,8 +133,7 @@ class PageController {
     const filmContainer = new FilmContainer();
     render(this._container, filmContainer.getElement(), Position.BEFOREEND);
     const filmList = filmContainer.getChildren()[0];
-    const filmCardContainer = filmList.querySelector(`.films-list__container`); // нет компонента
-    // кнопка шоу мор
+    const filmCardContainer = filmList.querySelector(`.films-list__container`);
     const moreButton = new Button();
 
     moreButton.onButtonClick = () => {
@@ -173,7 +171,7 @@ class PageController {
 
     render(filmList, sortFilm.getElement(), Position.AFTERBEGIN);
     this.renderCard(filmCardContainer, this._film);
-    this.addExtraFilm(filmContainer);
+    this.addExtraFilm(filmContainer.getElement());
   }
 
 }
