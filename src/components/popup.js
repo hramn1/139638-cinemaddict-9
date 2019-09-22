@@ -94,12 +94,11 @@ class Popup extends AbstractComponent {
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
             <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${(this._watched) ? `checked` : ``}>
-            <label for="watched" class="film-details__control-label film-details__control-label--watched" >Already watched</label>
+            <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
             <input type="checkbox" class="film-details__control-input visually-hidden" id="favorites" name="favorites" ${(this._favorites) ? `checked` : ``}>
-            <label for="favorites" class="film-details__control-label film-details__control-label--favorite" >Add to favorites</label>
+            <label for="favorites" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
-        </div>
 
           <section class="film-details__user-rating-wrap">
             <div class="film-details__user-rating-controls">
@@ -189,6 +188,30 @@ class Popup extends AbstractComponent {
         </div>
       </form>
     </section>`;
+  }
+  changePopUp() {
+
+  }
+
+  bind() {
+    this._element.querySelectorAll(`.film-details__controls input[type=checkbox]`).forEach((it) => {
+      it.addEventListener(`change`, () => {
+        this.changePopUp();
+      });
+    });
+    // this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
+    //   this.onCloseButtonPress();
+    // });
+    // this._element.querySelectorAll(`.film-details__emoji-list input[type=radio]`).forEach((emoji) => {
+    //   emoji.addEventListener(`change`, (evt) => {
+    //     this.onEmojiClick(evt);
+    //   });
+    // });
+    // this._element.querySelectorAll(`.film-details__user-rating-score input[type=radio]`).forEach((point) => {
+    //   point.addEventListener(`change`, (evt) => {
+    //     this.onRatingScorePress(evt);
+    //   });
+    // });
   }
 }
 

@@ -14,11 +14,11 @@ class MovieController {
   }
 
   openPopup(popup) {
+
     this._onChangeView();
     render(bodyContainer, popup.getElement(), Position.BEFOREEND);
     bodyContainer.classList.add(`hide-overflow`);
     const onCloseBtnClick = (evtClose) => {
-      evtClose.preventDefault();
       if (evtClose.target.classList.contains(`film-details__close-btn`)) {
         MovieController.closePopup(popup);
         document.removeEventListener(`keydown`, onEscKeydown);
@@ -55,7 +55,10 @@ class MovieController {
   init() {
 
     const arrFilmSlice = this._film.slice(0, this._count);
-    const filmToggle = (evt, popup) => {
+    const filmToggle = (evt, popup, film) => {
+      popup.changePopUp = () => {
+        getNewMokData(``, popup, film);
+      };
       this.setDefaultView(popup);
       const togglers = [`film-card__poster`, `film-card__title`, `film-card__comments`];
       if (togglers.some((cls) => evt.target.classList.contains(cls))) {
@@ -82,9 +85,10 @@ class MovieController {
         popup = new Popup(this._film[i]);
         getNewMokData(`watchlist`, popup, this._film[i]);
       };
+
       film.onToggleFilm = (evt) =>{
         popup = new Popup(this._film[i]);
-        filmToggle(evt, popup);
+        filmToggle(evt, popup, this._film[i]);
       };
       render(this._containerCard, film.getElement(), Position.BEFOREEND);
     }
