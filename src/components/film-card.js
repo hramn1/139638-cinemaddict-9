@@ -11,7 +11,7 @@ class FilmCard extends AbstractComponent {
     this._genre = card.genre;
     this._poster = card.posters;
     this._shortDescription = card.desciption;
-    this._countComments = card.comments;
+    this._countComments = card.countComments;
     this._favorites = card.favorites;
     this._watchlist = card.watchlist;
     this._watched = card.watched;

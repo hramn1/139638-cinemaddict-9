@@ -32,17 +32,11 @@ class PageController {
     keysOfNewData.forEach((key) => {
       this._film[currentIndexOfFilmCard][key] = newData[key];
     });
-    this.renderCard(container, this._film);
     this.unrenderCard();
-    this.addExtraFilm(container);
+    this.renderCard(container, this._film);
 
   }
-  addExtraFilm(container) {
-   const topRated = new TopRated();
-    for (let j = 0; j < 2; j++) {
-      render(container, new TopRated().getElement(), Position.BEFOREEND);
-    }
-    topRated.removetitle();
+  addExtraFilm(topRated) {
     const topRatingFilm = () => {
       let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
       arrFilmRating = arrFilmRating.slice(0, 2);
@@ -70,7 +64,7 @@ class PageController {
     movieController.init();
   }
   unrenderCard() {
-    const filmCard = document.querySelectorAll(`.films-list__container .film-card`);
+    const filmCard = document.querySelectorAll(`.films-list .films-list__container .film-card`);
     filmCard.forEach((item) => unrender(item));
   }
   init() {
@@ -170,8 +164,13 @@ class PageController {
     };
 
     render(filmList, sortFilm.getElement(), Position.AFTERBEGIN);
+    const topRated = new TopRated();
+    for (let j = 0; j < 2; j++) {
+      render(filmContainer.getElement(), new TopRated().getElement(), Position.BEFOREEND);
+      topRated.removetitle();
+    }
     this.renderCard(filmCardContainer, this._film);
-    this.addExtraFilm(filmContainer.getElement());
+    this.addExtraFilm(topRated);
   }
 
 }

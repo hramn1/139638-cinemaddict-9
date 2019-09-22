@@ -11,12 +11,14 @@ const mainContainer = document.querySelector(`.main`);
 let count = 5;
 const stat = new Statistic();
 const search = new Search();
-const searchControl = new SearchControlLer(filmData, search)
-render(headerContainer, search.getElement(), Position.BEFOREEND);
 render(headerContainer, stat.getElement(), Position.BEFOREEND);
-render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
 
 const page = new PageController(mainContainer, filmData, count, stat);
 
 page.init();
+const searchControl = new SearchControlLer(headerContainer, filmData, search, page);
+
+searchControl.init();
+render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
+
 render(mainContainer, stat.getElement(), Position.BEFOREEND);
