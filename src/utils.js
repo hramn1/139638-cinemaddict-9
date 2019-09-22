@@ -1,3 +1,14 @@
+export const Method = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`,
+};
+
+export const Code = {
+  SUCCESS: 200,
+  REDIRECT: 300,
+};
 export const generatorRandom = {
   generateRandomNumber(min, max) {
     return (min + Math.random() * (max - min)).toFixed(1);

@@ -58,6 +58,7 @@ const generateTime = () => {
   let minutes = Math.round(generatorRandom.generateRandomNumber(0, 60));
   if (hour === `0h`) {
     hour = ``;
+    minutes = Math.round(generatorRandom.generateRandomNumber(30, 60));
   }
   return `${hour} ${minutes}m`;
 };
