@@ -13,6 +13,9 @@ class FilmContainer extends AbstractComponent {
         </section>
       </section>`;
   }
+  getChildren() {
+    return this._element.children;
+  }
 }
 
 export default FilmContainer;

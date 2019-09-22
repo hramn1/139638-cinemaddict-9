@@ -74,12 +74,17 @@ const generateFilmData = () => {
     writers: filmData.writers,
     actors: filmData.actors.splice(generatorRandom.generateRandomCount(8), generatorRandom.generateRandomNumber(2, 7)),
     country: filmData.country[Math.round(generatorRandom.generateRandomCount(4))],
-    comments: Math.round(generatorRandom.generateRandomNumber(0, 10)),
-    isWatchlist: Boolean(Math.round(Math.random())),
-    isHistory: Boolean(Math.round(Math.random())),
-    isFavorites: Boolean(Math.round(Math.random())),
+    countComments: Math.round(generatorRandom.generateRandomNumber(0, 10)),
+    watchlist: Boolean(Math.round(Math.random())),
+    watched: Boolean(Math.round(Math.random())),
+    favorites: Boolean(Math.round(Math.random())),
     runtime: generateTime(),
+    comments: getArrayOfComments(),
   };
+};
+const commentData = {
+  autors: [`Sasha Grey`, `Jonh`, `Alexandr`, `Ivan`, `Bill`],
+  avatars: [`angry.png`, `puke.png`, `sleeping.png`, `smile.png`, `trophy.png`]
 };
 const generateFilmList = () => Math.round(generatorRandom.generateRandomNumber(5, 25));
 const generateMenuCount = () => Math.round(generatorRandom.generateRandomNumber(0, 20));
@@ -94,6 +99,37 @@ export const generateRank = () => {
     strRank = `movie buff`;
   } return strRank;
 };
+const getRandomElement = (array) => { // Рандомный элемент из массива
+  return array[getRandomNumber(0, array.length)];
+};
+
+const getRandomNumber = (from, to) => { // Функция получения рандомного числа в диапазоне
+  return Math.floor(Math.random() * (from - to)) + to;
+};
+
+const randomDate = (start, end) => { // Функция получения рандомной даты в диапазоне
+  const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+  return [date.getDate(), date.toLocaleDateString(`en-US`, {month: `long`}), date.getFullYear()];
+};
+const getComments = () => ({// Комментарий
+  avatar: getRandomElement(commentData.avatars),
+  text: getDescription(filmData.desciption),
+  autor: getRandomElement(commentData.autors),
+  date: randomDate(new Date(2018, 0, 1), new Date(2019, 0, 1))
+});
+const getDescription = (string) => { // Функция получения рандомного описания фильма
+  const newDescription = [];
+  const array = string.split(`.`);
+
+  for (let i = 0; i < getRandomNumber(1, 4); i++) {
+    newDescription.push(array[getRandomNumber(0, array.length)]);
+  }
+  return newDescription.join(`.`);
+};
+const getArrayOfComments = () => { // Массив комментов
+  return new Array(getRandomNumber(3, 6)).fill().map(getComments);
+};
+
 export const historyCount = generateMenuCount();
 export const watchlistCount = generateMenuCount();
 export const favorites = generateMenuCount();

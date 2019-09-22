@@ -19,5 +19,38 @@ class Menu extends AbstractComponent {
         <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
       </nav>`;
   }
+  bind() {
+    const element = this._element;
+    const btnFilmShow = element.querySelectorAll(`.main-navigation__item`);
+    for (let item of btnFilmShow) {
+      if (item.hash === `#all`) {
+        item.addEventListener(`click`, this.showAll);
+      } else if (item.hash === `#watchlist`) {
+        item.addEventListener(`click`, this.showWatchlist);
+      } else if (item.hash === `#history`) {
+        item.addEventListener(`click`, this.showHistory);
+      } else if (item.hash === `#favorites`) {
+        item.addEventListener(`click`, this.showFavorites);
+      } else {
+        item.addEventListener(`click`, this.showStat);
+      }
+    }
+  }
+  addClassActiv() {
+    const linkEl = this._element.querySelectorAll(`.main-navigation__item`);
+    for (let el of linkEl) {
+      if (el.classList.contains(`main-navigation__item--active`)) {
+        el.classList.remove(`main-navigation__item--active`);
+      }
+    }
+    this._element.addEventListener(`click`, function (evt) {
+      evt.target.classList.add(`main-navigation__item--active`);
+    });
+  }
+  showAll() {}
+  showWatchlist() {}
+  showHistory() {}
+  showFavorites() {}
+  showStat() {}
 }
 export default Menu;
