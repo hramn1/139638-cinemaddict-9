@@ -132,14 +132,17 @@ class PageController {
 
     moreButton.onButtonClick = () => {
       this._count += 5;
-      this.unrenderCard();
-      this.renderCard(filmCardContainer, this._film);
-      if (this._count >= totalfilm) {
+      if (this._count >= this._film.length) {
         unrender(moreButton.getElement());
       }
+      this.unrenderCard();
+      this.renderCard(filmCardContainer, this._film);
+
     };
     render(filmList, moreButton.getElement(), Position.BEFOREEND);
-
+    if (this._count >= this._film.length) {
+      unrender(moreButton.getElement());
+    }
     this.addCountFilmFooter();
 
     // Сортировка
