@@ -1,7 +1,6 @@
 import {default as Button} from '../components/button.js';
 import {default as TopRated} from '../components/top-rated.js';
 import {default as FilmContainer} from '../components/film-container.js';
-import {default as NoSearch} from '../components/no-search-result.js';
 import {default as Menu} from '../components/menu.js';
 import {historyCount} from '../data.js';
 import {watchlistCount} from '../data.js';
@@ -54,10 +53,6 @@ class PageController {
     const headerContainer = document.querySelector(`.header`);
     const footerStatistics = document.querySelector(`.footer__statistics`);
     footerStatistics.textContent = `${totalfilm} movies inside`;
-    if (Object.keys(this._film).length === 0) {
-      unrender(this._container);
-      render(headerContainer, new NoSearch().getElement(), Position.AFTER);
-    }
   }
   renderCard(containerCard, films) {
     const movieController = new MovieController(films, containerCard, this._count, this._onDataChange, this._onChangeView);
