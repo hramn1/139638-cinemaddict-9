@@ -16,7 +16,7 @@ render(headerContainer, stat.getElement(), Position.BEFOREEND);
 const page = new PageController(mainContainer, filmData, count, stat);
 
 page.init();
-const searchControl = new SearchControlLer(headerContainer, filmData, search, page);
+const searchControl = new SearchControlLer(headerContainer, filmData, search, page, mainContainer);
 
 searchControl.init();
 render(headerContainer, new TitleUser(generateRank()).getElement(), Position.BEFOREEND);
