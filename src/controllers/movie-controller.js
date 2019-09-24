@@ -98,20 +98,22 @@ class MovieController {
       const userRatio = formData.getAll(`score`);
 
       const entry = {
-        favorites: Boolean(formData.get(`favorites`)),
-        watchlist: Boolean(formData.get(`watchlist`)),
-        watched: Boolean(formData.get(`watched`)),
-        userRatio: `Your rate ${userRatio}`,
+        controls: {
+          isFavorite: Boolean(formData.get(`favorites`)),
+          isAddedToWatchlist: Boolean(formData.get(`watchlist`)),
+          isMarkedAsWatched: Boolean(formData.get(`watched`)),
+          userRatio: `Your rate ${userRatio}`,
+        }
       };
       switch (nameOfList) {
         case `favorites`:
-          entry.favorites = switchTrueFalse(entry.favorites);
+          entry.controls.isFavorite = switchTrueFalse(entry.controls.isFavorite);
           break;
         case `watchlist`:
-          entry.watchlist = switchTrueFalse(entry.watchlist);
+          entry.controls.isAddedToWatchlist = switchTrueFalse(entry.controls.isAddedToWatchlist);
           break;
         case `watched`:
-          entry.watched = switchTrueFalse(entry.watched);
+          entry.controls.isMarkedAsWatched = switchTrueFalse(entry.controls.isMarkedAsWatched);
           break;
       }
       this._onDataChange(entry, this._containerCard, oldData);

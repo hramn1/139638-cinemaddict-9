@@ -20,7 +20,6 @@ export class Comment extends AbstractComponent {
   }
 
   getTemplate() {
-    console.log(this._date)
     return `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
         <img src="./images/emoji/${this._avatar}" width="55" height="55" alt="emoji">

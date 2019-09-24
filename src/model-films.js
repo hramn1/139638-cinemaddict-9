@@ -12,7 +12,7 @@ class ModelFilm {
     this.controls = {
       isAddedToWatchlist: Boolean(data[`user_details`][`watchlist`]) || false,
       isMarkedAsWatched: Boolean(data[`user_details`][`already_watched`]) || false,
-      isFavorite: Boolean(data[`user_details`][`favorite`]) || false
+      isFavorite: Boolean(data[`user_details`][`favorites`]) || false
     };
     this.alternativeTitle = data[`film_info`][`alternative_title`] || ``;
     this.totalRating = data[`film_info`][`total_rating`] || 0;

@@ -2,11 +2,7 @@ import {default as Button} from '../components/button.js';
 import {default as TopRated} from '../components/top-rated.js';
 import {default as FilmContainer} from '../components/film-container.js';
 import {default as Menu} from '../components/menu.js';
-import {historyCount} from '../data.js';
-import {watchlistCount} from '../data.js';
-import {favorites} from '../data.js';
 import {render, unrender, Position} from '../utils.js';
-import {totalfilm} from "../data.js";
 import {default as Sort} from "../components/sort";
 import {default as MovieController} from "./movie-controller.js";
 const mainContainer = document.querySelector(`.main`);
@@ -24,6 +20,7 @@ class PageController {
     this._subscriptions.forEach((subscription) => subscription());
   }
   _onDataChange(newData, container, oldData) {
+
     const currentIndexOfFilmCard = this._film.findIndex((it) => {
       return it === oldData;
     });
@@ -33,7 +30,6 @@ class PageController {
     });
     this.unrenderCard();
     this.renderCard(container, this._film);
-
   }
   addExtraFilm(topRated) {
     const topRatingFilm = () => {
@@ -50,9 +46,9 @@ class PageController {
     topRatingFilm();
   }
   addCountFilmFooter() {
-    const headerContainer = document.querySelector(`.header`);
+    const totalFilm = this._film.length;
     const footerStatistics = document.querySelector(`.footer__statistics`);
-    footerStatistics.textContent = `${totalfilm} movies inside`;
+    footerStatistics.textContent = `${totalFilm} movies inside`;
   }
   renderCard(containerCard, films) {
     const movieController = new MovieController(films, containerCard, this._count, this._onDataChange, this._onChangeView);
@@ -65,7 +61,20 @@ class PageController {
   init() {
     // меню
     let arrFilm = this._film;
-    console.log(arrFilm)
+    let historyCount = 0;
+    let watchlistCount = 0;
+    let favorites = 0;
+    for (let it of this._film){
+      if(it.controls.isMarkedAsWatched){
+        historyCount++
+      }
+      if(it.controls.isAddedToWatchlist){
+        watchlistCount++
+      }
+      if(it.controls.isFavorite){
+        favorites++
+      }
+    }
     const menu = new Menu(historyCount, watchlistCount, favorites);
     menu.showStat = () => {
       menu.addClassActiv();
