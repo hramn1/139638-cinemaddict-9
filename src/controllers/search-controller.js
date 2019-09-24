@@ -13,8 +13,8 @@ class SearchControlLer {
     const filmListContainer = document.querySelector(`.films-list__container`);
     this._search.startSearch = ()=>{
       for (let item of this._film) {
-        let filmTitle = item.filmTitle.toLowerCase();
-        if (item.filmTitle.includes(this._search.researchValue().toLowerCase().trim())) {
+        let filmTitle = item.title.toLowerCase();
+        if (item.title.includes(this._search.researchValue().toLowerCase().trim())) {
           filmSearch.push(item);
         } else if (filmTitle === this._search.researchValue().toLowerCase().trim() ) {
           filmSearch.push(item);

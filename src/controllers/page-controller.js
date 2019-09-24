@@ -6,7 +6,7 @@ import {historyCount} from '../data.js';
 import {watchlistCount} from '../data.js';
 import {favorites} from '../data.js';
 import {render, unrender, Position} from '../utils.js';
-import {totalfilm, arrFilm} from "../data.js";
+import {totalfilm} from "../data.js";
 import {default as Sort} from "../components/sort";
 import {default as MovieController} from "./movie-controller.js";
 const mainContainer = document.querySelector(`.main`);
@@ -37,7 +37,7 @@ class PageController {
   }
   addExtraFilm(topRated) {
     const topRatingFilm = () => {
-      let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
+      let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.totalRating) - parseFloat(filmSecond.totalRating)));
       arrFilmRating = arrFilmRating.slice(0, 2);
       this.renderCard(topRated.takeContainer()[0], arrFilmRating);
     };
@@ -64,6 +64,8 @@ class PageController {
   }
   init() {
     // меню
+    let arrFilm = this._film;
+    console.log(arrFilm)
     const menu = new Menu(historyCount, watchlistCount, favorites);
     menu.showStat = () => {
       menu.addClassActiv();
@@ -78,8 +80,7 @@ class PageController {
       }
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
-      this._film = arrFilm;
-      this.renderCard(filmCardContainer, this._film);
+      this.renderCard(filmCardContainer, arrFilm);
     };
     menu.showHistory = () => {
       menu.addClassActiv();
@@ -144,7 +145,7 @@ class PageController {
     const sortFilm = new Sort();
 
     sortFilm.onSortRating = () => {
-      this._film = [...this._film].sort((filmFirst, filmSecond) => (parseFloat(filmFirst.ratings) - parseFloat(filmSecond.ratings)));
+      this._film = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.totalRating) - parseFloat(filmSecond.totalRating)));
       this.unrenderCard();
       this.renderCard(filmCardContainer, this._film);
     };

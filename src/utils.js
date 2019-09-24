@@ -1,14 +1,3 @@
-export const Method = {
-  GET: `GET`,
-  POST: `POST`,
-  PUT: `PUT`,
-  DELETE: `DELETE`,
-};
-
-export const Code = {
-  SUCCESS: 200,
-  REDIRECT: 300,
-};
 export const generatorRandom = {
   generateRandomNumber(min, max) {
     return (min + Math.random() * (max - min)).toFixed(1);
@@ -57,4 +46,20 @@ export const isEscPressed = (key) => {
 };
 export const isEnterPressed = (key) => {
   return key === `Enter`;
+};
+export const getStats = (data) => {
+  return {
+    get allFilmsNumber() {
+      return data.length;
+    },
+    get watchlistNumber() {
+      return getNumberFilmsStat(`isAddedToWatchlist`, data);
+    },
+    get historyNumber() {
+      return getNumberFilmsStat(`isMarkedAsWatched`, data);
+    },
+    get favoritesNumber() {
+      return getNumberFilmsStat(`isFavorite`, data);
+    }
+  };
 };

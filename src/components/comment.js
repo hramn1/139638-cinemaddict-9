@@ -20,6 +20,7 @@ export class Comment extends AbstractComponent {
   }
 
   getTemplate() {
+    console.log(this._date)
     return `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
         <img src="./images/emoji/${this._avatar}" width="55" height="55" alt="emoji">
@@ -28,7 +29,7 @@ export class Comment extends AbstractComponent {
         <p class="film-details__comment-text">${this._text}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${this._autor}</span>
-          <span class="film-details__comment-day">${(this._date).join(` `)}</span>
+          <span class="film-details__comment-day">${(this._date)}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>

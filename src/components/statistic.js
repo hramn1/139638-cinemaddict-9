@@ -7,9 +7,9 @@ class Statistic extends AbstractComponent {
   getTemplate() {
     return `<section class="statistic visually-hidden">
   <p class="statistic__rank">
-    You Rank
+    You rank
 <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-  <span class="statistic__rank-label">Sci-Fighter</span>
+  <span class="statistic__rank-label">${this._titleUser}</span>
   </p>
 
   <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">

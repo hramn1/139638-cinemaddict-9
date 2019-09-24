@@ -22,6 +22,7 @@ class Popup extends AbstractComponent {
     // this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
     this._actors = card.actors;
     this._country = card.country;
+    this._controls = card.controls;
   }
   getTemplate() {
     return `<section class="film-details">
@@ -90,13 +91,13 @@ class Popup extends AbstractComponent {
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${(this._watchlist) ? `checked` : ``}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${(this._controls.isAddedToWatchlist) ? `checked` : ``}>
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${(this._watched) ? `checked` : ``}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${(this._controls.isMarkedAsWatched) ? `checked` : ``}>
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorites" name="favorites" ${(this._favorites) ? `checked` : ``}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorites" name="favorites" ${(this._controls.isFavorite) ? `checked` : ``}>
             <label for="favorites" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
 
