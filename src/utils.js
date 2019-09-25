@@ -48,19 +48,4 @@ export const isEscPressed = (key) => {
 export const isEnterPressed = (key) => {
   return key === `Enter`;
 };
-export const getStats = (data) => {
-  return {
-    get allFilmsNumber() {
-      return data.length;
-    },
-    get watchlistNumber() {
-      return getNumberFilmsStat(`isAddedToWatchlist`, data);
-    },
-    get historyNumber() {
-      return getNumberFilmsStat(`isMarkedAsWatched`, data);
-    },
-    get favoritesNumber() {
-      return getNumberFilmsStat(`isFavorite`, data);
-    }
-  };
-};
+

@@ -1,7 +1,6 @@
 import {default as Popup} from '../components/popup.js';
-import {isEscPressed, Position, render, unrender, AUTHORIZATION, END_POINT} from "../utils";
+import {isEscPressed, Position, render, unrender} from "../utils";
 import {default as FilmCard} from "../components/film-card";
-import API from "../api.js";
 const bodyContainer = document.querySelector(`body`);
 
 
@@ -49,8 +48,9 @@ class MovieController {
   }
 
   setDefaultView(popup) {
-    if (document.body.contains(popup.getElement())) {
-      unrender(popup.getElement());
+    const popupEl = document.querySelector(`.film-details`);
+    if (document.contains(popupEl)) {
+      unrender(popupEl);
       popup.removeElement();
     }
   }

@@ -10,13 +10,14 @@ export default class StatsController {
   }
 
   init() {
+    this._getAllListGenres(this._data);
     render(this._container, this._stats.getElement(), Position.AFTER);
     this._renderCharts();
   }
 
 
   _renderCharts() {
-
+    this._getStats()
     const chartContainer = document.querySelector(`.statistic__chart`);
     return new Chart(chartContainer, {
       plugins: [ChartDataLabels],
@@ -36,7 +37,7 @@ export default class StatsController {
         },
         layout: {
           padding: {
-            top: 10
+            top: 0
           }
         },
         tooltips: {
@@ -45,23 +46,34 @@ export default class StatsController {
       }
     });
   }
+  _getAllListGenres(data) {
+    const genres = new Set([]);
+    data.forEach((film) => {
+      if(film.genre.length>0) {
+        genres.add(...film.genre);
+      }
+    });
+    return Array.from(genres);
+  }
 
   _getCountGenres(films) {
-    const genresCounter = {
-      horrors: 0,
-      militant: 0,
-      drama: 0,
-      comedy: 0,
-      adventures: 0,
-      criminal: 0,
-      fantasy: 0
-    };
+    const listGenresArray = this._getAllListGenres(films);
+    const genresCounter = {};
+
+    listGenresArray.forEach((genre) => {
+      genresCounter[genre] = 0;
+    });
 
     films.forEach((film) => {
-      genresCounter[film.genre] += 1;
+      film.genre.forEach((item) => {
+        genresCounter[item] += 1;
+      });
     });
 
     return genresCounter;
+  }
+  _getStats() {
+  console.log(this._data)
   }
 
   _getTopGenre() {
