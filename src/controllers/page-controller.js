@@ -60,6 +60,7 @@ class PageController {
   }
   init() {
     // меню
+    console.log(this._film);
     let arrFilm = this._film;
     let historyCount = 0;
     let watchlistCount = 0;
@@ -99,7 +100,7 @@ class PageController {
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
       this._film = arrFilm.filter(function (it) {
-        return it.watched === true;
+        return it.controls.isMarkedAsWatched === true;
       });
       this.renderCard(filmCardContainer, this._film);
     };
@@ -111,7 +112,7 @@ class PageController {
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
       this._film = arrFilm.filter(function (it) {
-        return it.watchlist === true;
+        return it.controls.isAddedToWatchlist === true;
       });
       this.renderCard(filmCardContainer, this._film);
     };
@@ -123,7 +124,7 @@ class PageController {
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
       this._film = arrFilm.filter(function (it) {
-        return it.favorites === true;
+        return it.controls.isFavorite === true;
       });
       this.renderCard(filmCardContainer, this._film);
     };
