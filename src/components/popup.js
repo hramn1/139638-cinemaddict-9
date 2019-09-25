@@ -1,18 +1,16 @@
 import {default as AbstractComponent} from './abstract';
  import {Comment} from './comment';
-// import {generatorRandom} from '../utils.js';
 
 class Popup extends AbstractComponent {
   constructor(card, comments) {
     super();
-    this._title = card.filmTitle;
+    this._title = card.title;
     this._rating = card.ratings;
     this._id = card.id;
-    this._comments = card.comments;
     this._year = card.year;
     this._runtime = card.runtime;
     this._genre = card.genre;
-    this._poster = card.posters;
+    this._poster = card.posterLink;
     this._description = card.desciption;
     this._countComments = card.countComments;
     this._favorites = card.favorites;
@@ -23,7 +21,7 @@ class Popup extends AbstractComponent {
     this._actors = card.actors;
     this._country = card.country;
     this._controls = card.controls;
-    this._comment = comments
+    this._comment = comments;
   }
   getTemplate() {
     return `<section class="film-details">
@@ -34,7 +32,7 @@ class Popup extends AbstractComponent {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/${this._poster}" alt="">
+              <img class="film-details__poster-img" src="${this._poster}" alt="">
 
               <p class="film-details__age">18+</p>
             </div>
@@ -79,8 +77,6 @@ class Popup extends AbstractComponent {
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">${this._genre}</span>
-                    <span class="film-details__genre">${this._genre}</span>
                     <span class="film-details__genre">${this._genre}</span></td>
                 </tr>
               </tbody></table>
@@ -102,7 +98,7 @@ class Popup extends AbstractComponent {
             <label for="favorites" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
 
-          <section class="film-details__user-rating-wrap ${(this._controls.isMarkedAsWatched) ? `` : `visually-hidden`}"">
+          <section class="film-details__user-rating-wrap ${(this._controls.isMarkedAsWatched) ? `` : `visually-hidden`}">
             <div class="film-details__user-rating-controls">
               <button class="film-details__watched-reset" type="button">Undo</button>
             </div>

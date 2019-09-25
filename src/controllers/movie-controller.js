@@ -6,9 +6,10 @@ const bodyContainer = document.querySelector(`body`);
 
 
 class MovieController {
-  constructor(films, containerCard, count, onDataChange, onChangeView) {
+  constructor(films, containerCard, count, onDataChange, onChangeView, commentArr) {
     this._film = films;
     this._count = count;
+    this._commentArr = commentArr;
     this._containerCard = containerCard;
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
@@ -54,7 +55,7 @@ class MovieController {
     }
   }
   init() {
-    const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
+
     const arrFilmSlice = this._film.slice(0, this._count);
     const filmToggle = (evt, popup, film) => {
       popup.changePopUp = () => {
@@ -70,32 +71,30 @@ class MovieController {
     let popup = {};
 
     for (let i = 0; i < arrFilmSlice.length; i++) {
-      api.getComments(this._film[i].id).then((comments) => {
 
         film = new FilmCard(this._film[i]);
         film.onMarkAsWatchedClick = (evt) => {
           evt.preventDefault();
-          popup = new Popup(this._film[i], comments);
+          popup = new Popup(this._film[i], this._commentArr[i]);
           getNewMokData(`watched`, popup, this._film[i]);
         };
         film.onFavoriteClick = (evt) => {
           evt.preventDefault();
-          popup = new Popup(this._film[i], comments);
+          popup = new Popup(this._film[i], this._commentArr[i]);
           getNewMokData(`favorites`, popup, this._film[i]);
         };
         film.onAddToWatchlistClick = (evt) => {
           evt.preventDefault();
-          popup = new Popup(this._film[i], comments);
+          popup = new Popup(this._film[i], this._commentArr[i]);
           getNewMokData(`watchlist`, popup, this._film[i]);
         };
 
         film.onToggleFilm = (evt) => {
-          popup = new Popup(this._film[i], comments);
+          popup = new Popup(this._film[i], this._commentArr[i]);
           filmToggle(evt, popup, this._film[i]);
         };
 
         render(this._containerCard, film.getElement(), Position.BEFOREEND);
-      })
     }
     const getNewMokData = (nameOfList, popups, oldData) => {
       const formData = new FormData(popups.getElement().querySelector(`.film-details__inner`));

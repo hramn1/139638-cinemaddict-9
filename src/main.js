@@ -19,9 +19,15 @@ const stat = new Statistic(titleUser);
 const search = new Search();
 
 const startApp = (films) => {
+  let commentArr = []
+  for (let it of films) {
+    api.getComments(it.id).then((comments) => {
+      commentArr.push(comments)
+    })
+  }
   unrender(loading.getElement());
   loading.removeElement();
-  const page = new PageController(mainContainer, films, count, stat, onDataChangeMain);
+  const page = new PageController(mainContainer, films, count, stat, onDataChangeMain, commentArr);
   const statsController = new StatsController(mainContainer, films, stat);
   statsController.init();
   page.init();

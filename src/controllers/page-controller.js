@@ -7,10 +7,11 @@ import {default as Sort} from "../components/sort";
 import {default as MovieController} from "./movie-controller.js";
 const mainContainer = document.querySelector(`.main`);
 class PageController {
-  constructor(container, film, count, stat) {
+  constructor(container, film, count, stat, onDataChangeMain, commentArr) {
     this._container = container;
     this._film = film;
     this._stat = stat;
+    this._commentArr = commentArr;
     this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
     this._count = count;
@@ -20,8 +21,6 @@ class PageController {
     this._subscriptions.forEach((subscription) => subscription());
   }
   _onDataChange(newData, container, oldData) {
-    console.log(newData)
-
     const currentIndexOfFilmCard = this._film.findIndex((it) => {
       return it === oldData;
     });
@@ -42,7 +41,7 @@ class PageController {
       this.renderCard(topRated.takeContainer()[0], arrFilmRating);
     };
     const topCommentFilm = () => {
-      let arrFilmComment = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.comments) - parseFloat(filmSecond.comments)));
+      let arrFilmComment = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.comments.length) - parseFloat(filmSecond.comments.length)));
       arrFilmComment = arrFilmComment.slice(0, 2);
       this.renderCard(topRated.takeContainer()[1], arrFilmComment);
     };
@@ -55,7 +54,7 @@ class PageController {
     footerStatistics.textContent = `${totalFilm} movies inside`;
   }
   renderCard(containerCard, films) {
-    const movieController = new MovieController(films, containerCard, this._count, this._onDataChange, this._onChangeView);
+    const movieController = new MovieController(films, containerCard, this._count, this._onDataChange, this._onChangeView, this._commentArr);
     movieController.init();
   }
   unrenderCard() {
