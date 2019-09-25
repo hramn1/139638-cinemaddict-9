@@ -101,7 +101,7 @@ class Popup extends AbstractComponent {
             <label for="favorites" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
 
-          <section class="film-details__user-rating-wrap">
+          <section class="film-details__user-rating-wrap ${(this._watched) ? `` : `visually-hidden`}"">
             <div class="film-details__user-rating-controls">
               <button class="film-details__watched-reset" type="button">Undo</button>
             </div>

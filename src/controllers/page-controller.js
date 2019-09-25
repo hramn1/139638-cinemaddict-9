@@ -28,9 +28,12 @@ class PageController {
     keysOfNewData.forEach((key) => {
       this._film[currentIndexOfFilmCard][key] = newData[key];
     });
-    this.unrenderCard();
-    this.renderCard(container, this._film);
+    // this.unrenderCard()
+    // this.renderCard(container, this._film);
+    this.unrenderAll()
+    this.init()
   }
+
   addExtraFilm(topRated) {
     const topRatingFilm = () => {
       let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.totalRating) - parseFloat(filmSecond.totalRating)));
@@ -58,9 +61,16 @@ class PageController {
     const filmCard = document.querySelectorAll(`.films-list .films-list__container .film-card`);
     filmCard.forEach((item) => unrender(item));
   }
+  unrenderAll(){
+    mainContainer.children[0].remove()
+    mainContainer.children[0].remove();
+    // for (let item of mainContainer.children){
+    //  // console.log(item)
+    //  // item.remove();
+    // }
+  }
   init() {
     // меню
-    console.log(this._film);
     let arrFilm = this._film;
     let historyCount = 0;
     let watchlistCount = 0;
@@ -142,6 +152,7 @@ class PageController {
         unrender(moreButton.getElement());
       }
       this.unrenderCard();
+
       this.renderCard(filmCardContainer, this._film);
 
     };
