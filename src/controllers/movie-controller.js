@@ -1,6 +1,7 @@
 import {default as Popup} from '../components/popup.js';
-import {isEscPressed, Position, render, unrender} from "../utils";
+import {isEscPressed, Position, render, unrender, AUTHORIZATION, END_POINT} from "../utils";
 import {default as FilmCard} from "../components/film-card";
+import API from "../api.js";
 const bodyContainer = document.querySelector(`body`);
 
 
@@ -53,7 +54,7 @@ class MovieController {
     }
   }
   init() {
-
+    const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
     const arrFilmSlice = this._film.slice(0, this._count);
     const filmToggle = (evt, popup, film) => {
       popup.changePopUp = () => {
@@ -69,28 +70,32 @@ class MovieController {
     let popup = {};
 
     for (let i = 0; i < arrFilmSlice.length; i++) {
-      film = new FilmCard(this._film[i]);
-      film.onMarkAsWatchedClick = (evt) => {
-        evt.preventDefault();
-        popup = new Popup(this._film[i]);
-        getNewMokData(`watched`, popup, this._film[i]);
-      };
-      film.onFavoriteClick = (evt) => {
-        evt.preventDefault();
-        popup = new Popup(this._film[i]);
-        getNewMokData(`favorites`, popup, this._film[i]);
-      };
-      film.onAddToWatchlistClick = (evt) => {
-        evt.preventDefault();
-        popup = new Popup(this._film[i]);
-        getNewMokData(`watchlist`, popup, this._film[i]);
-      };
+      api.getComments(this._film[i].id).then((comments) => {
 
-      film.onToggleFilm = (evt) =>{
-        popup = new Popup(this._film[i]);
-        filmToggle(evt, popup, this._film[i]);
-      };
-      render(this._containerCard, film.getElement(), Position.BEFOREEND);
+        film = new FilmCard(this._film[i]);
+        film.onMarkAsWatchedClick = (evt) => {
+          evt.preventDefault();
+          popup = new Popup(this._film[i], comments);
+          getNewMokData(`watched`, popup, this._film[i]);
+        };
+        film.onFavoriteClick = (evt) => {
+          evt.preventDefault();
+          popup = new Popup(this._film[i], comments);
+          getNewMokData(`favorites`, popup, this._film[i]);
+        };
+        film.onAddToWatchlistClick = (evt) => {
+          evt.preventDefault();
+          popup = new Popup(this._film[i], comments);
+          getNewMokData(`watchlist`, popup, this._film[i]);
+        };
+
+        film.onToggleFilm = (evt) => {
+          popup = new Popup(this._film[i], comments);
+          filmToggle(evt, popup, this._film[i]);
+        };
+
+        render(this._containerCard, film.getElement(), Position.BEFOREEND);
+      })
     }
     const getNewMokData = (nameOfList, popups, oldData) => {
       const formData = new FormData(popups.getElement().querySelector(`.film-details__inner`));

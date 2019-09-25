@@ -20,6 +20,7 @@ class PageController {
     this._subscriptions.forEach((subscription) => subscription());
   }
   _onDataChange(newData, container, oldData) {
+    console.log(newData)
 
     const currentIndexOfFilmCard = this._film.findIndex((it) => {
       return it === oldData;

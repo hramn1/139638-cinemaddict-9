@@ -1,9 +1,9 @@
-import {default as AbstractComponent} from './abstract.js';
-import {Comment} from './comment.js';
+import {default as AbstractComponent} from './abstract';
+ import {Comment} from './comment';
 // import {generatorRandom} from '../utils.js';
 
 class Popup extends AbstractComponent {
-  constructor(card) {
+  constructor(card, comments) {
     super();
     this._title = card.filmTitle;
     this._rating = card.ratings;
@@ -23,6 +23,7 @@ class Popup extends AbstractComponent {
     this._actors = card.actors;
     this._country = card.country;
     this._controls = card.controls;
+    this._comment = comments
   }
   getTemplate() {
     return `<section class="film-details">
@@ -101,7 +102,7 @@ class Popup extends AbstractComponent {
             <label for="favorites" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
 
-          <section class="film-details__user-rating-wrap ${(this._watched) ? `` : `visually-hidden`}"">
+          <section class="film-details__user-rating-wrap ${(this._controls.isMarkedAsWatched) ? `` : `visually-hidden`}"">
             <div class="film-details__user-rating-controls">
               <button class="film-details__watched-reset" type="button">Undo</button>
             </div>
@@ -154,7 +155,7 @@ class Popup extends AbstractComponent {
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
 
-             <ul class="film-details__comments-list">${Comment.createComments(this._comments)}</ul>
+             <ul class="film-details__comments-list">${Comment.createComments(this._comment)}</ul>
 
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>

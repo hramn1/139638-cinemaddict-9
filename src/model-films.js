@@ -1,6 +1,6 @@
 import moment from "moment";
 
-class ModelFilm {
+export default class ModelFilm {
   constructor(data) {
     this.id = data[`id`] || null;
     this.title = data[`film_info`][`title`] || ``;
@@ -12,7 +12,7 @@ class ModelFilm {
     this.controls = {
       isAddedToWatchlist: Boolean(data[`user_details`][`watchlist`]) || false,
       isMarkedAsWatched: Boolean(data[`user_details`][`already_watched`]) || false,
-      isFavorite: Boolean(data[`user_details`][`favorites`]) || false
+      isFavorite: Boolean(data[`user_details`][`favorite`]) || false
     };
     this.alternativeTitle = data[`film_info`][`alternative_title`] || ``;
     this.totalRating = data[`film_info`][`total_rating`] || 0;
@@ -21,32 +21,7 @@ class ModelFilm {
     this.ageRating = data[`film_info`][`age_rating`] || 0;
     this.actors = data[`film_info`][`actors`] || [];
     this.writers = data[`film_info`][`writers`] || [];
-
-    // Временные комменты, чтобы код работал
-    this.comments = [
-      {
-        id: Math.random(),
-        smile: `smile.png`,
-        text: `Interesting setting and a good cast`,
-        author: `Tim Macoveev`,
-        date: `3 days ago`
-      },
-      {
-        id: Math.random(),
-        smile: `sleeping.png`,
-        text: `Booooooooooring`,
-        author: `ohn Doe`,
-        date: `1 days ago`
-      },
-      {
-        id: Math.random(),
-        smile: `puke.png`,
-        text: `Very very old. Meh`,
-        author: `John Doe`,
-        date: `today`
-      }
-    ];
-    // this.comments = data[`comments`];
+    this.comments = data[`comments`];
 
     this.personalRating = data[`user_details`][`personal_rating`] || ``;
     this.watchingDate = moment(data[`user_details`][`watching_date`]).format() || null;
@@ -59,5 +34,34 @@ class ModelFilm {
   static parseFilms(data) {
     return data.map(ModelFilm.parseFilm);
   }
+
+  toRAW() {
+    return {
+      'film_info': {
+        'poster': this.posterLink,
+        'title': this.title,
+        'alternative_title': this.alternativeTitle,
+        'description': this.description,
+        'runtime': this.duration,
+        'total_rating': parseInt(this.totalRating, 10),
+        'release': {
+          'date': new Date(this.year),
+          'release_country': this.releaseCountry,
+        },
+        'genre': [...this.genre.values()],
+        'age_rating': this.ageRating,
+        'actors': this.actors,
+        'director': this.director,
+        'writers': this.writers,
+      },
+      'user_details': {
+        'already_watched': this.controls.isMarkedAsWatched,
+        'favorite': this.controls.isFavorite,
+        'watchlist': this.controls.isAddedToWatchlist,
+        'personal_rating': parseInt(this.personalRating, 10) || 0,
+        'watching_date': new Date(this.watchingDate) || null,
+      },
+      'comments': this.comments,
+    };
+  }
 }
-export default ModelFilm;

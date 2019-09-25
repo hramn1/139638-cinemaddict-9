@@ -1,12 +1,13 @@
 // Шаблон для комментариев - comment.js
-import {default as AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract';
 
 export class Comment extends AbstractComponent {
-  constructor({avatar, text, autor, date}) {
+  constructor({id, emotion, comment, author, date}) {
     super();
-    this._avatar = avatar;
-    this._text = text;
-    this._autor = autor;
+    this.id = id;
+    this._avatar = emotion;
+    this._text = comment;
+    this._autor = author;
     this._date = date;
   }
 
@@ -22,7 +23,7 @@ export class Comment extends AbstractComponent {
   getTemplate() {
     return `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
-        <img src="./images/emoji/${this._avatar}" width="55" height="55" alt="emoji">
+        <img src="./images/emoji/${this._avatar}.png" width="55" height="55" alt="emoji">
       </span>
       <div>
         <p class="film-details__comment-text">${this._text}</p>
