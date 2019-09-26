@@ -8,14 +8,6 @@ export default class StatsController {
     this._data = data;
     this._stats = stats;
   }
-
-  init() {
-    this._getAllListGenres(this._data);
-    render(this._container, this._stats.getElement(), Position.AFTER);
-    this._renderCharts();
-  }
-
-
   _renderCharts() {
     this._getStats()
     const chartContainer = document.querySelector(`.statistic__chart`);
@@ -89,5 +81,10 @@ export default class StatsController {
     }
 
     return topGenre;
+  }
+  init() {
+    this._getAllListGenres(this._data);
+    render(this._container, this._stats.getElement(), Position.AFTER);
+    this._renderCharts();
   }
 }

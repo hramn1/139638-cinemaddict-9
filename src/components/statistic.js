@@ -1,4 +1,4 @@
-import {default as AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract';
 class Statistic extends AbstractComponent {
   constructor(Title) {
     super();
@@ -51,6 +51,20 @@ class Statistic extends AbstractComponent {
   </div>
 
   </section>`;
+  }
+  bind() {
+    const element = this._element;
+    const formStat = element.querySelectorAll(`.statistic__filters-input`);
+    for (let item of formStat) {
+      item.addEventListener(`change`,()=> {
+        if(item.value === `week`){
+          this.getStatWeek
+        }
+      })
+    }
+  }
+  getStatWeek(){
+    
   }
 }
 export default Statistic;

@@ -1,4 +1,4 @@
-import {default as AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract';
 import {isEnterPressed} from '../utils.js';
 class Search extends AbstractComponent {
   constructor() {

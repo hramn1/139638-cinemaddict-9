@@ -1,4 +1,4 @@
-import {default as AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract';
 import moment from "moment";
 
 class FilmCard extends AbstractComponent {
