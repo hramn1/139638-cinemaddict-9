@@ -20,11 +20,19 @@ const search = new Search();
 
 const startApp = (films) => {
   let commentArr = []
+  const orderObj = []
   for (let it of films) {
     api.getComments(it.id).then((comments) => {
       commentArr.push(comments)
+       orderObj.push(it.id)
     })
   }
+  // orderObj.sort()
+   console.log(orderObj)
+  // var orderObj1 = orderObj.reduce( (a,c,i) => { a[c.id] = i; return a; } , {});
+
+
+  //commentArr.sort( (l,r) =>  orderObj[l.id] - orderObj[r.id] );
   unrender(loading.getElement());
   loading.removeElement();
   const page = new PageController(mainContainer, films, count, stat, onDataChangeMain, commentArr);
@@ -37,7 +45,7 @@ const startApp = (films) => {
 }
 const onDataChangeMain = (actionType, update) => {
   switch (actionType) {
-    case `uptade`:
+    case `update`:
       api.updateFilm(({
         id: update.id,
         data: update.data.toRAW()

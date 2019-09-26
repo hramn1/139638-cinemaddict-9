@@ -120,6 +120,14 @@ class MovieController {
           entry.controls.isMarkedAsWatched = switchTrueFalse(entry.controls.isMarkedAsWatched);
           break;
       }
+      if (entry.controls.isMarkedAsWatched) {
+        popups.getElement().querySelector(`.film-details__user-rating-wrap `).classList.remove(`visually-hidden`);
+        popups.getElement().querySelector(`.film-details__user-rating `).classList.remove(`visually-hidden`);
+      } else {
+        popups.getElement().querySelector(`.film-details__user-rating-wrap `).classList.add(`visually-hidden`);
+        popups.getElement().querySelector(`.film-details__user-rating `).classList.add(`visually-hidden`);
+        entry.userRatio = ``;
+      }
       this._onDataChange(entry, this._containerCard, oldData);
     };
   }

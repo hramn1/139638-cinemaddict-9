@@ -109,10 +109,10 @@ class PageController {
       }
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
-      this._film = arrFilm.filter(function (it) {
+      const arrFilmWatched = arrFilm.filter(function (it) {
         return it.controls.isMarkedAsWatched === true;
       });
-      this.renderCard(filmCardContainer, this._film);
+      this.renderCard(filmCardContainer, arrFilmWatched);
     };
     menu.showWatchlist = () => {
       menu.addClassActiv();
@@ -121,10 +121,10 @@ class PageController {
       }
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
-      this._film = arrFilm.filter(function (it) {
+      const arrFilmWatchList = arrFilm.filter(function (it) {
         return it.controls.isAddedToWatchlist === true;
       });
-      this.renderCard(filmCardContainer, this._film);
+      this.renderCard(filmCardContainer, arrFilmWatchList);
     };
     menu.showFavorites = () => {
       menu.addClassActiv();
@@ -133,10 +133,10 @@ class PageController {
       }
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
-      this._film = arrFilm.filter(function (it) {
+      const arrFilmFavor = arrFilm.filter(function (it) {
         return it.controls.isFavorite === true;
       });
-      this.renderCard(filmCardContainer, this._film);
+      this.renderCard(filmCardContainer, arrFilmFavor);
     };
 
     render(mainContainer, menu.getElement(), Position.BEFOREEND);

@@ -15,25 +15,71 @@ export default class StatsController {
       plugins: [ChartDataLabels],
       type: `horizontalBar`,
       data: {
-        labels: [...Object.keys(this._getCountGenres(this._data))],
+        labels: [...this._getAllListGenres(this._data)],
         datasets: [{
           data: [...Object.values(this._getCountGenres(this._data))],
-          backgroundColor: `#ffe800`,
+          backgroundColor: `#88c9ff`,
           anchor: `start`,
           hoverBackgroundColor: `#fff`,
         }],
       },
       options: {
+        plugins: {
+          datalabels: {
+            clamp: true,
+            anchor: `start`,
+            offset: 40,
+            color: `#ffffff`,
+            align: `start`,
+            font: {
+              family: `Open Sans`,
+              weight: `bold`,
+              size: 14
+            }
+          }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              defaultFontFamily: `Open Sans`,
+              beginAtZero: true,
+              display: true,
+              fontColor: `#ffffff`,
+              fontSize: 16,
+              padding: 85
+            },
+            maxBarThickness: 30,
+            barPercentage: 1.0,
+            categoryPercentage: 0.9,
+            gridLines: {
+              display: false,
+              drawBorder: false
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              display: false,
+              min: 0
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            }
+          }]
+        },
         legend: {
           display: false
         },
-        layout: {
-          padding: {
-            top: 0
-          }
-        },
         tooltips: {
           enabled: false
+        },
+        layout: {
+          padding: {
+            left: 30,
+          }
+        },
+        animation: {
+          easing: `easeInOutQuad`
         }
       }
     });
@@ -45,12 +91,12 @@ export default class StatsController {
         genres.add(...film.genre);
       }
     });
-    return Array.from(genres);
+    return genres;
   }
 
   _getCountGenres(films) {
-    const listGenresArray = this._getAllListGenres(films);
-    const genresCounter = {};
+    const listGenresArray = Array.from(this._getAllListGenres(films));
+    let genresCounter = {};
 
     listGenresArray.forEach((genre) => {
       genresCounter[genre] = 0;
@@ -65,7 +111,6 @@ export default class StatsController {
     return genresCounter;
   }
   _getStats() {
-  console.log(this._data)
   }
 
   _getTopGenre() {

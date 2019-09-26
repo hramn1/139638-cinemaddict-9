@@ -46,6 +46,7 @@ class Popup extends AbstractComponent {
 
                 <div class="film-details__rating">
                   <p class="film-details__total-rating">${this._rating}</p>
+                  <p class="film-details__user-rating">${this._userRatio}</p>
                 </div>
               </div>
 
@@ -191,6 +192,7 @@ class Popup extends AbstractComponent {
   }
 
   bind() {
+    console.log(this._controls.isAddedToWatchlist)
     this._element.querySelectorAll(`.film-details__controls input[type=checkbox]`).forEach((it) => {
       it.addEventListener(`change`, () => {
         this.changePopUp();

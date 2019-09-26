@@ -58,13 +58,23 @@ class Statistic extends AbstractComponent {
     for (let item of formStat) {
       item.addEventListener(`change`,()=> {
         if(item.value === `week`){
-          this.getStatWeek
+          this.getStatWeek()
+        } else if (item.value === `all-time` ){
+          this.getStatAll()
+        } else if (item.value === `Month`){
+          this.getStatMonth()
+        } else if(item.value === `today`){
+          this.getStatToday()
+        } else if(item.value === `year`){
+          this.getStatYear()
         }
       })
     }
   }
-  getStatWeek(){
-    
-  }
+  getStatWeek(){}
+  getStatAll(){}
+  getStatToday(){}
+  getStatMonth(){}
+  getStatYear(){}
 }
 export default Statistic;
