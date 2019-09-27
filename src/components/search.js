@@ -16,11 +16,8 @@ class Search extends AbstractComponent {
   }
   bind() {
     const element = this._element;
-    element.querySelector(`.search__field`).addEventListener(`keydown`, (evt) => {
-      if (isEnterPressed(evt.key)) {
-        evt.preventDefault();
+    element.querySelector(`.search__field`).addEventListener(`focus`, () => {
         this.startSearch();
-      }
     });
     element.querySelector(`.search__reset`).addEventListener(`click`, this.searchReset);
   }

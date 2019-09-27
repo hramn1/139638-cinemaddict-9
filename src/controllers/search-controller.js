@@ -11,7 +11,7 @@ class SearchControlLer {
   init() {
     let filmSearch = [];
     const filmListContainer = document.querySelector(`.films-list__container`);
-    this._search.startSearch = ()=>{
+    this._search.startSearch = () => {
       for (let item of this._film) {
         let filmTitle = item.title.toLowerCase();
         if (item.title.includes(this._search.researchValue().toLowerCase().trim())) {
@@ -29,7 +29,8 @@ class SearchControlLer {
     }
     };
     this._search.searchReset = () => {
-      location.reload();
+      this._page.unrenderCard();
+      this._page.renderCard(filmListContainer, this._film);
     }
     render(this._container, this._search.getElement(), Position.BEFOREEND);
 
