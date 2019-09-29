@@ -20,6 +20,7 @@ export class Comment extends AbstractComponent {
     return fragment.innerHTML;
   }
 
+
   getTemplate() {
     return `<li class="film-details__comment">
       <span class="film-details__comment-emoji">

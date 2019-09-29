@@ -61,13 +61,8 @@ class PageController {
     const filmCard = document.querySelectorAll(`.films-list .films-list__container .film-card`);
     filmCard.forEach((item) => unrender(item));
   }
-  unrenderAll(){
-    mainContainer.children[0].remove()
-    mainContainer.children[0].remove();
-    // for (let item of mainContainer.children){
-    //  // console.log(item)
-    //  // item.remove();
-    // }
+  unrenderAll() {
+    mainContainer.innerHTML = ``;
   }
   init() {
     // меню

@@ -5,7 +5,7 @@ class NoSearch extends AbstractComponent {
     super();
   }
   getTemplate() {
-    return `<main class="main">
+    return `<section class="no-search-result">
   <div class="result">
     <p class="result__text">Result <span class="result__count">0</span></p>
   </div>
@@ -19,7 +19,7 @@ class NoSearch extends AbstractComponent {
       </div>
     </section>
     </section>
-</main>`;
+</section>`;
   }
 }
 export default NoSearch;

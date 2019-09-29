@@ -9,10 +9,63 @@ export default class StatsController {
     this._data = data;
     this._stats = stats;
   }
+
   _renderCharts(renderFilm) {
-    this._getStats()
     const chartContainer = document.querySelector(`.statistic__chart`);
-    return new Chart(chartContainer, {
+    this._stats.getStatAll = () =>{
+      renderFilm = this._data;
+      chartStat.destroy();
+      this._renderCharts(renderFilm);
+    };
+    this._stats.getStatToday = () =>{
+      renderFilm = [];
+      for (let item of this._data) {
+        if (item.watchingDate !== `Invalid date`) {
+          if (moment().diff(moment(item.watchingDate), `days`) === 0) {
+            renderFilm.push(item);
+          }
+        }
+      }
+      chartStat.destroy();
+      this._renderCharts(renderFilm);
+    };
+    this._stats.getStatWeek = () => {
+      renderFilm = [];
+      for (let item of this._data) {
+        if (item.watchingDate !== `Invalid date`) {
+          if (moment().diff(moment(item.watchingDate), `days`) < 8) {
+            renderFilm.push(item);
+          }
+        }
+      }
+      chartStat.destroy();
+      this._renderCharts(renderFilm);
+    };
+    this._stats.getStatYear = () => {
+      renderFilm = [];
+      for (let item of this._data) {
+        if (item.watchingDate !== `Invalid date`) {
+          if (moment().diff(moment(item.watchingDate), `days`) < 366) {
+            renderFilm.push(item);
+          }
+        }
+      }
+      chartStat.destroy();
+      this._renderCharts(renderFilm);
+    };
+    this._stats.getStatMonth = () => {
+      renderFilm = [];
+      for (let item of this._data) {
+        if (item.watchingDate !== `Invalid date`) {
+          if (moment().diff(moment(item.watchingDate), `days`) < 31) {
+            renderFilm.push(item);
+          }
+        }
+      }
+      chartStat.destroy();
+      this._renderCharts(renderFilm);
+    };
+    let chartStat = new Chart(chartContainer, {
       plugins: [ChartDataLabels],
       type: `horizontalBar`,
       data: {
@@ -84,17 +137,44 @@ export default class StatsController {
         }
       }
     });
+    const getWatched = () => {
+      let historyCount = 0;
+      for (let it of renderFilm) {
+        if (it.controls.isMarkedAsWatched) {
+          historyCount++;
+        }
+      }
+      return historyCount;
+    };
+    const getTotalDurationHour = () =>{
+      return Math.floor(renderFilm.reduce((acc, card) => {
+        if (card.controls.isMarkedAsWatched) {
+          acc = acc + card.duration;
+        } return acc;
+      }, 0) / 60);
+    };
+    const getTotalDurationMinute = () => {
+      return renderFilm.reduce((acc, card) => {
+        if (card.controls.isMarkedAsWatched) {
+          acc = acc + card.duration;
+        } return acc;
+      }, 0) % 60;
+    };
+    this._stats.getElement().querySelector(`.statistic__item-text--genre`).textContent = this._getTopGenre(renderFilm);
+    this._stats.getElement().querySelector(`.statistic__item-count`).textContent = getWatched();
+    this._stats.getElement().querySelector(`.statistic__item-hour`).textContent = getTotalDurationHour();
+    this._stats.getElement().querySelector(`.statistic__item-minute`).textContent = getTotalDurationMinute();
+
   }
   _getAllListGenres(data) {
     const genres = new Set([]);
     data.forEach((film) => {
-      if(film.genre.length>0) {
+      if (film.genre.length > 0) {
         genres.add(...film.genre);
       }
     });
     return genres;
   }
-
   _getCountGenres(films) {
     const listGenresArray = Array.from(this._getAllListGenres(films));
     let genresCounter = {};
@@ -111,11 +191,9 @@ export default class StatsController {
 
     return genresCounter;
   }
-  _getStats() {
-  }
 
-  _getTopGenre() {
-    const countGenres = this._getCountGenres(this._data);
+  _getTopGenre(films) {
+    const countGenres = this._getCountGenres(films);
     let maxCount = 0;
     let topGenre = ``;
 
@@ -129,29 +207,8 @@ export default class StatsController {
     return topGenre;
   }
   init() {
-    let renderFilm = this._data;
-    this._stats.getStatAll =()=>{
-      renderFilm = this._data.slice(0,5)
-      this._renderCharts(renderFilm);
-    }
-    for (let item of this._data){
-      if (item.watchingDate) {
-        //console.log('Разница в ', moment().diff(moment(item.watchingDate), 'days'), 'дней');
-        // console.log(moment(item.watchingDate).format())
-        // console.log(moment().format())
-        // console.log(watchedTima)
-      }
-    }
-    this._stats.getStatToday =()=>{
-
-      // console.log(moment().startOf('day').fromNow())
-      //  console.log(moment(this._data.watchingDate).fromNow())
-      renderFilm = this._data
-    }
-    console.log(renderFilm)
-    this._stats.getElement().querySelector(`.statistic__item-text--genre`).textContent = this._getTopGenre();
     this._getAllListGenres(this._data);
     render(this._container, this._stats.getElement(), Position.AFTER);
-    this._renderCharts(renderFilm);
+    this._renderCharts(this._data);
   }
 }

@@ -35,11 +35,11 @@ class Statistic extends AbstractComponent {
   <ul class="statistic__text-list">
   <li class="statistic__text-item">
   <h4 class="statistic__item-title">You watched</h4>
-<p class="statistic__item-text">${this.getWatched()} <span class="statistic__item-description">movies</span></p>
+<p class="statistic__item-text"><span class="statistic__item-count"> </span> <span class="statistic__item-description">movies</span></p>
 </li>
 <li class="statistic__text-item">
   <h4 class="statistic__item-title">Total duration</h4>
-<p class="statistic__item-text">${this.getTotalDurationHour()} <span class="statistic__item-description">h</span> 22 <span class="statistic__item-description">m</span></p>
+<p class="statistic__item-text"><span class="statistic__item-hour"></span> <span class="statistic__item-description">h</span><span class="statistic__item-minute"></span> <span class="statistic__item-description">m</span></p>
 </li>
 <li class="statistic__text-item">
   <h4 class="statistic__item-title">Top genre</h4>
@@ -53,23 +53,8 @@ class Statistic extends AbstractComponent {
 
   </section>`;
   }
-  getWatched(){
-    let historyCount = 0;
-    for (let it of this._films){
-      if(it.controls.isMarkedAsWatched){
-        historyCount++
-      }
 
-    }
-    return historyCount
-  }
-  getTotalDurationHour(){
-    return Math.floor(this._films.reduce((acc, card) => {
-      if (card.controls.isMarkedAsWatched) {
-        acc = acc + card.duration;
-      } return acc;
-    }, 0) / 60)
-  }
+
   bind() {
     console.log(this._films);
     const element = this._element;
@@ -80,7 +65,7 @@ class Statistic extends AbstractComponent {
           this.getStatWeek()
         } else if (item.value === `all-time` ){
           this.getStatAll()
-        } else if (item.value === `Month`){
+        } else if (item.value === `month`){
           this.getStatMonth()
         } else if(item.value === `today`){
           this.getStatToday()
