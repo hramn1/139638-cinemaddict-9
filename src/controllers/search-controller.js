@@ -9,32 +9,36 @@ class SearchControlLer {
     this._mainContainer = mainContainer;
   }
   init() {
-    let filmSearch = [];
     const filmListContainer = document.querySelector(`.films-list__container`);
+
     this._search.startSearch = () => {
-      for (let item of this._film) {
-        let filmTitle = item.title.toLowerCase();
-        if (item.title.includes(this._search.researchValue().toLowerCase().trim())) {
-          filmSearch.push(item);
-        } else if (filmTitle === this._search.researchValue().toLowerCase().trim() ) {
-          filmSearch.push(item);
+      let filmSearch = [];
+      const noSearch = new NoSearch();
+      if (this._search.researchValue().length > 3) {
+        for (let item of this._film) {
+          let filmTitle = item.title.toLowerCase();
+          if (filmTitle.includes(this._search.researchValue().toLowerCase().trim()) || filmTitle === this._search.researchValue().toLowerCase().trim()) {
+            filmSearch.push(item);
+          }
+        }
+        if (filmSearch.length === 0) {
+          unrender(this._mainContainer);
+          render(this._container, noSearch.getElement(), Position.AFTER);
+        } else {
+          this._page.unrenderCard();
+          this._page.renderCard(filmListContainer, filmSearch);
         }
       }
-      if (filmSearch.length === 0) {
-        unrender(this._mainContainer);
-        render(this._container, new NoSearch().getElement(), Position.AFTER);
-      } else {
-      this._page.unrenderCard();
-      this._page.renderCard(filmListContainer, filmSearch);
+      else if (this._search.researchValue().length === 0){
+        this._search.searchReset();
+      }
     }
-    };
-    this._search.searchReset = () => {
-      this._page.unrenderCard();
-      this._page.renderCard(filmListContainer, this._film);
-    }
-    render(this._container, this._search.getElement(), Position.BEFOREEND);
-
-
+      this._search.searchReset = () => {
+        this._page.unrenderCard();
+        this._page.renderCard(filmListContainer, this._film);
+        //this._page.init()
+      }
+      render(this._container, this._search.getElement(), Position.BEFOREEND);
   }
 }
 export default SearchControlLer;

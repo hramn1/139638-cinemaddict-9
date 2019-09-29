@@ -8,6 +8,7 @@ class Popup extends AbstractComponent {
     this._rating = card.ratings;
     this._id = card.id;
     this._year = card.year;
+    this._userRatio = card.personalRating;
     this._runtime = card.runtime;
     this._genre = card.genre;
     this._poster = card.posterLink;
@@ -190,6 +191,7 @@ class Popup extends AbstractComponent {
   changePopUp() {
 
   }
+  onEmojiClick() {}
 
   bind() {
     console.log(this._controls.isAddedToWatchlist)
@@ -201,11 +203,11 @@ class Popup extends AbstractComponent {
     // this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
     //   this.onCloseButtonPress();
     // });
-    // this._element.querySelectorAll(`.film-details__emoji-list input[type=radio]`).forEach((emoji) => {
-    //   emoji.addEventListener(`change`, (evt) => {
-    //     this.onEmojiClick(evt);
-    //   });
-    // });
+    this._element.querySelectorAll(`.film-details__emoji-list input[type=radio]`).forEach((emoji) => {
+      emoji.addEventListener(`change`, (evt) => {
+        this.onEmojiClick(evt);
+      });
+    });
     // this._element.querySelectorAll(`.film-details__user-rating-score input[type=radio]`).forEach((point) => {
     //   point.addEventListener(`change`, (evt) => {
     //     this.onRatingScorePress(evt);

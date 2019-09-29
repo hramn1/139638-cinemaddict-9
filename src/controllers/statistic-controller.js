@@ -1,6 +1,7 @@
 import {render, Position} from "../utils";
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import moment from "moment";
 
 export default class StatsController {
   constructor(container, data, stats) {
@@ -8,16 +9,16 @@ export default class StatsController {
     this._data = data;
     this._stats = stats;
   }
-  _renderCharts() {
+  _renderCharts(renderFilm) {
     this._getStats()
     const chartContainer = document.querySelector(`.statistic__chart`);
     return new Chart(chartContainer, {
       plugins: [ChartDataLabels],
       type: `horizontalBar`,
       data: {
-        labels: [...this._getAllListGenres(this._data)],
+        labels: [...this._getAllListGenres(renderFilm)],
         datasets: [{
-          data: [...Object.values(this._getCountGenres(this._data))],
+          data: [...Object.values(this._getCountGenres(renderFilm))],
           backgroundColor: `#88c9ff`,
           anchor: `start`,
           hoverBackgroundColor: `#fff`,
@@ -128,8 +129,29 @@ export default class StatsController {
     return topGenre;
   }
   init() {
+    let renderFilm = this._data;
+    this._stats.getStatAll =()=>{
+      renderFilm = this._data.slice(0,5)
+      this._renderCharts(renderFilm);
+    }
+    for (let item of this._data){
+      if (item.watchingDate) {
+        //console.log('Разница в ', moment().diff(moment(item.watchingDate), 'days'), 'дней');
+        // console.log(moment(item.watchingDate).format())
+        // console.log(moment().format())
+        // console.log(watchedTima)
+      }
+    }
+    this._stats.getStatToday =()=>{
+
+      // console.log(moment().startOf('day').fromNow())
+      //  console.log(moment(this._data.watchingDate).fromNow())
+      renderFilm = this._data
+    }
+    console.log(renderFilm)
+    this._stats.getElement().querySelector(`.statistic__item-text--genre`).textContent = this._getTopGenre();
     this._getAllListGenres(this._data);
     render(this._container, this._stats.getElement(), Position.AFTER);
-    this._renderCharts();
+    this._renderCharts(renderFilm);
   }
 }

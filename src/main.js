@@ -15,10 +15,10 @@ render(mainContainer, loading.getElement());
 const titleUser = generateRank();
 const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 let count = 5;
-const stat = new Statistic(titleUser);
 const search = new Search();
-
 const startApp = (films) => {
+  const stat = new Statistic(titleUser, films);
+
   let commentArr = []
   const orderObj = []
   for (let it of films) {
