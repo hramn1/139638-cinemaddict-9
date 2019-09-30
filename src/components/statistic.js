@@ -1,4 +1,4 @@
-import {default as AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract';
 class Statistic extends AbstractComponent {
   constructor(Title) {
     super();
@@ -7,9 +7,9 @@ class Statistic extends AbstractComponent {
   getTemplate() {
     return `<section class="statistic visually-hidden">
   <p class="statistic__rank">
-    ${this._titleUser}
+    You rank
 <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-  <span class="statistic__rank-label">Sci-Fighter</span>
+  <span class="statistic__rank-label">${this._titleUser}</span>
   </p>
 
   <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
@@ -34,15 +34,15 @@ class Statistic extends AbstractComponent {
   <ul class="statistic__text-list">
   <li class="statistic__text-item">
   <h4 class="statistic__item-title">You watched</h4>
-<p class="statistic__item-text">22 <span class="statistic__item-description">movies</span></p>
+<p class="statistic__item-text"><span class="statistic__item-count"> </span> <span class="statistic__item-description">movies</span></p>
 </li>
 <li class="statistic__text-item">
   <h4 class="statistic__item-title">Total duration</h4>
-<p class="statistic__item-text">130 <span class="statistic__item-description">h</span> 22 <span class="statistic__item-description">m</span></p>
+<p class="statistic__item-text"><span class="statistic__item-hour"></span> <span class="statistic__item-description">h</span><span class="statistic__item-minute"></span> <span class="statistic__item-description">m</span></p>
 </li>
 <li class="statistic__text-item">
   <h4 class="statistic__item-title">Top genre</h4>
-<p class="statistic__item-text">Sci-Fi</p>
+<p class="statistic__item-text statistic__item-text--genre">Sci-Fi</p>
   </li>
   </ul>
 
@@ -52,5 +52,32 @@ class Statistic extends AbstractComponent {
 
   </section>`;
   }
+
+
+  bind() {
+    const element = this._element;
+    const formStat = element.querySelectorAll(`.statistic__filters-input`);
+    for (let item of formStat) {
+      item.addEventListener(`change`, ()=> {
+        if (item.value === `week`) {
+          this.getStatWeek();
+        } else if (item.value === `all-time`) {
+          this.getStatAll();
+        } else if (item.value === `month`) {
+          this.getStatMonth();
+        } else if (item.value === `today`) {
+          this.getStatToday();
+        } else if (item.value === `year`) {
+          this.getStatYear();
+        }
+      });
+    }
+  }
+
+  getStatWeek() {}
+  getStatAll() {}
+  getStatToday() {}
+  getStatMonth() {}
+  getStatYear() {}
 }
 export default Statistic;

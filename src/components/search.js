@@ -1,5 +1,4 @@
-import {default as AbstractComponent} from './abstract.js';
-import {isEnterPressed} from '../utils.js';
+import {default as AbstractComponent} from './abstract';
 class Search extends AbstractComponent {
   constructor() {
     super();
@@ -16,11 +15,8 @@ class Search extends AbstractComponent {
   }
   bind() {
     const element = this._element;
-    element.querySelector(`.search__field`).addEventListener(`keydown`, (evt) => {
-      if (isEnterPressed(evt.key)) {
-        evt.preventDefault();
-        this.startSearch();
-      }
+    element.querySelector(`.search__field`).addEventListener(`input`, () => {
+      this.startSearch();
     });
     element.querySelector(`.search__reset`).addEventListener(`click`, this.searchReset);
   }

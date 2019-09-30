@@ -1,4 +1,4 @@
-import {default as AbstractComponent} from './abstract.js';
+import {default as AbstractComponent} from './abstract';
 class TitleUser extends AbstractComponent {
   constructor(Title) {
     super();

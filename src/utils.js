@@ -14,7 +14,8 @@ export const Position = {
   BEFOREEND: `beforeend`,
   AFTER: `after`
 };
-
+export const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZAo=${Math.random()}`;
+export const END_POINT = `https://htmlacademy-es-9.appspot.com/cinemaddict/`;
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
@@ -47,3 +48,4 @@ export const isEscPressed = (key) => {
 export const isEnterPressed = (key) => {
   return key === `Enter`;
 };
+

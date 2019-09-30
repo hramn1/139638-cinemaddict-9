@@ -1,27 +1,25 @@
-import {default as AbstractComponent} from './abstract.js';
-import {Comment} from './comment.js';
-// import {generatorRandom} from '../utils.js';
+import {default as AbstractComponent} from './abstract';
+import moment from "moment";
 
 class Popup extends AbstractComponent {
   constructor(card) {
     super();
-    this._title = card.filmTitle;
-    this._rating = card.ratings;
-    this._id = card.id;
-    this._comments = card.comments;
+    this._title = card.title;
+    this._rating = card.totalRating;
+    this._originalTitle = card.alternativeTitle;
+    this._ageRating = card.ageRating;
     this._year = card.year;
-    this._runtime = card.runtime;
+    this._userRatio = card.personalRating;
+    this._runtime = card.duration;
     this._genre = card.genre;
-    this._poster = card.posters;
-    this._description = card.desciption;
-    this._countComments = card.countComments;
-    this._favorites = card.favorites;
-    this._watchlist = card.watchlist;
-    this._watched = card.watched;
+    this._poster = card.posterLink;
+    this._description = card.description;
+    this._countComments = card.comments;
     this._director = card.director;
-    // this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
+    this._writers = card.writers;
     this._actors = card.actors;
-    this._country = card.country;
+    this._country = card.releaseCountry;
+    this._controls = card.controls;
   }
   getTemplate() {
     return `<section class="film-details">
@@ -32,20 +30,21 @@ class Popup extends AbstractComponent {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/${this._poster}" alt="">
+              <img class="film-details__poster-img" src="${this._poster}" alt="">
 
-              <p class="film-details__age">18+</p>
+              <p class="film-details__age">${this._ageRating}+</p>
             </div>
 
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${this._title}</h3>
-                  <p class="film-details__title-original">Original: ${this._title}</p>
+                  <p class="film-details__title-original">Original: ${this._originalTitle}</p>
                 </div>
 
                 <div class="film-details__rating">
                   <p class="film-details__total-rating">${this._rating}</p>
+                  <p class="film-details__user-rating">${this._userRatio}</p>
                 </div>
               </div>
 
@@ -64,11 +63,11 @@ class Popup extends AbstractComponent {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">30 March 1945</td>
+                  <td class="film-details__cell">${this.addYear()}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${this._runtime}</td>
+                  <td class="film-details__cell">${this.addRuntime()}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
@@ -77,41 +76,38 @@ class Popup extends AbstractComponent {
                 <tr class="film-details__row">
                   <td class="film-details__term">Genres</td>
                   <td class="film-details__cell">
-                    <span class="film-details__genre">${this._genre}</span>
-                    <span class="film-details__genre">${this._genre}</span>
                     <span class="film-details__genre">${this._genre}</span></td>
                 </tr>
               </tbody></table>
 
-              <p class="film-details__film-description">
-                The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.
+              <p class="film-details__film-description">${this._description} 
               </p>
             </div>
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${(this._watchlist) ? `checked` : ``}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${(this._controls.isAddedToWatchlist) ? `checked` : ``}>
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${(this._watched) ? `checked` : ``}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${(this._controls.isMarkedAsWatched) ? `checked` : ``}>
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorites" name="favorites" ${(this._favorites) ? `checked` : ``}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorites" name="favorites" ${(this._controls.isFavorite) ? `checked` : ``}>
             <label for="favorites" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
 
-          <section class="film-details__user-rating-wrap">
+          <section class="film-details__user-rating-wrap ${(this._controls.isMarkedAsWatched) ? `` : `visually-hidden`}">
             <div class="film-details__user-rating-controls">
               <button class="film-details__watched-reset" type="button">Undo</button>
             </div>
 
             <div class="film-details__user-score">
               <div class="film-details__user-rating-poster">
-                <img src="./images/posters/${this._poster}" alt="film-poster" class="film-details__user-rating-img">
+                <img src="${this._poster}" alt="film-poster" class="film-details__user-rating-img">
               </div>
 
               <section class="film-details__user-rating-inner">
-                <h3 class="film-details__user-rating-title">${this._header}</h3>
+                <h3 class="film-details__user-rating-title">${this._title}</h3>
 
                 <p class="film-details__user-rating-feelings">How you feel it?</p>
 
@@ -151,9 +147,8 @@ class Popup extends AbstractComponent {
 
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${this._countComments.length}</span></h3>
 
-             <ul class="film-details__comments-list">${Comment.createComments(this._comments)}</ul>
 
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>
@@ -189,29 +184,40 @@ class Popup extends AbstractComponent {
       </form>
     </section>`;
   }
-  changePopUp() {
-
+  changePopUp() {}
+  onEmojiClick() {}
+  addYear() {
+    return moment(this._year).format(`DD MMMM YYYY`);
   }
-
+  addRuntime() {
+    let minutes = this._runtime % 60;
+    let hour = Math.floor(this._runtime / 60);
+    if (hour === 0) {
+      hour = ``;
+    }
+    return `${hour}h ${minutes}m`;
+  }
+  onCloseButtonPress() {}
+  onRatingScorePress() {}
   bind() {
     this._element.querySelectorAll(`.film-details__controls input[type=checkbox]`).forEach((it) => {
       it.addEventListener(`change`, () => {
         this.changePopUp();
       });
     });
-    // this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
-    //   this.onCloseButtonPress();
-    // });
-    // this._element.querySelectorAll(`.film-details__emoji-list input[type=radio]`).forEach((emoji) => {
-    //   emoji.addEventListener(`change`, (evt) => {
-    //     this.onEmojiClick(evt);
-    //   });
-    // });
-    // this._element.querySelectorAll(`.film-details__user-rating-score input[type=radio]`).forEach((point) => {
-    //   point.addEventListener(`change`, (evt) => {
-    //     this.onRatingScorePress(evt);
-    //   });
-    // });
+    this._element.querySelector(`.film-details__watched-reset`).addEventListener(`click`, () => {
+      this.onCloseButtonPress();
+    });
+    this._element.querySelectorAll(`.film-details__emoji-list input[type=radio]`).forEach((emoji) => {
+      emoji.addEventListener(`change`, (evt) => {
+        this.onEmojiClick(evt);
+      });
+    });
+    this._element.querySelectorAll(`.film-details__user-rating-score input[type=radio]`).forEach((point) => {
+      point.addEventListener(`change`, (evt) => {
+        this.onRatingScorePress(evt);
+      });
+    });
   }
 }
 

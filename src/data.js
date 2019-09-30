@@ -1,4 +1,4 @@
-import {generatorRandom} from './utils.js';
+import {generatorRandom} from './utils';
 const filmData = {
   filmTitle: [`Die hard`, `The Godfather`, `Pulp Fiction`, `Star Wars`, `Schindler's List`, `Fight Club`, `Saving Private Ryan`, `Back to the Future`,
     `The Lord of the Rings - The Return of the King`, `Titanic`, `Terminator 2`, `The Departed`, `Avatar`, `Home Alone`, `The Fifth Element`],
@@ -58,6 +58,7 @@ const generateTime = () => {
   let minutes = Math.round(generatorRandom.generateRandomNumber(0, 60));
   if (hour === `0h`) {
     hour = ``;
+    minutes = Math.round(generatorRandom.generateRandomNumber(30, 60));
   }
   return `${hour} ${minutes}m`;
 };
