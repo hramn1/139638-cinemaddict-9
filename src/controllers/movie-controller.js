@@ -1,4 +1,4 @@
-import {default as Popup} from '../components/popup.js';
+import {default as Popup} from '../components/popup';
 import {isEscPressed, Position, render, unrender} from "../utils";
 import {default as FilmCard} from "../components/film-card";
 import CommentsController from "./comment-controller";

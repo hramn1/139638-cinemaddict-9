@@ -1,13 +1,13 @@
-import {default as TitleUser} from './components/title-user.js';
-import {default as Search} from './components/search.js';
-import {default as Statistic} from './components/statistic.js';
-import {generateRank} from './data.js';
-import {render, unrender, Position, AUTHORIZATION, END_POINT} from './utils.js';
-import {default as PageController} from './controllers/page-controller.js';
-import {default as SearchControlLer} from './controllers/search-controller.js';
-import {default as StatsController} from "./controllers/statistic-controller.js";
-import {default as NoFilms} from './components/no-films.js';
-import API from "./api.js";
+import {default as TitleUser} from './components/title-user';
+import {default as Search} from './components/search';
+import {default as Statistic} from './components/statistic';
+import {generateRank} from './data';
+import {render, unrender, Position, AUTHORIZATION, END_POINT} from './utils';
+import {default as PageController} from './controllers/page-controller';
+import {default as SearchControlLer} from './controllers/search-controller';
+import {default as StatsController} from "./controllers/statistic-controller";
+import {default as NoFilms} from './components/no-films';
+import API from "./api";
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 const loading = new NoFilms(`Loading`);
@@ -20,19 +20,10 @@ const startApp = (films) => {
   const stat = new Statistic(titleUser, films);
 
   let commentArr = []
-  const orderObj = []
-  for (let it of films) {
-    api.getComments(it.id).then((comments) => {
-      commentArr.push(comments)
-       orderObj.push(it.id)
-    })
-  }
-  // orderObj.sort()
-   console.log(orderObj)
-  // var orderObj1 = orderObj.reduce( (a,c,i) => { a[c.id] = i; return a; } , {});
-
-
-  //commentArr.sort( (l,r) =>  orderObj[l.id] - orderObj[r.id] );
+    for (let i = 0; i < films.length; i++) {
+      api.getComments(films[i].id).then((comments) => {
+      commentArr[films[i].id] = comments
+  })}
   unrender(loading.getElement());
   loading.removeElement();
   const page = new PageController(mainContainer, films, count, stat, onDataChangeMain, commentArr);

@@ -1,6 +1,6 @@
 import {Position,unrender, render} from "../utils";
-import {default as NoSearch} from '../components/no-search-result.js';
-import {default as SearchResult} from '../components/search-result.js';
+import {default as NoSearch} from '../components/no-search-result';
+import {default as SearchResult} from '../components/search-result';
 class SearchControlLer {
   constructor(container, filmData, search, page, mainContainer) {
     this._container = container;
@@ -27,7 +27,7 @@ class SearchControlLer {
         }
         for (let item of this._film) {
           let filmTitle = item.title.toLowerCase();
-          if (filmTitle.includes(this._search.researchValue().toLowerCase().trim()) || filmTitle === this._search.researchValue().toLowerCase().trim()) {
+          if (filmTitle.includes(this._search.researchValue().replace(/,/g, ``).toLowerCase().trim()) || filmTitle === this._search.researchValue().replace(/,/g, ``).toLowerCase().trim()) {
             filmSearch.push(item);
           }
         }
@@ -49,7 +49,6 @@ class SearchControlLer {
         unrender(noSearch.getElement())
       } else {
         this._page.unrenderAll();
-        // this._page.renderCard(filmListContainer, this._film);
       }
         this._page.init()
       }

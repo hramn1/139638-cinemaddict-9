@@ -1,10 +1,10 @@
-import {default as Button} from '../components/button.js';
-import {default as TopRated} from '../components/top-rated.js';
-import {default as FilmContainer} from '../components/film-container.js';
-import {default as Menu} from '../components/menu.js';
-import {render, unrender, Position} from '../utils.js';
+import {default as Button} from '../components/button';
+import {default as TopRated} from '../components/top-rated';
+import {default as FilmContainer} from '../components/film-container';
+import {default as Menu} from '../components/menu';
+import {render, unrender, Position} from '../utils';
 import {default as Sort} from "../components/sort";
-import {default as MovieController} from "./movie-controller.js";
+import {default as MovieController} from "./movie-controller";
 const mainContainer = document.querySelector(`.main`);
 class PageController {
   constructor(container, film, count, stat, onDataChangeMain, commentArr) {
