@@ -11,19 +11,21 @@ import API from "./api";
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 const loading = new NoFilms(`Loading`);
-render(mainContainer, loading.getElement());
+render(mainContainer, loading.getElement(), Position.BEFOREEND);
 const titleUser = generateRank();
 const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 let count = 5;
 const search = new Search();
+
 const startApp = (films) => {
   const stat = new Statistic(titleUser, films);
 
-  let commentArr = []
-    for (let i = 0; i < films.length; i++) {
-      api.getComments(films[i].id).then((comments) => {
-      commentArr[films[i].id] = comments
-  })}
+  let commentArr = [];
+  for (let i = 0; i < films.length; i++) {
+    api.getComments(films[i].id).then((comments) => {
+      commentArr[films[i].id] = comments;
+    });
+  }
   unrender(loading.getElement());
   loading.removeElement();
   const page = new PageController(mainContainer, films, count, stat, onDataChangeMain, commentArr);
@@ -33,7 +35,7 @@ const startApp = (films) => {
   const searchControl = new SearchControlLer(headerContainer, films, search, page, mainContainer);
   searchControl.init();
   render(headerContainer, new TitleUser(titleUser).getElement(), Position.BEFOREEND);
-}
+};
 const onDataChangeMain = (actionType, update) => {
   switch (actionType) {
     case `update`:

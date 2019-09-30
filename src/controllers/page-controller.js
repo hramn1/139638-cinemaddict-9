@@ -20,18 +20,30 @@ class PageController {
   _onChangeView() {
     this._subscriptions.forEach((subscription) => subscription());
   }
-  _onDataChange(newData, container, oldData) {
-    const currentIndexOfFilmCard = this._film.findIndex((it) => {
-      return it === oldData;
-    });
-    const keysOfNewData = Object.keys(newData);
-    keysOfNewData.forEach((key) => {
-      this._film[currentIndexOfFilmCard][key] = newData[key];
-    });
-    // this.unrenderCard()
-    // this.renderCard(container, this._film);
-    this.unrenderAll()
-    this.init()
+  _onDataChange(newData, container, oldData, isChangeCommentsList = false, commentId = false) {
+    if (isChangeCommentsList) {
+      this._onDataChangeComments(newData, oldData, commentId);
+    } else {
+      const currentIndexOfFilmCard = this._film.findIndex((it) => {
+        return it === oldData;
+      });
+      const keysOfNewData = Object.keys(newData);
+      keysOfNewData.forEach((key) => {
+        this._film[currentIndexOfFilmCard][key] = newData[key];
+      });
+    }
+    this.unrenderAll();
+    this.init();
+  }
+  _onDataChangeComments(newData, oldData, commentId) {
+    if (commentId) {
+      const commentsListData = this._film[this._film.findIndex((it) => it === oldData)].comments;
+      const indexInCards = this._film.findIndex((it) => it === oldData);
+      const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
+      this._film[indexInCards].comments.splice(indexInArrayCommentsList, 1);
+    } else {
+      this._film[this._film.findIndex((it) => it === oldData)].comments.push(newData);
+    }
   }
 
   addExtraFilm(topRated) {
@@ -70,15 +82,15 @@ class PageController {
     let historyCount = 0;
     let watchlistCount = 0;
     let favorites = 0;
-    for (let it of this._film){
-      if(it.controls.isMarkedAsWatched){
-        historyCount++
+    for (let it of this._film) {
+      if (it.controls.isMarkedAsWatched) {
+        historyCount++;
       }
-      if(it.controls.isAddedToWatchlist){
-        watchlistCount++
+      if (it.controls.isAddedToWatchlist) {
+        watchlistCount++;
       }
-      if(it.controls.isFavorite){
-        favorites++
+      if (it.controls.isFavorite) {
+        favorites++;
       }
     }
     const menu = new Menu(historyCount, watchlistCount, favorites);

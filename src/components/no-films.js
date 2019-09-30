@@ -7,17 +7,15 @@ class NoFilms extends AbstractComponent {
   }
 
   getTemplate() {
-    return `
-      <section class="films">
-        <section class="films-list">
-          <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+    return `<section class="films">
+    <section class="films-list">
+      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
 
-          <div class="no-result">
-            ${this._textInfo}
-          </div>
-        </section>
-      </section>
-    `;
+      <div class="no-result">
+        ${this._textInfo}
+      </div>
+    </section>
+  </section>`;
   }
 }
 export default NoFilms;

@@ -1,7 +1,6 @@
-import {createElement, isEnterPressed, render, unrender, Position} from "../utils";
+import {createElement, render, unrender, Position} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comment-list";
-import moment from "moment";
 
 export default class CommentsController {
   constructor(container, dataCard, onDataChange, commentsData) {
@@ -56,9 +55,8 @@ export default class CommentsController {
 
       const commentData = {
         id: Math.random(),
-        author: `Evstratchik denis`,
+        author: `sasha grey`,
         comment: commentTextarea.value,
-        date: moment(Date.now()).format(`YY/MM/DD HH:MM`),
         emotion: smile,
       };
 
@@ -71,7 +69,7 @@ export default class CommentsController {
 
       commentTextarea.value = ``;
       const isChangeCommentsList = true;
-      this._onDataChange(commentData, this._dataCard, isChangeCommentsList);
+      this._onDataChange(commentData, this._container, this._dataCard, isChangeCommentsList);
     }
   }
 
@@ -84,7 +82,7 @@ export default class CommentsController {
 
       const isChangeCommentsList = true;
 
-      this._onDataChange(null, this._dataCard, isChangeCommentsList, +commentId);
+      this._onDataChange(null, this._container, this._dataCard, isChangeCommentsList, +commentId);
 
       unrender(currentComment.getElement());
       currentComment.removeElement();

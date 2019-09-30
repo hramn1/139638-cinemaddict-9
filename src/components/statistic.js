@@ -1,8 +1,7 @@
 import {default as AbstractComponent} from './abstract';
 class Statistic extends AbstractComponent {
-  constructor(Title, films) {
+  constructor(Title) {
     super();
-    this._films = films;
     this._titleUser = Title;
   }
   getTemplate() {
@@ -56,30 +55,29 @@ class Statistic extends AbstractComponent {
 
 
   bind() {
-    console.log(this._films);
     const element = this._element;
     const formStat = element.querySelectorAll(`.statistic__filters-input`);
     for (let item of formStat) {
-      item.addEventListener(`change`,()=> {
-        if(item.value === `week`){
-          this.getStatWeek()
-        } else if (item.value === `all-time` ){
-          this.getStatAll()
-        } else if (item.value === `month`){
-          this.getStatMonth()
-        } else if(item.value === `today`){
-          this.getStatToday()
-        } else if(item.value === `year`){
-          this.getStatYear()
+      item.addEventListener(`change`, ()=> {
+        if (item.value === `week`) {
+          this.getStatWeek();
+        } else if (item.value === `all-time`) {
+          this.getStatAll();
+        } else if (item.value === `month`) {
+          this.getStatMonth();
+        } else if (item.value === `today`) {
+          this.getStatToday();
+        } else if (item.value === `year`) {
+          this.getStatYear();
         }
-      })
+      });
     }
   }
 
-  getStatWeek(){}
-  getStatAll(){}
-  getStatToday(){}
-  getStatMonth(){}
-  getStatYear(){}
+  getStatWeek() {}
+  getStatAll() {}
+  getStatToday() {}
+  getStatMonth() {}
+  getStatYear() {}
 }
 export default Statistic;

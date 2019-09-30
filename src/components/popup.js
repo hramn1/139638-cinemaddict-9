@@ -1,28 +1,25 @@
 import {default as AbstractComponent} from './abstract';
- import {Comment} from './comment';
+import moment from "moment";
 
 class Popup extends AbstractComponent {
-  constructor(card, comments) {
+  constructor(card) {
     super();
     this._title = card.title;
-    this._rating = card.ratings;
-    this._id = card.id;
+    this._rating = card.totalRating;
+    this._originalTitle = card.alternativeTitle;
+    this._ageRating = card.ageRating;
     this._year = card.year;
     this._userRatio = card.personalRating;
-    this._runtime = card.runtime;
+    this._runtime = card.duration;
     this._genre = card.genre;
     this._poster = card.posterLink;
     this._description = card.description;
-    this._countComments = card.countComments;
-    this._favorites = card.favorites;
-    this._watchlist = card.watchlist;
-    this._watched = card.watched;
+    this._countComments = card.comments;
     this._director = card.director;
-    // this._writers = card.writers.splice(generatorRandom.generateRandomCount(7), Math.floor(generatorRandom.generateRandomNumber(1, 5)));
+    this._writers = card.writers;
     this._actors = card.actors;
-    this._country = card.country;
+    this._country = card.releaseCountry;
     this._controls = card.controls;
-    this._comment = comments;
   }
   getTemplate() {
     return `<section class="film-details">
@@ -35,14 +32,14 @@ class Popup extends AbstractComponent {
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="${this._poster}" alt="">
 
-              <p class="film-details__age">18+</p>
+              <p class="film-details__age">${this._ageRating}+</p>
             </div>
 
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${this._title}</h3>
-                  <p class="film-details__title-original">Original: ${this._title}</p>
+                  <p class="film-details__title-original">Original: ${this._originalTitle}</p>
                 </div>
 
                 <div class="film-details__rating">
@@ -66,11 +63,11 @@ class Popup extends AbstractComponent {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">30 March 1945</td>
+                  <td class="film-details__cell">${this.addYear()}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${this._runtime}</td>
+                  <td class="film-details__cell">${this.addRuntime()}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
@@ -106,11 +103,11 @@ class Popup extends AbstractComponent {
 
             <div class="film-details__user-score">
               <div class="film-details__user-rating-poster">
-                <img src="./images/posters/${this._poster}" alt="film-poster" class="film-details__user-rating-img">
+                <img src="${this._poster}" alt="film-poster" class="film-details__user-rating-img">
               </div>
 
               <section class="film-details__user-rating-inner">
-                <h3 class="film-details__user-rating-title">${this._header}</h3>
+                <h3 class="film-details__user-rating-title">${this._title}</h3>
 
                 <p class="film-details__user-rating-feelings">How you feel it?</p>
 
@@ -150,7 +147,7 @@ class Popup extends AbstractComponent {
 
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${this._countComments.length}</span></h3>
 
 
             <div class="film-details__new-comment">
@@ -187,31 +184,40 @@ class Popup extends AbstractComponent {
       </form>
     </section>`;
   }
-  changePopUp() {
-
-  }
+  changePopUp() {}
   onEmojiClick() {}
-
+  addYear() {
+    return moment(this._year).format(`DD MMMM YYYY`);
+  }
+  addRuntime() {
+    let minutes = this._runtime % 60;
+    let hour = Math.floor(this._runtime / 60);
+    if (hour === 0) {
+      hour = ``;
+    }
+    return `${hour}h ${minutes}m`;
+  }
+  onCloseButtonPress() {}
+  onRatingScorePress() {}
   bind() {
-    console.log(this._controls.isAddedToWatchlist)
     this._element.querySelectorAll(`.film-details__controls input[type=checkbox]`).forEach((it) => {
       it.addEventListener(`change`, () => {
         this.changePopUp();
       });
     });
-    // this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
-    //   this.onCloseButtonPress();
-    // });
+    this._element.querySelector(`.film-details__watched-reset`).addEventListener(`click`, () => {
+      this.onCloseButtonPress();
+    });
     this._element.querySelectorAll(`.film-details__emoji-list input[type=radio]`).forEach((emoji) => {
       emoji.addEventListener(`change`, (evt) => {
         this.onEmojiClick(evt);
       });
     });
-    // this._element.querySelectorAll(`.film-details__user-rating-score input[type=radio]`).forEach((point) => {
-    //   point.addEventListener(`change`, (evt) => {
-    //     this.onRatingScorePress(evt);
-    //   });
-    // });
+    this._element.querySelectorAll(`.film-details__user-rating-score input[type=radio]`).forEach((point) => {
+      point.addEventListener(`change`, (evt) => {
+        this.onRatingScorePress(evt);
+      });
+    });
   }
 }
 
