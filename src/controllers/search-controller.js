@@ -10,7 +10,6 @@ class SearchControlLer {
     this._mainContainer = mainContainer;
   }
   init() {
-    const filmListContainer = document.querySelector(`.films-list__container`);
     const noSearch = new NoSearch();
     const searchResult = new SearchResult();
     this._search.startSearch = () => {
@@ -36,6 +35,7 @@ class SearchControlLer {
           unrender(noSearch.getElement());
           render(this._container, noSearch.getElement(), Position.AFTER);
         } else {
+          const filmListContainer = document.querySelector(`.films-list__container`);
           this._page.unrenderCard();
           this._page.renderCard(filmListContainer, filmSearch);
         }
