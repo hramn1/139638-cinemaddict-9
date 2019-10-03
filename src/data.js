@@ -135,7 +135,4 @@ export const historyCount = generateMenuCount();
 export const watchlistCount = generateMenuCount();
 export const favorites = generateMenuCount();
 export const totalfilm = generateFilmList();
-export const arrFilm = [];
-for (let i = 0; i < totalfilm; i++) {
-  arrFilm.push(generateFilmData());
-}
+export const generateFilmData = [];

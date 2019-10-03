@@ -1,3 +1,7 @@
+export const KeyCode = {
+  ENTER: 13,
+  CONTROL: 17
+}
 export const generatorRandom = {
   generateRandomNumber(min, max) {
     return (min + Math.random() * (max - min)).toFixed(1);
@@ -45,7 +49,3 @@ export const unrender = (element) => {
 export const isEscPressed = (key) => {
   return key === `Escape` || key === `Esc`;
 };
-export const isEnterPressed = (key) => {
-  return key === `Enter`;
-};
-

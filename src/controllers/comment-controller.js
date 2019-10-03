@@ -1,4 +1,4 @@
-import {createElement, render, unrender, Position} from "../utils";
+import {createElement, render, unrender, KeyCode, Position} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comment-list";
 
@@ -38,11 +38,20 @@ export default class CommentsController {
     });
 
     this._container.querySelector(`.film-details__comment-input`)
-      .addEventListener(`keydown`, (evt) => this._sendComment(evt));
+    let pressedKey = new Set ();
+      .addEventListener(`keydown`, (evt) => this._sendComment(evt, pressedKey));
   }
 
-  _sendComment(evt) {
-    if (evt.keyCode === 13) {
+  _sendComment(evt, pressedKey) {
+    if (evtDown.keyCode === KeyCode.ENTER || evtDown.keyCode === KeyCode.CONTROL){
+  pressedKey.add(evtDown.keyCode)
+  document.addEventListener('keyup', function(evtUp){
+    if (evtUp.keyCode === KeyCode.ENTER || evtUp.keyCode === KeyCode.CONTROL){
+    pressedKey.delete(evtUp.keyCode)
+}
+  } )
+}
+    if(pressedKey.size === 2) {
       const commentTextarea = this._container.querySelector(`.film-details__comment-input`);
 
       let smile = `smile`;
