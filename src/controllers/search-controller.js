@@ -17,9 +17,11 @@ class SearchControlLer {
       if (this._search.researchValue().length > 3) {
         unrender(searchResult.getElement());
         render(this._mainContainer, searchResult.getElement(), Position.AFTERBEGIN);
+        if(!document.querySelector(`.no-search-result`)){
         document.querySelector(`.sort`).classList.add(`visually-hidden`);
         document.querySelector(`.main-navigation`).classList.add(`visually-hidden`);
         document.querySelector(`.films-list__show-more`).classList.add(`visually-hidden`);
+        }
         const filmEtra = document.querySelectorAll(`.films-list--extra`);
         for (let it of filmEtra) {
           it.classList.add(`visually-hidden`);

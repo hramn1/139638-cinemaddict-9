@@ -36,13 +36,12 @@ export default class CommentsController {
           .appendChild(createElement(`<img src="${img.src}" width="55" height="55" alt="emoji">`));
       });
     });
-
-    this._container.querySelector(`.film-details__comment-input`)
     let pressedKey = new Set ();
+    this._container.querySelector(`.film-details__comment-input`)
       .addEventListener(`keydown`, (evt) => this._sendComment(evt, pressedKey));
   }
 
-  _sendComment(evt, pressedKey) {
+  _sendComment(evtDown, pressedKey) {
     if (evtDown.keyCode === KeyCode.ENTER || evtDown.keyCode === KeyCode.CONTROL){
   pressedKey.add(evtDown.keyCode)
   document.addEventListener('keyup', function(evtUp){
