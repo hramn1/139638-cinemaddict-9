@@ -31,11 +31,11 @@ const API = class {
       .then(ModelFilm.parseFilms);
   }
 
-  updateFilm({id, data}) {
+  updateFilm(id, data) {
     return this._load({
       url: `movies/${id}`,
       method: `PUT`,
-      body: JSON.stringify(data),
+      body: JSON.stringify(data.toRAW()),
       headers: new Headers({'Content-Type': `application/json`})
     })
       .then(toJSON)
@@ -62,6 +62,8 @@ const API = class {
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
+    console.log(method)
+    console.log(body)
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`${this._endPoint}/${url}`, {method, body, headers})

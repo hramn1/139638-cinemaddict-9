@@ -2,9 +2,11 @@ import {default as Button} from '../components/button';
 import {default as TopRated} from '../components/top-rated';
 import {default as FilmContainer} from '../components/film-container';
 import {default as Menu} from '../components/menu';
-import {render, unrender, Position} from '../utils';
+import {render, unrender, Position, AUTHORIZATION, END_POINT} from '../utils';
 import {default as Sort} from "../components/sort";
 import {default as MovieController} from "./movie-controller";
+import API from "../api";
+
 const mainContainer = document.querySelector(`.main`);
 class PageController {
   constructor(container, film, count, stat, onDataChangeMain, commentArr) {
@@ -16,6 +18,9 @@ class PageController {
     this._onDataChange = this._onDataChange.bind(this);
     this._count = count;
     this._subscriptions = [];
+    this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
+    this._onDataChangeMain = onDataChangeMain;
+
   }
   _onChangeView() {
     this._subscriptions.forEach((subscription) => subscription());
@@ -32,6 +37,14 @@ class PageController {
         this._film[currentIndexOfFilmCard][key] = newData[key];
       });
     }
+    const filmId = oldData.id;
+    console.log(filmId)
+    const dataForSend = oldData;
+    this._api.updateFilm(filmId, dataForSend)
+      .then(() => {
+        this._onDataChangeMain();
+      });
+
     this.unrenderAll();
     this.init();
   }

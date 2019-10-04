@@ -14,7 +14,7 @@ export const Position = {
   BEFOREEND: `beforeend`,
   AFTER: `after`
 };
-export const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZAo=${Math.random()}`;
+export const AUTHORIZATION = `Basic gfgf454l;gfv4htrr`;
 export const END_POINT = `https://htmlacademy-es-9.appspot.com/cinemaddict/`;
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);

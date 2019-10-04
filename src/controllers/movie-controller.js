@@ -95,7 +95,7 @@ class MovieController {
         popup = new Popup(this._film[i], this._commentArr[i]);
         const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._commentArr[i]);
         commentsController.init();
-        getNewMokData(`favorites`, popup, this._film[i]);
+        getNewMokData(`favorite`, popup, this._film[i]);
       };
       film.onAddToWatchlistClick = (evt) => {
         evt.preventDefault();
@@ -119,18 +119,17 @@ class MovieController {
       const formData = new FormData(popups.getElement().querySelector(`.film-details__inner`));
       const switchTrueFalse = (v) => !v;
       const personalRating = formData.getAll(`score`);
-
       const entry = {
         controls: {
-          isFavorite: Boolean(formData.get(`favorites`)),
+          isFavorite: Boolean(formData.get(`favorite`)),
           isAddedToWatchlist: Boolean(formData.get(`watchlist`)),
           isMarkedAsWatched: Boolean(formData.get(`watched`)),
         },
-        personalRating: `Your rate ${personalRating}`,
+        personalRating: `${personalRating}`,
 
       };
       switch (nameOfList) {
-        case `favorites`:
+        case `favorite`:
           entry.controls.isFavorite = switchTrueFalse(entry.controls.isFavorite);
           break;
         case `watchlist`:
