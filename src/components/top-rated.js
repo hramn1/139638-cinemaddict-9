@@ -10,14 +10,6 @@ class TopRated extends AbstractComponent {
           </div>
         </section>`;
   }
-  removeElement() {
-    const arrElevtnr = document.querySelectorAll(`.films-list--extra`);
-    if (arrElevtnr.length > 0) {
-      return true;
-    } else {
-      return true;
-    }
-  }
 
   removetitle() {
     const filmExtraTitle = document.querySelectorAll(`.films-list--extra .films-list__title`);

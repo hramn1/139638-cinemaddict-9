@@ -176,10 +176,10 @@ export default class StatsController {
     return genres;
   }
   _getCountGenres(films) {
-    const listGenresArray = Array.from(this._getAllListGenres(films));
+    const listGenres = Array.from(this._getAllListGenres(films));
     let genresCounter = {};
 
-    listGenresArray.forEach((genre) => {
+    listGenres.forEach((genre) => {
       genresCounter[genre] = 0;
     });
 

@@ -20,15 +20,15 @@ const search = new Search();
 const startApp = (films) => {
   const stat = new Statistic(titleUser, films);
   console.log(films)
-  let commentArr = [];
+  let commentsFull = [];
   for (let i = 0; i < films.length; i++) {
     api.getComments(films[i].id).then((comments) => {
-      commentArr[films[i].id] = comments;
+      commentsFull[films[i].id] = comments;
     });
   }
   unrender(loading.getElement());
   loading.removeElement();
-  const page = new PageController(mainContainer, films, count, stat, onDataChangeMain, commentArr);
+  const page = new PageController(mainContainer, films, count, stat, onDataChangeMain, commentsFull);
   const statsController = new StatsController(mainContainer, films, stat);
   statsController.init();
   page.init();

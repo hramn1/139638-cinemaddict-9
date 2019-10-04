@@ -1,5 +1,6 @@
 import {default as AbstractComponent} from './abstract';
 import moment from "moment";
+import dompurify from "dompurify";
 
 class Popup extends AbstractComponent {
   constructor(card) {
@@ -80,7 +81,7 @@ class Popup extends AbstractComponent {
                 </tr>
               </tbody></table>
 
-              <p class="film-details__film-description">${this._description} 
+              <p class="film-details__film-description">${this._description}
               </p>
             </div>
           </div>

@@ -9,11 +9,11 @@ import API from "../api";
 
 const mainContainer = document.querySelector(`.main`);
 class PageController {
-  constructor(container, film, count, stat, onDataChangeMain, commentArr) {
+  constructor(container, film, count, stat, onDataChangeMain, comments) {
     this._container = container;
     this._film = film;
     this._stat = stat;
-    this._commentArr = commentArr;
+    this._comments = comments;
     this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
     this._count = count;
@@ -52,8 +52,8 @@ class PageController {
     if (commentId) {
       const commentsListData = this._film[this._film.findIndex((it) => it === oldData)].comments;
       const indexInCards = this._film.findIndex((it) => it === oldData);
-      const indexInArrayCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
-      this._film[indexInCards].comments.splice(indexInArrayCommentsList, 1);
+      const indexInCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
+      this._film[indexInCards].comments.splice(indexInCommentsList, 1);
     } else {
       this._film[this._film.findIndex((it) => it === oldData)].comments.push(newData);
     }
@@ -61,14 +61,14 @@ class PageController {
 
   addExtraFilm(topRated) {
     const topRatingFilm = () => {
-      let arrFilmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.totalRating) - parseFloat(filmSecond.totalRating)));
-      arrFilmRating = arrFilmRating.slice(0, 2);
-      this.renderCard(topRated.takeContainer()[0], arrFilmRating);
+      let filsmRating = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.totalRating) - parseFloat(filmSecond.totalRating)));
+      filsmRating = filsmRating.slice(0, 2);
+      this.renderCard(topRated.takeContainer()[0], filsmRating);
     };
     const topCommentFilm = () => {
-      let arrFilmComment = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.comments.length) - parseFloat(filmSecond.comments.length)));
-      arrFilmComment = arrFilmComment.slice(0, 2);
-      this.renderCard(topRated.takeContainer()[1], arrFilmComment);
+      let filmsComment = [...this._film].sort((filmSecond, filmFirst) => (parseFloat(filmFirst.comments.length) - parseFloat(filmSecond.comments.length)));
+      filmsComment = filmsComment.slice(0, 2);
+      this.renderCard(topRated.takeContainer()[1], filmsComment);
     };
     topCommentFilm();
     topRatingFilm();
@@ -79,7 +79,7 @@ class PageController {
     footerStatistics.textContent = `${totalFilm} movies inside`;
   }
   renderCard(containerCard, films) {
-    const movieController = new MovieController(films, containerCard, this._count, this._onDataChange, this._onChangeView, this._commentArr);
+    const movieController = new MovieController(films, containerCard, this._count, this._onDataChange, this._onChangeView, this._comments );
     movieController.init();
   }
   unrenderCard() {
@@ -91,7 +91,7 @@ class PageController {
   }
   init() {
     // меню
-    let arrFilm = this._film;
+    let totalFilm = this._film;
     let historyCount = 0;
     let watchlistCount = 0;
     let favorites = 0;
@@ -120,7 +120,7 @@ class PageController {
       }
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
-      this.renderCard(filmCardContainer, arrFilm);
+      this.renderCard(filmCardContainer, totalFilm);
     };
     menu.showHistory = () => {
       menu.addClassActiv();
@@ -129,10 +129,10 @@ class PageController {
       }
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
-      const arrFilmWatched = arrFilm.filter(function (it) {
+      const filmsWatched = totalFilm.filter(function (it) {
         return it.controls.isMarkedAsWatched === true;
       });
-      this.renderCard(filmCardContainer, arrFilmWatched);
+      this.renderCard(filmCardContainer, filmsWatched);
     };
     menu.showWatchlist = () => {
       menu.addClassActiv();
@@ -141,10 +141,10 @@ class PageController {
       }
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
-      const arrFilmWatchList = arrFilm.filter(function (it) {
+      const filmsWatchList = totalFilm.filter(function (it) {
         return it.controls.isAddedToWatchlist === true;
       });
-      this.renderCard(filmCardContainer, arrFilmWatchList);
+      this.renderCard(filmCardContainer, filmsWatchList);
     };
     menu.showFavorites = () => {
       menu.addClassActiv();
@@ -153,10 +153,10 @@ class PageController {
       }
       this._stat.getElement().classList.add(`visually-hidden`);
       this.unrenderCard();
-      const arrFilmFavor = arrFilm.filter(function (it) {
+      const filmsFavor = totalFilm.filter(function (it) {
         return it.controls.isFavorite === true;
       });
-      this.renderCard(filmCardContainer, arrFilmFavor);
+      this.renderCard(filmCardContainer, filmsFavor);
     };
 
     render(mainContainer, menu.getElement(), Position.BEFOREEND);
@@ -193,7 +193,7 @@ class PageController {
 
     sortFilm.onSortDefault = () => {
       this.unrenderCard();
-      this._film = arrFilm;
+      this._film = totalFilm;
       this.renderCard(filmCardContainer, this._film);
     };
 

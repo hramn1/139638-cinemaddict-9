@@ -80,7 +80,7 @@ export const generateFilmData = () => {
     watched: Boolean(Math.round(Math.random())),
     favorites: Boolean(Math.round(Math.random())),
     runtime: generateTime(),
-    comments: getArrayOfComments(),
+    comments: getListOfComments(),
   };
 };
 const commentData = {
@@ -100,8 +100,8 @@ export const generateRank = () => {
     strRank = `movie buff`;
   } return strRank;
 };
-const getRandomElement = (array) => { // Рандомный элемент из массива
-  return array[getRandomNumber(0, array.length)];
+const getRandomElement = (items) => { // Рандомный элемент из массива
+  return items[getRandomNumber(0, items.length)];
 };
 
 const getRandomNumber = (from, to) => { // Функция получения рандомного числа в диапазоне
@@ -120,14 +120,14 @@ const getComments = () => ({// Комментарий
 });
 const getDescription = (string) => { // Функция получения рандомного описания фильма
   const newDescription = [];
-  const array = string.split(`.`);
+  const itemDesc = string.split(`.`);
 
   for (let i = 0; i < getRandomNumber(1, 4); i++) {
-    newDescription.push(array[getRandomNumber(0, array.length)]);
+    newDescription.push(itemDesc[getRandomNumber(0, itemDesc.length)]);
   }
   return newDescription.join(`.`);
 };
-const getArrayOfComments = () => { // Массив комментов
+const getListOfComments = () => { // Массив комментов
   return new Array(getRandomNumber(3, 6)).fill().map(getComments);
 };
 

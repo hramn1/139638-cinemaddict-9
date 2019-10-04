@@ -1,6 +1,7 @@
 import {createElement, render, unrender, KeyCode, Position} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comment-list";
+import DOMPurify from "dompurify";
 
 export default class CommentsController {
   constructor(container, dataCard, onDataChange, commentsData) {
@@ -64,7 +65,7 @@ export default class CommentsController {
       const commentData = {
         id: Math.random(),
         author: `sasha grey`,
-        comment: commentTextarea.value,
+        comment: DOMPurify.sanitize(commentTextarea.value),
         emotion: smile,
       };
 

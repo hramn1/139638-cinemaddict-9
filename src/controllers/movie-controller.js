@@ -7,10 +7,10 @@ const bodyContainer = document.querySelector(`body`);
 
 
 class MovieController {
-  constructor(films, containerCard, count, onDataChange, onChangeView, commentArr) {
+  constructor(films, containerCard, count, onDataChange, onChangeView, comments) {
     this._film = films;
     this._count = count;
-    this._commentArr = commentArr;
+    this._comments = comments;
     this._containerCard = containerCard;
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
@@ -58,7 +58,7 @@ class MovieController {
   }
   init() {
 
-    const arrFilmSlice = this._film.slice(0, this._count);
+    const totalFilmSlice = this._film.slice(0, this._count);
     const filmToggle = (evt, popup, film) => {
       popup.changePopUp = () => {
         getNewMokData(``, popup, film);
@@ -80,34 +80,34 @@ class MovieController {
     let film = {};
     let popup = {};
 
-    for (let i = 0; i < arrFilmSlice.length; i++) {
+    for (let i = 0; i < totalFilmSlice.length; i++) {
 
       film = new FilmCard(this._film[i]);
       film.onMarkAsWatchedClick = (evt) => {
         evt.preventDefault();
-        popup = new Popup(this._film[i], this._commentArr[i]);
-        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._commentArr[i]);
+        popup = new Popup(this._film[i], this._comments[i]);
+        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._comments[i]);
         commentsController.init();
         getNewMokData(`watched`, popup, this._film[i]);
       };
       film.onFavoriteClick = (evt) => {
         evt.preventDefault();
-        popup = new Popup(this._film[i], this._commentArr[i]);
-        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._commentArr[i]);
+        popup = new Popup(this._film[i], this._comments[i]);
+        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._comments[i]);
         commentsController.init();
         getNewMokData(`favorite`, popup, this._film[i]);
       };
       film.onAddToWatchlistClick = (evt) => {
         evt.preventDefault();
-        popup = new Popup(this._film[i], this._commentArr[i]);
-        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._commentArr[i]);
+        popup = new Popup(this._film[i], this._comments[i]);
+        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._comments[i]);
         commentsController.init();
         getNewMokData(`watchlist`, popup, this._film[i]);
       };
 
       film.onToggleFilm = (evt) => {
-        popup = new Popup(this._film[i], this._commentArr[i]);
-        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._commentArr[i]);
+        popup = new Popup(this._film[i], this._comments[i]);
+        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._comments[i]);
         commentsController.init();
 
         filmToggle(evt, popup, this._film[i]);
