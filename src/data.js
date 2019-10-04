@@ -62,7 +62,7 @@ const generateTime = () => {
   }
   return `${hour} ${minutes}m`;
 };
-const generateFilmData = () => {
+export const generateFilmData = () => {
   return {
     filmTitle: filmData.filmTitle[generatorRandom.generateRandomCount(filmData.filmTitle.length)],
     ratings: parseFloat(generatorRandom.generateRandomNumber(1, 9)),
@@ -135,7 +135,3 @@ export const historyCount = generateMenuCount();
 export const watchlistCount = generateMenuCount();
 export const favorites = generateMenuCount();
 export const totalfilm = generateFilmList();
-export const arrFilm = [];
-for (let i = 0; i < totalfilm; i++) {
-  arrFilm.push(generateFilmData());
-}
