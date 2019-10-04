@@ -62,8 +62,6 @@ const API = class {
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
-    console.log(method)
-    console.log(body)
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`${this._endPoint}/${url}`, {method, body, headers})

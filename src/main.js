@@ -19,7 +19,6 @@ const search = new Search();
 
 const startApp = (films) => {
   const stat = new Statistic(titleUser, films);
-  console.log(films)
   let commentsFull = [];
   for (let i = 0; i < films.length; i++) {
     api.getComments(films[i].id).then((comments) => {

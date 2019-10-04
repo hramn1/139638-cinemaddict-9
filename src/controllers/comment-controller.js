@@ -1,4 +1,4 @@
-import {createElement, render, unrender, KeyCode, Position} from "../utils";
+import {createElement, render, generatorRandom, unrender, KeyCode, Position} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comment-list";
 import DOMPurify from "dompurify";
@@ -63,7 +63,7 @@ export default class CommentsController {
       }
 
       const commentData = {
-        id: Math.random(),
+        id: generatorRandom.generateRandomNumber(1000, 9999),
         author: `sasha grey`,
         comment: DOMPurify.sanitize(commentTextarea.value),
         emotion: smile,
@@ -78,7 +78,7 @@ export default class CommentsController {
 
       commentTextarea.value = ``;
       const isChangeCommentsList = true;
-      this._onDataChange(commentData, this._container, this._dataCard, isChangeCommentsList);
+      this._onDataChange(commentData, this._container, this._dataCard, isChangeCommentsList, commentData.id);
     }
   }
 

@@ -17,6 +17,7 @@ class SearchControlLer {
       if (this._search.researchValue().length > 3) {
         unrender(searchResult.getElement());
         render(this._mainContainer, searchResult.getElement(), Position.AFTERBEGIN);
+        const searchResultCount = searchResult.getElement().querySelector(`.result__count`);
         if(!document.querySelector(`.no-search-result`)){
         document.querySelector(`.sort`).classList.add(`visually-hidden`);
         document.querySelector(`.main-navigation`).classList.add(`visually-hidden`);
@@ -34,13 +35,13 @@ class SearchControlLer {
         }
         if (filmSearch.length === 0) {
           this._page.unrenderAll();
-          unrender(noSearch.getElement());
           render(this._container, noSearch.getElement(), Position.AFTER);
         } else {
           const filmListContainer = document.querySelector(`.films-list__container`);
           this._page.unrenderCard();
           this._page.renderCard(filmListContainer, filmSearch);
         }
+        searchResultCount.textContent = filmSearch.length;
       } else if (this._search.researchValue().length === 0) {
         this._search.searchReset();
       }

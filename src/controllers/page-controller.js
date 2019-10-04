@@ -38,7 +38,6 @@ class PageController {
       });
     }
     const filmId = oldData.id;
-    console.log(filmId)
     const dataForSend = oldData;
     this._api.updateFilm(filmId, dataForSend)
       .then(() => {
@@ -53,6 +52,8 @@ class PageController {
       const commentsListData = this._film[this._film.findIndex((it) => it === oldData)].comments;
       const indexInCards = this._film.findIndex((it) => it === oldData);
       const indexInCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
+      console.log(indexInCommentsList)
+      console.log(this._film)
       this._film[indexInCards].comments.splice(indexInCommentsList, 1);
     } else {
       this._film[this._film.findIndex((it) => it === oldData)].comments.push(newData);
