@@ -47,7 +47,7 @@ const API = class {
       .then(toJSON);
   }
 
-  createComment({comment, filmId}) {
+  createComment(comment, filmId) {
     return this._load({
       url: `comments/${filmId}`,
       method: `POST`,

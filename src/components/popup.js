@@ -1,6 +1,5 @@
 import {default as AbstractComponent} from './abstract';
 import moment from "moment";
-import dompurify from "dompurify";
 
 class Popup extends AbstractComponent {
   constructor(card) {
@@ -200,6 +199,18 @@ class Popup extends AbstractComponent {
   }
   onCloseButtonPress() {}
   onRatingScorePress() {}
+  disabledRating() {
+    const btnRatio = this._element.querySelectorAll(`.film-details__user-rating-score input[type=radio]`);
+    for (let it of btnRatio) {
+      it.setAttribute(`disabled`, `disabled`);
+    }
+  }
+  unDisabledRating() {
+    const btnRatio = this._element.querySelectorAll(`.film-details__user-rating-score input[type=radio]`);
+    for (let it of btnRatio) {
+      it.removeAttribute(`disabled`);
+    }
+  }
   bind() {
     this._element.querySelectorAll(`.film-details__controls input[type=checkbox]`).forEach((it) => {
       it.addEventListener(`change`, () => {
@@ -217,6 +228,7 @@ class Popup extends AbstractComponent {
     this._element.querySelectorAll(`.film-details__user-rating-score input[type=radio]`).forEach((point) => {
       point.addEventListener(`change`, (evt) => {
         this.onRatingScorePress(evt);
+        this.disabledRating();
       });
     });
   }

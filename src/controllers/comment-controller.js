@@ -1,6 +1,7 @@
-import {createElement, render, generatorRandom, unrender, KeyCode, Position} from "../utils";
+import {createElement, render, unrender, KeyCode, Position, AUTHORIZATION, END_POINT} from "../utils";
 import Comment from "../components/comment";
 import CommentsList from "../components/comment-list";
+import API from "../api";
 import DOMPurify from "dompurify";
 
 export default class CommentsController {
@@ -11,6 +12,7 @@ export default class CommentsController {
     this._onDataChange = onDataChange;
     this._commentsList = new CommentsList();
     this._commentsNumber = this._container.querySelector(`.film-details__comments-count`);
+    this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
   }
 
   init() {
@@ -37,23 +39,26 @@ export default class CommentsController {
           .appendChild(createElement(`<img src="${img.src}" width="55" height="55" alt="emoji">`));
       });
     });
-    let pressedKey = new Set ();
+    let pressedKey = new Set();
     this._container.querySelector(`.film-details__comment-input`)
       .addEventListener(`keydown`, (evt) => this._sendComment(evt, pressedKey));
   }
 
   _sendComment(evtDown, pressedKey) {
-    if (evtDown.keyCode === KeyCode.ENTER || evtDown.keyCode === KeyCode.CONTROL){
-  pressedKey.add(evtDown.keyCode)
-  document.addEventListener('keyup', function(evtUp){
-    if (evtUp.keyCode === KeyCode.ENTER || evtUp.keyCode === KeyCode.CONTROL){
-    pressedKey.delete(evtUp.keyCode)
-}
-  } )
-}
-    if(pressedKey.size === 2) {
-      const commentTextarea = this._container.querySelector(`.film-details__comment-input`);
+    const commentTextarea = this._container.querySelector(`.film-details__comment-input`);
+    let commentUserText = DOMPurify.sanitize(commentTextarea.value, {FORBID_TAGS: [`style`]});
+    if (evtDown.key === KeyCode.ENTERSTRING || evtDown.key === KeyCode.CONTROLSTRING) {
+      pressedKey.add(evtDown.key);
+      document.addEventListener(`keyup`, function (evtUp) {
+        if (evtUp.key === KeyCode.ENTERSTRING || evtUp.key === KeyCode.CONTROLSTRING) {
+          pressedKey.delete(evtUp.key);
+        }
+      });
+    }
+    if (pressedKey.size === 2) {
+      pressedKey.clear();
 
+      commentTextarea.disabled = true;
       let smile = `smile`;
 
       if (this._container.querySelector(`.film-details__add-emoji-label img`)) {
@@ -63,22 +68,31 @@ export default class CommentsController {
       }
 
       const commentData = {
-        id: generatorRandom.generateRandomNumber(1000, 9999),
-        author: `sasha grey`,
-        comment: DOMPurify.sanitize(commentTextarea.value),
+        comment: commentUserText,
+        date: new Date(),
         emotion: smile,
       };
+      this._api.createComment(commentData, this._dataCard.id)
+        .then(() => {
+          this._api.getComments(this._dataCard.id)
+            .then((comments) => {
+              const lastComment = comments[comments.length - 1];
+              const newComment = new Comment(lastComment);
+              render(this._commentsList.getElement(), newComment.getElement(), Position.AFTERBEGIN);
+              this._commentsNumber.textContent = +this._commentsNumber.textContent + 1;
 
-      const newComment = new Comment(commentData);
+              this._btnRemoveComment(newComment);
 
-      render(this._commentsList.getElement(), newComment.getElement(), Position.AFTERBEGIN);
-      this._commentsNumber.textContent = +this._commentsNumber.textContent + 1;
-
-      this._btnRemoveComment(newComment);
-
-      commentTextarea.value = ``;
-      const isChangeCommentsList = true;
-      this._onDataChange(commentData, this._container, this._dataCard, isChangeCommentsList, commentData.id);
+              commentTextarea.value = ``;
+              commentTextarea.disabled = false;
+              const isChangeCommentsList = true;
+              this._onDataChange(null, commentData, this._container, this._dataCard, isChangeCommentsList, commentData.id);
+            });
+        })
+        .catch(() => {
+          commentTextarea.value = ``;
+          commentTextarea.disabled = false;
+        });
     }
   }
 
@@ -90,13 +104,14 @@ export default class CommentsController {
       const commentId = currentComment.getElement().dataset.commentId;
 
       const isChangeCommentsList = true;
+      this._api.deleteComment({commentId})
+        .then(() => {
+          unrender(currentComment.getElement());
+          currentComment.removeElement();
 
-      this._onDataChange(null, this._container, this._dataCard, isChangeCommentsList, +commentId);
-
-      unrender(currentComment.getElement());
-      currentComment.removeElement();
-
-      this._commentsNumber.textContent = +this._commentsNumber.textContent - 1;
+          this._commentsNumber.textContent = +this._commentsNumber.textContent - 1;
+          this._onDataChange(null, null, this._container, this._dataCard, isChangeCommentsList, +commentId);
+        });
     });
   }
 }

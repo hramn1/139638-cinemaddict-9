@@ -1,19 +1,21 @@
 import {default as Popup} from '../components/popup';
-import {isEscPressed, Position, render, unrender} from "../utils";
+import {AUTHORIZATION, END_POINT, isEscPressed, Position, render, unrender} from "../utils";
 import {default as FilmCard} from "../components/film-card";
 import CommentsController from "./comment-controller";
+import API from "../api";
 
 const bodyContainer = document.querySelector(`body`);
 
 
 class MovieController {
-  constructor(films, containerCard, count, onDataChange, onChangeView, comments) {
+  constructor(films, containerCard, count, onDataChange, onChangeView) {
     this._film = films;
     this._count = count;
-    this._comments = comments;
     this._containerCard = containerCard;
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
+    this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
+
   }
 
   openPopup(popup) {
@@ -85,34 +87,43 @@ class MovieController {
       film = new FilmCard(this._film[i]);
       film.onMarkAsWatchedClick = (evt) => {
         evt.preventDefault();
-        popup = new Popup(this._film[i], this._comments[i]);
-        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._comments[i]);
-        commentsController.init();
-        getNewMokData(`watched`, popup, this._film[i]);
+        this._api.getComments(this._film[i].id).then((comments) => {
+
+          popup = new Popup(this._film[i], comments);
+          const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, comments);
+          commentsController.init();
+          getNewMokData(`watched`, popup, this._film[i]);
+        });
       };
       film.onFavoriteClick = (evt) => {
         evt.preventDefault();
-        popup = new Popup(this._film[i], this._comments[i]);
-        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._comments[i]);
-        commentsController.init();
-        getNewMokData(`favorite`, popup, this._film[i]);
+        this._api.getComments(this._film[i].id).then((comments) => {
+
+          popup = new Popup(this._film[i], comments);
+          const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, comments);
+          commentsController.init();
+          getNewMokData(`favorite`, popup, this._film[i]);
+        });
       };
       film.onAddToWatchlistClick = (evt) => {
         evt.preventDefault();
-        popup = new Popup(this._film[i], this._comments[i]);
-        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._comments[i]);
-        commentsController.init();
-        getNewMokData(`watchlist`, popup, this._film[i]);
+        this._api.getComments(this._film[i].id).then((comments) => {
+
+          popup = new Popup(this._film[i], comments);
+          const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, comments);
+          commentsController.init();
+          getNewMokData(`watchlist`, popup, this._film[i]);
+        });
       };
 
       film.onToggleFilm = (evt) => {
-        popup = new Popup(this._film[i], this._comments[i]);
-        const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, this._comments[i]);
-        commentsController.init();
-
-        filmToggle(evt, popup, this._film[i]);
+        this._api.getComments(this._film[i].id).then((comments) => {
+          popup = new Popup(this._film[i], comments);
+          const commentsController = new CommentsController(popup.getElement(), this._film[i], this._onDataChange, comments);
+          commentsController.init();
+          filmToggle(evt, popup, this._film[i]);
+        });
       };
-
       render(this._containerCard, film.getElement(), Position.BEFOREEND);
     }
     const getNewMokData = (nameOfList, popups, oldData) => {
@@ -147,7 +158,7 @@ class MovieController {
         popups.getElement().querySelector(`.film-details__user-rating `).classList.add(`visually-hidden`);
         entry.personalRating = ``;
       }
-      this._onDataChange(entry, this._containerCard, oldData);
+      this._onDataChange(popups, entry, this._containerCard, oldData);
     };
   }
 }

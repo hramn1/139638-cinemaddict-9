@@ -2,30 +2,29 @@ import {default as Button} from '../components/button';
 import {default as TopRated} from '../components/top-rated';
 import {default as FilmContainer} from '../components/film-container';
 import {default as Menu} from '../components/menu';
-import {render, unrender, Position, AUTHORIZATION, END_POINT} from '../utils';
+import {render, unrender, Position, AUTHORIZATION, END_POINT, generatorRandom} from '../utils';
 import {default as Sort} from "../components/sort";
 import {default as MovieController} from "./movie-controller";
 import API from "../api";
 
+
 const mainContainer = document.querySelector(`.main`);
 class PageController {
-  constructor(container, film, count, stat, onDataChangeMain, comments) {
+  constructor(container, film, count, stat, onDataChangeMain) {
     this._container = container;
     this._film = film;
     this._stat = stat;
-    this._comments = comments;
     this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
     this._count = count;
     this._subscriptions = [];
     this._api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
     this._onDataChangeMain = onDataChangeMain;
-
   }
   _onChangeView() {
     this._subscriptions.forEach((subscription) => subscription());
   }
-  _onDataChange(newData, container, oldData, isChangeCommentsList = false, commentId = false) {
+  _onDataChange(popup, newData, container, oldData, isChangeCommentsList = false, commentId = false) {
     if (isChangeCommentsList) {
       this._onDataChangeComments(newData, oldData, commentId);
     } else {
@@ -42,6 +41,9 @@ class PageController {
     this._api.updateFilm(filmId, dataForSend)
       .then(() => {
         this._onDataChangeMain();
+        if (popup) {
+          popup.unDisabledRating();
+        }
       });
 
     this.unrenderAll();
@@ -52,11 +54,10 @@ class PageController {
       const commentsListData = this._film[this._film.findIndex((it) => it === oldData)].comments;
       const indexInCards = this._film.findIndex((it) => it === oldData);
       const indexInCommentsList = commentsListData.findIndex((comment) => comment.id === commentId);
-      console.log(indexInCommentsList)
-      console.log(this._film)
       this._film[indexInCards].comments.splice(indexInCommentsList, 1);
     } else {
-      this._film[this._film.findIndex((it) => it === oldData)].comments.push(newData);
+      newData.id = generatorRandom.generateRandomNumber(1000, 9999);
+      this._film[this._film.findIndex((it) => it === oldData)].comments.push(newData.id);
     }
   }
 
@@ -80,7 +81,7 @@ class PageController {
     footerStatistics.textContent = `${totalFilm} movies inside`;
   }
   renderCard(containerCard, films) {
-    const movieController = new MovieController(films, containerCard, this._count, this._onDataChange, this._onChangeView, this._comments );
+    const movieController = new MovieController(films, containerCard, this._count, this._onDataChange, this._onChangeView);
     movieController.init();
   }
   unrenderCard() {

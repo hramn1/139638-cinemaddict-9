@@ -16,12 +16,14 @@ class SearchControlLer {
       let filmSearch = [];
       if (this._search.researchValue().length > 3) {
         unrender(searchResult.getElement());
+        document.querySelector(`.films-list__container`).textContent = ``;
+
         render(this._mainContainer, searchResult.getElement(), Position.AFTERBEGIN);
         const searchResultCount = searchResult.getElement().querySelector(`.result__count`);
-        if(!document.querySelector(`.no-search-result`)){
-        document.querySelector(`.sort`).classList.add(`visually-hidden`);
-        document.querySelector(`.main-navigation`).classList.add(`visually-hidden`);
-        document.querySelector(`.films-list__show-more`).classList.add(`visually-hidden`);
+        if (!document.querySelector(`.no-search-result`)) {
+          document.querySelector(`.sort`).classList.add(`visually-hidden`);
+          document.querySelector(`.main-navigation`).classList.add(`visually-hidden`);
+          document.querySelector(`.films-list__show-more`).classList.add(`visually-hidden`);
         }
         const filmEtra = document.querySelectorAll(`.films-list--extra`);
         for (let it of filmEtra) {
@@ -34,8 +36,10 @@ class SearchControlLer {
           }
         }
         if (filmSearch.length === 0) {
-          this._page.unrenderAll();
-          render(this._container, noSearch.getElement(), Position.AFTER);
+
+          document.querySelector(`.films-list__container`).innerHTML = `<div class="no-result">
+            There is no movies for your request.
+            </div>`;
         } else {
           const filmListContainer = document.querySelector(`.films-list__container`);
           this._page.unrenderCard();

@@ -1,7 +1,9 @@
 export const KeyCode = {
   ENTER: 13,
-  CONTROL: 17
-}
+  CONTROL: 17,
+  ENTERSTRING: `Enter`,
+  CONTROLSTRING: `Control`,
+};
 export const generatorRandom = {
   generateRandomNumber(min, max) {
     return (min + Math.random() * (max - min)).toFixed(1);
