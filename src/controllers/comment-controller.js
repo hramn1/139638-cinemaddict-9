@@ -101,6 +101,8 @@ export default class CommentsController {
 
     btnDelete.addEventListener(`click`, (evt) => {
       evt.preventDefault();
+      btnDelete.textContent = `Deleting`;
+      btnDelete.setAttribute(`disbled`, `disabled`);
       const commentId = currentComment.getElement().dataset.commentId;
 
       const isChangeCommentsList = true;
