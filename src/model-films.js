@@ -59,7 +59,7 @@ export default class ModelFilm {
         'favorite': this.controls.isFavorite,
         'watchlist': this.controls.isAddedToWatchlist,
         'personal_rating': parseInt(this.personalRating, 10) || 0,
-        'watching_date': new Date(this.watchingDate) || null,
+        'watching_date': new Date() || null,
       },
       'comments': this.comments,
     };

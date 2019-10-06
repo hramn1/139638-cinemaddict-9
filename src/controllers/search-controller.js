@@ -23,7 +23,9 @@ class SearchControlLer {
         if (!document.querySelector(`.no-search-result`)) {
           document.querySelector(`.sort`).classList.add(`visually-hidden`);
           document.querySelector(`.main-navigation`).classList.add(`visually-hidden`);
-          document.querySelector(`.films-list__show-more`).classList.add(`visually-hidden`);
+          if (document.querySelector(`.films-list__show-more`)) {
+            document.querySelector(`.films-list__show-more`).classList.add(`visually-hidden`);
+          }
         }
         const filmEtra = document.querySelectorAll(`.films-list--extra`);
         for (let it of filmEtra) {
